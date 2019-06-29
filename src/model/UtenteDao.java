@@ -1,10 +1,7 @@
 package model;
 
-import java.util.List;
-
 public interface UtenteDao {
-	public List<Utente> getAllUsers();
-	public Utente getUser(int idUtente);
-	public void updateUser(Utente user);
-	public void deleteUser(Utente user);
+	public Utente getUser(int idUtente);	//accedere al loro profilo (visualizzare i dati anagrafici)
+	public void updateUser(Utente u);		//modificare i dati anagrafici
+	//verificare il saldo punti e lo stato dei loro ordini
 }

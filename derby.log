@@ -1,8 +1,8 @@
 ----------------------------------------------------------------
-Fri Jun 28 16:15:18 CEST 2019:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-016b-9e70-c397-000007028048 
+Sat Jun 29 10:40:45 CEST 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-016b-a264-d482-000006f8de80 
 on database directory C:\Users\Davide\Desktop\Davide\Altri\Università\A.A. 2018-2019\Ingegneria del software\Elaborato\VERSIONI\Libri\LIBRI with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
-Loaded from file:/C:/Users/Davide/Desktop/Davide/Altri/Universit%c3%a0/A.A.%202018-2019/Ingegneria%20del%20software/Elaborato/DATABASE/derby.jar
+Loaded from file:/C:/Users/Davide/Desktop/Davide/Altri/Universit%c3%a0/A.A.%202018-2019/Ingegneria%20del%20software/Elaborato/VERSIONI/Libri/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_211-b12
 user.dir=C:\Users\Davide\Desktop\Davide\Altri\Università\A.A. 2018-2019\Ingegneria del software\Elaborato\VERSIONI\Libri
