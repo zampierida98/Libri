@@ -7,20 +7,47 @@ import java.sql.SQLException;
 import controller.DaoManager;
 
 public class UtenteDaoImpl implements UtenteDao {
-
+	
 	@Override
-	public Utente getUser(int idUtente) {
-		Utente u = null;
-		final String query = String.format("SELECT * FROM Utente WHERE idUtente=%d", idUtente);
+	public boolean insertUtente(Utente u) {
+		boolean result = false;
+		final String query = "INSERT INTO Utente VALUES(?,?,?,NULL,?,?,NULL,default)";
 		
         Connection con = DaoManager.getConnection();
         PreparedStatement pst;
         try {
             pst = con.prepareStatement(query);
+            pst.setString(1, u.getNome());
+            pst.setString(2, u.getCognome());
+            pst.setString(3, u.getIndirizzo());
+            pst.setString(4, u.getTelefono());
+            pst.setString(5, u.getEmail());
+            
+            result = pst.execute();
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        
+        return result;
+	}
+
+	@Override
+	public Utente getUser(int idUtente) {
+		Utente u = null;
+		final String query = "SELECT * FROM Utente WHERE idUtente=?";
+		
+        Connection con = DaoManager.getConnection();
+        PreparedStatement pst;
+        try {
+            pst = con.prepareStatement(query);
+            pst.setInt(1, idUtente);
             ResultSet rs = pst.executeQuery();
+            
             while(rs.next()) {
                 u = mapRowToUser(rs);
             }
+            
             con.close();
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -30,21 +57,28 @@ public class UtenteDaoImpl implements UtenteDao {
 	}
 
 	@Override
-	public void updateUser(Utente u) {
-		final String query = String.format("UPDATE Utente"
-				+ " SET nome='%s', cognome='%s', indirizzo='%s', telefono='%s', email='%s'"
-				+ " WHERE idUtente=%d",
-				u.getNome(), u.getCognome(), u.getIndirizzo(), u.getTelefono(), u.getEmail(), u.getIdUtente());
+	public boolean updateUser(Utente u) {
+		boolean result = false;
+		final String query = "UPDATE Utente SET nome=?, cognome=?, indirizzo=?, telefono=?, email=? WHERE idUtente=?";
 		
         Connection con = DaoManager.getConnection();
         PreparedStatement pst;
         try {
-            pst = con.prepareStatement(query);
+        	pst = con.prepareStatement(query);
+            pst.setString(1, u.getNome());
+            pst.setString(2, u.getCognome());
+            pst.setString(3, u.getIndirizzo());
+            pst.setString(4, u.getTelefono());
+            pst.setString(5, u.getEmail());
+            pst.setInt(6, u.getIdUtente());
+            
             pst.execute();
             con.close();
         } catch (SQLException ex) {
             System.out.println(ex);
         }
+        
+        return result;
 	}
 
 	private Utente mapRowToUser(ResultSet rs) throws SQLException {
