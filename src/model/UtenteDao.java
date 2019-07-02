@@ -6,4 +6,5 @@ public interface UtenteDao {
 	public boolean updateUser(Utente u);	//modificare i dati anagrafici
 	//verificare il saldo punti (query con libro card)
 	//verificare lo stato dei loro ordini (query con ordine)
+	//accesso (select di email e password)
 }

@@ -45,7 +45,7 @@ public class UtenteDaoImpl implements UtenteDao {
             ResultSet rs = pst.executeQuery();
             
             while(rs.next()) {
-                u = mapRowToUser(rs);
+                u = mapRowToUtente(rs);
             }
             
             con.close();
@@ -81,7 +81,7 @@ public class UtenteDaoImpl implements UtenteDao {
         return result;
 	}
 
-	private Utente mapRowToUser(ResultSet rs) throws SQLException {
+	private Utente mapRowToUtente(ResultSet rs) throws SQLException {
 		return new Utente(Integer.valueOf(rs.getString("idUtente")), rs.getString("nome"), rs.getString("cognome"), rs.getString("indirizzo"), rs.getString("telefono"), rs.getString("email"));
 	}
 
