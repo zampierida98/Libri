@@ -70,4 +70,10 @@ public class Utente {
 		this.password = password;
 	}
 
+	@Override
+	public String toString() {
+		return "Utente [nome=" + nome + ", cognome=" + cognome + ", indirizzo=" + indirizzo + ", telefono=" + telefono
+				+ ", email=" + email + ", password=" + password + "]";
+	}
+
 }

@@ -72,11 +72,12 @@ public class UtenteDaoImpl implements UtenteDao {
 	/**
 	 * Aggiorna i dati relativi ad un utente presente nel database.
 	 * 
+	 * @param email l'email dell'utente di cui si vogliono aggiornare i dati
 	 * @param u l'istanza di Utente che contiene i dati aggiornati
 	 * @return true se la query va a buon fine, false altrimenti
 	 */
 	@Override
-	public boolean updateUser(Utente u) {
+	public boolean updateUser(String email, Utente u) {
 		boolean result = false;
 		final String query = "UPDATE Utente SET nome=?, cognome=?, indirizzo=?, telefono=?, password=? WHERE email=?";
 
@@ -89,7 +90,7 @@ public class UtenteDaoImpl implements UtenteDao {
 			pst.setString(3, u.getIndirizzo());
 			pst.setString(4, u.getTelefono());
 			pst.setString(5, u.getPassword());
-			pst.setString(6, u.getEmail());
+			pst.setString(6, email);
 
 			pst.execute();
 			con.close();
