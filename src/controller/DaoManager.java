@@ -9,11 +9,10 @@ import org.apache.commons.dbcp2.BasicDataSource;
  */
 public class DaoManager {
 
-	private static DaoManager instance = new DaoManager();
-
 	private final static String driver = "org.apache.derby.jdbc.EmbeddedDriver";
 	private final static String URL = "jdbc:derby:LIBRI";
 	private static BasicDataSource ds = null;
+	private static DaoManager instance = new DaoManager();
 
 	private DaoManager() {
 		ds = new BasicDataSource();
