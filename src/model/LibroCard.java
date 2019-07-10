@@ -1,17 +1,19 @@
 package model;
 
+import java.sql.Date;
+
 /**
  * Ogni LibroCard ha un numero identificativo, una data di emissione e il totale dei punti raccolti.
  */
 public class LibroCard {
 
 	private int idLibroCard;
-	private int dataEmissione;//ATTENZIONE bisogna gestire tutti i casi
+	private Date dataEmissione;
 	private int saldoPunti;
 	private String email;
 	
-	public LibroCard(int idLibroCard, int dataEmissione, int saldoPunti, String email) {
-		this.idLibroCard = idLibroCard;
+	public LibroCard(Date dataEmissione, int saldoPunti, String email) {
+		this.idLibroCard = Math.abs(email.hashCode());//ATTENZIONE scelta progettuale
 		this.dataEmissione = dataEmissione;
 		this.saldoPunti = saldoPunti;
 		this.email = email;
@@ -25,11 +27,11 @@ public class LibroCard {
 		this.idLibroCard = idLibroCard;
 	}
 
-	public int getDataEmissione() {
+	public Date getDataEmissione() {
 		return dataEmissione;
 	}
 
-	public void setDataEmissione(int dataEmissione) {
+	public void setDataEmissione(Date dataEmissione) {
 		this.dataEmissione = dataEmissione;
 	}
 

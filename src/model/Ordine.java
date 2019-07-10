@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -8,14 +9,14 @@ import java.util.List;
 public class Ordine {
 
 	private int idOrdine;
-	private int data;//ATTENZIONE bisogna gestire tutti i casi
+	private Date data;
 	private List<Libro> listaLibri;//ATTENZIONE da tabella n..n
 	private double costoTotale;
 	private int pagamento;//ATTENZIONE solo alcuni valori (carta di credito, paypal o contrassegno)
 	private String email;
 	private int saldoPunti;//ATTENZIONE da tabella LibroCard
 	
-	public Ordine(int idOrdine, int data, List<Libro> listaLibri, double costoTotale, int pagamento, String email, int saldoPunti) {
+	public Ordine(int idOrdine, Date data, List<Libro> listaLibri, double costoTotale, int pagamento, String email, int saldoPunti) {
 		this.idOrdine = idOrdine;
 		this.data = data;
 		this.listaLibri = listaLibri;
@@ -33,11 +34,11 @@ public class Ordine {
 		this.idOrdine = idOrdine;
 	}
 
-	public int getData() {
+	public Date getData() {
 		return data;
 	}
 
-	public void setData(int data) {
+	public void setData(Date data) {
 		this.data = data;
 	}
 

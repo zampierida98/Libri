@@ -1,10 +1,12 @@
 package model;
 
+/**
+ * Definisce le operazioni che si possono fare sul database con l'oggetto Utente (rispetta il design pattern DAO).
+ */
 public interface UtenteDao {
 	public boolean insertUtente(Utente u);
 	public Utente getUser(String email);
 	public boolean updateUser(String email, Utente u);
-	//verificare il saldo punti (query con libro card)
+	public boolean login(String email, String password);
 	//verificare lo stato dei loro ordini (query con ordine)
-	//accesso (select di email e password)
 }

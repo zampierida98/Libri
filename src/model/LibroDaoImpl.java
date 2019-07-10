@@ -16,7 +16,6 @@ public class LibroDaoImpl implements LibroDao {
 	 */
 	@Override
 	public boolean insertBook(Libro l) {
-		boolean result = false;
 		final String query = "INSERT INTO Libro VALUES(?,?,?,?,?,?,?,?,?)";
 		
         Connection con = DaoManager.getConnection();
@@ -33,13 +32,14 @@ public class LibroDaoImpl implements LibroDao {
             pst.setString(8, l.getDescrizione());
             pst.setInt(9, l.getPunti());
             
-            result = pst.execute();
+            pst.execute();
             con.close();
+            
+            return true;
         } catch (SQLException ex) {
             System.out.println(ex);
+            return false;
         }
-        
-        return result;
 	}
 
 }

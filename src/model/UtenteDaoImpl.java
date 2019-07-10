@@ -16,7 +16,6 @@ public class UtenteDaoImpl implements UtenteDao {
 	 */
 	@Override
 	public boolean insertUtente(Utente u) {
-		boolean result = false;
 		final String query = "INSERT INTO Utente VALUES(?,?,?,?,?,?)";
 
 		Connection con = DaoManager.getConnection();
@@ -30,13 +29,14 @@ public class UtenteDaoImpl implements UtenteDao {
 			pst.setString(5, u.getEmail());
 			pst.setString(6, u.getPassword());
 
-			result = pst.execute();
+			pst.execute();
 			con.close();
+			
+			return true;
 		} catch (SQLException ex) {
 			System.out.println(ex);
+			return false;
 		}
-
-		return result;
 	}
 
 	/**
@@ -78,7 +78,6 @@ public class UtenteDaoImpl implements UtenteDao {
 	 */
 	@Override
 	public boolean updateUser(String email, Utente u) {
-		boolean result = false;
 		final String query = "UPDATE Utente SET nome=?, cognome=?, indirizzo=?, telefono=?, password=? WHERE email=?";
 
 		Connection con = DaoManager.getConnection();
@@ -94,10 +93,43 @@ public class UtenteDaoImpl implements UtenteDao {
 
 			pst.execute();
 			con.close();
+			
+			return true;
+		} catch (SQLException ex) {
+			System.out.println(ex);
+			return false;
+		}
+	}
+
+	/**
+	 * Controlla i dati per l'autenticazione di un utente.
+	 * 
+	 * @param email l'email dell'utente che si vuole autenticare
+	 * @param password la password dell'utente che si vuole autenticare
+	 * @return true se i dati sono corretti, false altrimenti
+	 */
+	@Override
+	public boolean login(String email, String password) {
+		boolean result = false;
+		final String query = "SELECT password FROM Utente WHERE email=?";
+
+		Connection con = DaoManager.getConnection();
+		PreparedStatement pst;
+		try {
+			pst = con.prepareStatement(query);
+			pst.setString(1, email);
+			ResultSet rs = pst.executeQuery();
+
+			while(rs.next()) {
+				if(rs.getString("password").equals(password))
+					result = true;
+			}
+
+			con.close();
 		} catch (SQLException ex) {
 			System.out.println(ex);
 		}
-
+		
 		return result;
 	}
 

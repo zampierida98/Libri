@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
- * Gestore delle connessioni al database (soddisfa il design pattern singleton).
+ * Gestore delle connessioni al database (rispetta il design pattern Singleton).
  */
 public class DaoManager {
 
