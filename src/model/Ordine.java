@@ -12,18 +12,18 @@ public class Ordine {
 	private Date data;
 	private List<Libro> listaLibri;//ATTENZIONE da tabella n..n
 	private double costoTotale;
-	private int pagamento;//ATTENZIONE solo alcuni valori (carta di credito, paypal o contrassegno)
+	private Pagamento pagamento;
 	private String email;
-	private int saldoPunti;//ATTENZIONE da tabella LibroCard
-	
-	public Ordine(int idOrdine, Date data, List<Libro> listaLibri, double costoTotale, int pagamento, String email, int saldoPunti) {
+	private int puntiAccumulati;//ATTENZIONE nel nuovo ordine si parte dal saldo e si aggiungono quelli della lista
+
+	public Ordine(int idOrdine, Date data, List<Libro> listaLibri, double costoTotale, Pagamento pagamento, String email, int puntiAccumulati) {
 		this.idOrdine = idOrdine;
 		this.data = data;
 		this.listaLibri = listaLibri;
 		this.costoTotale = costoTotale;
 		this.pagamento = pagamento;
 		this.email = email;
-		this.saldoPunti = saldoPunti;
+		this.puntiAccumulati = puntiAccumulati;
 	}
 
 	public int getIdOrdine() {
@@ -58,11 +58,11 @@ public class Ordine {
 		this.costoTotale = costoTotale;
 	}
 
-	public int getPagamento() {
+	public Pagamento getPagamento() {
 		return pagamento;
 	}
 
-	public void setPagamento(int pagamento) {
+	public void setPagamento(Pagamento pagamento) {
 		this.pagamento = pagamento;
 	}
 
@@ -74,12 +74,12 @@ public class Ordine {
 		this.email = email;
 	}
 
-	public int getSaldoPunti() {
-		return saldoPunti;
+	public int getPuntiAccumulati() {
+		return puntiAccumulati;
 	}
 
-	public void setSaldoPunti(int saldoPunti) {
-		this.saldoPunti = saldoPunti;
+	public void setPuntiAccumulati(int puntiAccumulati) {
+		this.puntiAccumulati = puntiAccumulati;
 	}
 
 }
