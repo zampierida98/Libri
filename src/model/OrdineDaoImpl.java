@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import controller.DaoManager;
@@ -21,9 +22,9 @@ public class OrdineDaoImpl implements OrdineDao {
 	public boolean insertOrder(Ordine o) {
 		Connection con = DaoManager.getConnection();
 		PreparedStatement pst;
-		
+
 		// inserimento dati generali
-		final String queryDati = "INSERT INTO Ordine VALUES(?,?,?,?,?,?)";
+		final String queryDati = "INSERT INTO Ordine VALUES(?,?,?,?,?,?,?)";
 		try {
 			pst = con.prepareStatement(queryDati);
 			pst.setInt(1, o.getIdOrdine());
@@ -31,13 +32,14 @@ public class OrdineDaoImpl implements OrdineDao {
 			pst.setDouble(3, o.getCostoTotale());
 			pst.setInt(4, o.getPagamento().ordinal());
 			pst.setString(5, o.getEmail());
-			pst.setInt(6, o.getPuntiAccumulati());
+			pst.setString(6, o.getSpedizione());
+			pst.setInt(7, o.getPuntiAccumulati());
 			pst.execute();
 		} catch (SQLException ex) {
 			System.out.println(ex);
 			return false;
 		}
-		
+
 		// inserimento libri
 		final String queryLibri = "INSERT INTO ListaLibri VALUES(?,?)";
 		for(Libro l : o.getListaLibri()) {
@@ -51,7 +53,7 @@ public class OrdineDaoImpl implements OrdineDao {
 				return false;
 			}
 		}
-		
+
 		// aggiornamento punti
 		final String queryPunti = "UPDATE LibroCard SET saldoPunti=? WHERE email=?";
 		try {
@@ -64,7 +66,7 @@ public class OrdineDaoImpl implements OrdineDao {
 			System.out.println(ex);
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -128,10 +130,39 @@ public class OrdineDaoImpl implements OrdineDao {
 		return o;
 	}
 
+	/**
+	 * Restituisce i dati relativi agli ordini effettuati da tutti gli utenti.
+	 * 
+	 * @return una lista di istanze di Ordine
+	 */
 	@Override
-	public List<Ordine> getOrdersStatus() {
-		// TODO Auto-generated method stub
-		return null;
+	public HashMap<String, List<Ordine>> getOrdersStatus() {
+		HashMap<String, List<Ordine>> result = new HashMap<>();
+		final String query = "SELECT * FROM Ordine ORDER BY email";
+
+		Connection con = DaoManager.getConnection();
+		PreparedStatement pst;
+		try {
+			pst = con.prepareStatement(query);
+			ResultSet rs = pst.executeQuery();
+			
+			while(rs.next()) {
+				String key = rs.getString("email");
+				if(result.containsKey(key)) {
+					result.get(key).add(mapRowToOrdine(rs));
+				} else {
+					List<Ordine> value = new ArrayList<>();
+					value.add(mapRowToOrdine(rs));
+					result.put(key, value);
+				}
+			}
+
+			con.close();
+		} catch (SQLException ex) {
+			System.out.println(ex);
+		}
+
+		return result;
 	}
 
 	/**
@@ -159,10 +190,10 @@ public class OrdineDaoImpl implements OrdineDao {
 		} catch (SQLException ex) {
 			System.out.println(ex);
 		}
-		
-		return new Ordine(rs.getInt("idOrdine"), rs.getDate("data"), listaLibri, rs.getDouble("costoTotale"), Pagamento.values()[rs.getInt("pagamento")], rs.getString("email"), rs.getInt("puntiAccumulati"));
+
+		return new Ordine(rs.getInt("idOrdine"), rs.getDate("data"), listaLibri, rs.getDouble("costoTotale"), Pagamento.values()[rs.getInt("pagamento")], rs.getString("email"), rs.getString("spedizione"), rs.getInt("puntiAccumulati"));
 	}
-	
+
 	/**
 	 * Mappa il risultato di una query in un oggetto di tipo Libro.
 	 * 
@@ -172,5 +203,5 @@ public class OrdineDaoImpl implements OrdineDao {
 	private Libro mapRowToLibro(ResultSet rs) throws SQLException {
 		return new Libro(rs.getString("ISBN"), rs.getString("titolo"), rs.getString("autori"), rs.getString("casaEditrice"), rs.getInt("annoPubblicazione"), rs.getString("genere"), rs.getDouble("prezzo"), rs.getString("descrizione"), rs.getInt("punti"));
 	}
-	
+
 }

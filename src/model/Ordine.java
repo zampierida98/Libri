@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Per ogni ordine si memorizzano un codice univoco, la data, i libri che lo compongono, il costo totale, il tipo di pagamento, l'utente che lo ha effettuato ed eventualmente il saldo punti della sua LibroCard.
+ * Gli utenti registrati possono specificare ad ogni ordine un indirizzo di spedizione diverso da quello di residenza.
  */
 public class Ordine {
 
@@ -14,15 +15,17 @@ public class Ordine {
 	private double costoTotale;
 	private Pagamento pagamento;
 	private String email;
+	private String spedizione;
 	private int puntiAccumulati;//ATTENZIONE nel nuovo ordine si parte dal saldo e si aggiungono quelli della lista
 
-	public Ordine(int idOrdine, Date data, List<Libro> listaLibri, double costoTotale, Pagamento pagamento, String email, int puntiAccumulati) {
+	public Ordine(int idOrdine, Date data, List<Libro> listaLibri, double costoTotale, Pagamento pagamento, String email, String spedizione, int puntiAccumulati) {
 		this.idOrdine = idOrdine;
 		this.data = data;
 		this.listaLibri = listaLibri;
 		this.costoTotale = costoTotale;
 		this.pagamento = pagamento;
 		this.email = email;
+		this.spedizione = spedizione;
 		this.puntiAccumulati = puntiAccumulati;
 	}
 
@@ -72,6 +75,14 @@ public class Ordine {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getSpedizione() {
+		return spedizione;
+	}
+
+	public void setSpedizione(String spedizione) {
+		this.spedizione = spedizione;
 	}
 
 	public int getPuntiAccumulati() {

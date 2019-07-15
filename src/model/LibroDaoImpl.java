@@ -2,7 +2,10 @@ package model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import controller.DaoManager;
 
@@ -40,6 +43,44 @@ public class LibroDaoImpl implements LibroDao {
             System.out.println(ex);
             return false;
         }
+	}
+
+	/**
+	 * Restituisce i dati relativi a tutti i Libri presenti nel database.
+	 * 
+	 * @return una lista di istanze di Libro
+	 */
+	@Override
+	public List<Libro> getAllBooks() {
+		List<Libro> result = new ArrayList<>();
+		final String query = "SELECT * FROM Libro";
+
+		Connection con = DaoManager.getConnection();
+		PreparedStatement pst;
+		try {
+			pst = con.prepareStatement(query);
+			ResultSet rs = pst.executeQuery();
+
+			while(rs.next()) {
+				result.add(mapRowToLibro(rs));
+			}
+
+			con.close();
+		} catch (SQLException ex) {
+			System.out.println(ex);
+		}
+
+		return result;
+	}
+	
+	/**
+	 * Mappa il risultato di una query in un oggetto di tipo Libro.
+	 * 
+	 * @param rs il ResultSet che rappresenta una riga della query
+	 * @return un'istanza di Libro
+	 */
+	private Libro mapRowToLibro(ResultSet rs) throws SQLException {
+		return new Libro(rs.getString("ISBN"), rs.getString("titolo"), rs.getString("autori"), rs.getString("casaEditrice"), rs.getInt("annoPubblicazione"), rs.getString("genere"), rs.getDouble("prezzo"), rs.getString("descrizione"), rs.getInt("punti"));
 	}
 
 }

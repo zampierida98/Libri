@@ -8,5 +8,4 @@ public interface UtenteDao {
 	public Utente getUser(String email);
 	public boolean updateUser(String email, Utente u);
 	public boolean login(String email, String password);
-	//verificare lo stato dei loro ordini (query con ordine)
 }
