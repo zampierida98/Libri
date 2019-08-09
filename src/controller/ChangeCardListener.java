@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import view.GUIApp;
 
@@ -19,6 +20,15 @@ public class ChangeCardListener implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e){
+		JTextField[] tfArray = frame.getTfArrayA();
+		for(JTextField tf: tfArray) {
+			tf.setText(null);
+		}
+		tfArray = frame.getTfArrayR();
+		for(JTextField tf: tfArray) {
+			tf.setText(null);
+		}
+		
 		JPanel card = frame.getCard();
 		JButton button = (JButton)e.getSource();
 		
