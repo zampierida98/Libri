@@ -32,6 +32,12 @@ import model.UtenteDaoImpl;
  */
 public class Test {
 	
+	private static void testRegistrazione() {
+		UtenteDao utenteDao = new UtenteDaoImpl();
+		Utente u1 = utenteDao.getUser("bieber1998@gmail.com");
+		System.out.println(u1.getNome() + u1.getIndirizzo());
+	}
+	
 	private static void testUtente() {
 		UtenteDao utenteDao = new UtenteDaoImpl();
 
@@ -82,7 +88,7 @@ public class Test {
 	
 	private static void testLibro() {
 		LibroDao libroDao = new LibroDaoImpl();
-
+		/*
         Libro l1 = new Libro("a","a","a","a",1,"a",1.1,"a",1);
         Libro l2 = new Libro("b","b","b","b",2,"b",2.2,"b",2);
         Libro l3 = new Libro("c","c","c","c",3,"c",3.3,"c",3);
@@ -90,6 +96,10 @@ public class Test {
         libroDao.insertBook(l1);
         libroDao.insertBook(l2);
         libroDao.insertBook(l3);
+        */
+		List<Libro> libri = libroDao.getAllBooks();
+		for(Libro l : libri)
+			System.out.println(String.format("%s %s %s %s %d %s %f %s %d", l.getISBN(), l.getTitolo(), l.getAutori(), l.getCasaEditrice(), l.getAnnoPubblicazione(), l.getGenere(), l.getPrezzo(), l.getDescrizione(), l.getPunti()));
 	}
 	
 	private static void testOrdine() throws InterruptedException {
@@ -102,7 +112,7 @@ public class Test {
 		Utente u1 = utenteDao.getUser("zampierida98@gmail.com");
 		List<Libro> ll = libroDao.getAllBooks();
 		Libro l1 = null, l2 = null, l3 = null;
-		if(ll.size() == 3) {
+		if(ll.size() >= 3) {
 			l1 = ll.get(0);
 	        l2 = ll.get(1);
 	        l3 = ll.get(2);
@@ -163,7 +173,7 @@ public class Test {
 	
 	private static void testClassifica() {
 		ClassificaDao classificaDao = new ClassificaDaoImpl();
-		
+		/*
         Classifica c1 = new Classifica("a", 1, 10);
         Classifica c2 = new Classifica("b", 2, 20);
         
@@ -184,14 +194,16 @@ public class Test {
         	for(Classifica p : pos)
         		System.out.println(String.format("genere=%s, ISBN=%s, posizione=%d, settimane=%d", genere, p.getISBN(), p.getPosizione(), p.getSettimane()));
         }
+        */
 	}
 
 	public static void main(String[] args) throws InterruptedException {
 		DaoManager dao = DaoManager.getInstance();
-		/*testUtente();
-		testLibroCard();
-		testLibro();*/
-		testOrdine();
+		//testUtente();
+		//testLibroCard();
+		//testLibro();
+		//testOrdine();
 		//testClassifica();
+		testRegistrazione();
 	}
 }
