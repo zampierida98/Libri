@@ -28,7 +28,10 @@ public class View extends JFrame {
 			public void run() {
 				try {
 					View frame = new View();
+					
 					frame.pack();
+					frame.setResizable(false);
+					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -37,15 +40,22 @@ public class View extends JFrame {
 		});
 	}
 	
-	//contenitore card
+	//card layout
 	private static final JPanel card = new JPanel(new CardLayout());
+	private static final JPanel bottoni = new JPanel(new CardLayout());
 	
-	//bottoni cambia card
+	//bottoni cambia card (inizio)
 	private static final JPanel cambiaCard = new JPanel(new FlowLayout());
 	private static final JButton areaRiservataB = new JButton("Area Riservata");
 	private final static JButton nonRegistrati = new JButton("Non registrati");
 	private final static JButton regUtente = new JButton("Registrazione");
 	private final static JButton autenticazione = new JButton("Autenticazione");
+	
+	//bottoni cambia card (utente registrato)
+	private static final JPanel operazioniUtenteR = new JPanel(new FlowLayout());
+	private static final JButton visualizzaOrdiniB = new JButton("Visualizza ordini");
+	private static final JButton homeB = new JButton("Home");
+	//...
 	
 	//card autenticazione
 	private static final JPanel login = new JPanel(new GridLayout(3, 2));
@@ -89,6 +99,10 @@ public class View extends JFrame {
 	public JPanel getCard() {
 		return card;
 	}
+	
+	public JPanel getBottoni() {
+		return bottoni;
+	}
 
 	public JTextField[] getTfArrayA() {
 		return tfArrayA;
@@ -111,6 +125,8 @@ public class View extends JFrame {
 		cambiaCard.add(nonRegistrati);
 		cambiaCard.add(regUtente);
 		cambiaCard.add(autenticazione);
+		operazioniUtenteR.add(visualizzaOrdiniB);
+		operazioniUtenteR.add(homeB);
 		// - center (login)
 		login.add(email);
 		login.add(compEmail);
@@ -141,32 +157,36 @@ public class View extends JFrame {
 		utentiNonRegistrati.add(visualizzaOrdine);
 		utentiNonRegistrati.add(inserisciVisualizzaOrdine);
 		utentiNonRegistrati.add(ordina);
-		// - center (visualizza ordini)
 		
-		
-		
-		
+		//aggiunta delle card al card layout:
+		// - north
+		bottoni.add(cambiaCard, "default");
+		bottoni.add(operazioniUtenteR, "Login");
+		// - center
 		card.add(registrazione, "Registrazione");
 		card.add(login, "Autenticazione");
 		card.add(utentiNonRegistrati, "Non registrati");
-		
-		
-		this.getContentPane().add(cambiaCard, BorderLayout.NORTH);
-		this.getContentPane().add(card, BorderLayout.CENTER);
-		
-		CardLayout cl = (CardLayout)(card.getLayout());
-		cl.show(card, regUtente.getText());
 		
 		//listener cambia card
 		autenticazione.addActionListener(new ChangeCardListener(this));
 		regUtente.addActionListener(new ChangeCardListener(this));
 		nonRegistrati.addActionListener(new ChangeCardListener(this));
+		areaRiservataB.addActionListener(new ChangeCardListener(this));
+		visualizzaOrdiniB.addActionListener(new ChangeCardListener(this));
+		homeB.addActionListener(new ChangeCardListener(this));
 		
 		//listener azioni bottoni
 		registra.addActionListener(new RegistrazioneListener(this));
 		loginB.addActionListener(new AccediListener(this));
 		ordina.addActionListener(new OrdinaLibroListener(this));
 		
+		//visualizzazione pannelli
+		this.getContentPane().add(bottoni, BorderLayout.NORTH);
+		this.getContentPane().add(card, BorderLayout.CENTER);
+		CardLayout clC = (CardLayout)(card.getLayout());
+		clC.show(card, regUtente.getText());
+		CardLayout clN = (CardLayout)(bottoni.getLayout());
+		clN.show(bottoni, "default");
 	}
 	
 }

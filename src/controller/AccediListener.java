@@ -31,13 +31,19 @@ public class AccediListener implements ActionListener{
 		UtenteDao utenteDao = new UtenteDaoImpl();
 		boolean login = utenteDao.login(email, password);
 		if (login) {
+			//se il login va a buon fine, visualizzo gli ordini dell'utente
 			VisualizzaOrdine visualizzaOrdini = new VisualizzaOrdine(ordineDao.getAllOrders(email));
-			JPanel card = frame.getCard();
-			card.add(visualizzaOrdini, "Login");
+			
 			JButton button = (JButton)e.getSource();
 			
-			CardLayout cl = (CardLayout)(card.getLayout());
-			cl.show(card, button.getText());
+			JPanel card = frame.getCard();
+			card.add(visualizzaOrdini, "Login");
+			CardLayout clC = (CardLayout)(card.getLayout());
+			clC.show(card, button.getText());
+			
+			JPanel bottoni = frame.getBottoni();
+			CardLayout clN = (CardLayout)(bottoni.getLayout());
+			clN.show(bottoni, button.getText());
 		}
 		else {
 			tfArray[1].setText(null);

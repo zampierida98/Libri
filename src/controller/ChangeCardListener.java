@@ -29,11 +29,20 @@ public class ChangeCardListener implements ActionListener {
 			tf.setText(null);
 		}
 		
-		JPanel card = frame.getCard();
 		JButton button = (JButton)e.getSource();
+		JPanel card = frame.getCard();
+		CardLayout clC = (CardLayout)(card.getLayout());
+		JPanel bottoni = frame.getBottoni();
+		CardLayout clN = (CardLayout)(bottoni.getLayout());
 		
-		CardLayout cl = (CardLayout)(card.getLayout());
-		cl.show(card, button.getText());
+		if(button.getText().equals("Home")) {
+			//caso speciale bottone Home
+			clN.show(bottoni, "default");
+			clC.show(card, "Registrazione");
+		} else {
+			//caso base (testo del bottone)
+			clC.show(card, button.getText());
+		}
 	}
 
 }

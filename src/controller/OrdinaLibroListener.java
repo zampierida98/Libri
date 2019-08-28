@@ -22,23 +22,6 @@ public class OrdinaLibroListener implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		/*JTextField[] tfArray = frame.getTfArrayA();
-		String email = tfArray[0].getText();
-		String password = tfArray[1].getText();
-		UtenteDao utenteDao = new UtenteDaoImpl();
-		boolean login = utenteDao.login(email, password);
-		if (login) {
-			VisualizzaOrdine visualizzaOrdini = new VisualizzaOrdine(ordineDao.getAllOrders(email));
-			JPanel card = frame.getCard();
-			card.add(visualizzaOrdini, "Login");
-			JButton button = (JButton)e.getSource();
-			
-			CardLayout cl = (CardLayout)(card.getLayout());
-			cl.show(card, button.getText());
-		}
-		else {
-			tfArray[1].setText(null);
-		}*/
 		JPanel card = frame.getCard();
 		NuovoOrdine ordinaLibro = new NuovoOrdine();
 		card.add(ordinaLibro, "Esegui un ordine");
@@ -47,6 +30,6 @@ public class OrdinaLibroListener implements ActionListener{
 		CardLayout cl = (CardLayout)(card.getLayout());
 		cl.show(card, button.getText());
 		
-		
+		frame.pack();
 	}
 }
