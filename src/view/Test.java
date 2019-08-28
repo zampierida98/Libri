@@ -34,9 +34,20 @@ public class Test {
 	
 	private static void testRegistrazione() {
 		UtenteDao utenteDao = new UtenteDaoImpl();
-		Utente u1 = utenteDao.getUser("bieber1998@gmail.com");
+		Utente u1 = utenteDao.getUser("raffaele@libero.it");
 		System.out.println(u1.getNome() + u1.getIndirizzo());
+		LibroCardDao libroCardDao = new LibroCardDaoImpl();
+		LibroCard libroCard = libroCardDao.getLibroCard("raffaele@libero.it");
+		System.out.println(libroCard.getIdLibroCard());
+		System.out.println(libroCard.getEmail());
+		System.out.println(libroCard.getSaldoPunti());
+		System.out.println(libroCard.getDataEmissione());
 	}
+	
+	/*private static void testCancellazioneUtenti() {
+		UtenteDao utenteDao = new UtenteDaoImpl();
+		System.out.println(utenteDao.deleteAllUtenti());
+	}*/
 	
 	private static void testUtente() {
 		UtenteDao utenteDao = new UtenteDaoImpl();
@@ -205,5 +216,6 @@ public class Test {
 		//testOrdine();
 		//testClassifica();
 		testRegistrazione();
+		//testCancellazioneUtenti();
 	}
 }

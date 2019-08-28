@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Thu Jul 18 17:11:13 CEST 2019:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-016c-05a3-244c-00000ad68d78 
-on database directory C:\Users\Raffaele Berardo\Desktop\Libri-master\LIBRI with class loader sun.misc.Launcher$AppClassLoader@2a139a55 
-Loaded from file:/C:/Users/Raffaele%20Berardo/Desktop/Libri-master/derby.jar
+Wed Aug 28 10:41:28 CEST 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-016c-d763-0a39-00000a6b10d0 
+on database directory C:\Users\Raffaele\Desktop\Libri-GUI\LIBRI with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/C:/Users/Raffaele/Desktop/Libri-GUI/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_131-b11
-user.dir=C:\Users\Raffaele Berardo\Desktop\Libri-master
-os.name=Windows 8.1
+java.runtime.version=1.8.0_221-b11
+user.dir=C:\Users\Raffaele\Desktop\Libri-GUI
+os.name=Windows 8
 os.arch=amd64
-os.version=6.3
+os.version=6.2
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''

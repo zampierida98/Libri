@@ -2,9 +2,14 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.swing.JTextField;
 
+import model.LibroCard;
+import model.LibroCardDao;
+import model.LibroCardDaoImpl;
 import model.Utente;
 import model.UtenteDao;
 import model.UtenteDaoImpl;
@@ -32,6 +37,9 @@ public class RegistrazioneListener implements ActionListener	{
 		Utente utente = new Utente(nome, cognome, indirizzo, telefono, email, password);
 		System.out.println(utente);
 		utenteDao.insertUtente(utente);
+		LibroCard libroCardUtente = new LibroCard(Date.valueOf(LocalDate.now()), 0, email);
+		LibroCardDao libroCardDao = new LibroCardDaoImpl();
+		libroCardDao.insertLibroCard(libroCardUtente);
 	}
 
 }

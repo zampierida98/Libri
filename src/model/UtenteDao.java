@@ -8,4 +8,5 @@ public interface UtenteDao {
 	public Utente getUser(String email);
 	public boolean updateUser(String email, Utente u);
 	public boolean login(String email, String password);
+	//public boolean deleteAllUtenti();
 }

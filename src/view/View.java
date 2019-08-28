@@ -78,6 +78,13 @@ public class View extends JFrame {
 	private static final JButton registra = new JButton("Registrami");
 	private static final JTextField[] tfArrayR = {compNomeR, compCognomeR, compIndirizzoR, compCapR, compCittaR, compProvR, compTelefonoR, compEmailR, compPwdR};
 	
+	//card non registrati
+	private static final JPanel utentiNonRegistrati = new JPanel(new GridLayout(2, 2));
+	private static final JLabel visualizzaOrdine = new JLabel("Visualizza ordine: ");
+	private static final JTextField inserisciVisualizzaOrdine = new JTextField();
+	private static final JButton ordina = new JButton("Esegui un ordine");
+	
+	
 	public JPanel getCard() {
 		return card;
 	}
@@ -89,7 +96,7 @@ public class View extends JFrame {
 	public JTextField[] getTfArrayR() {
 		return tfArrayR;
 	}
-
+	
 
 	/**
 	 * Create the frame.
@@ -129,10 +136,19 @@ public class View extends JFrame {
 		registrazione.add(pwdR);
 		registrazione.add(compPwdR);
 		registrazione.add(registra);
+		// - center (non registrati)
+		utentiNonRegistrati.add(visualizzaOrdine);
+		utentiNonRegistrati.add(inserisciVisualizzaOrdine);
+		utentiNonRegistrati.add(ordina);
+		// - center (visualizza ordini)
+		
+		
 		
 		
 		card.add(registrazione, "Registrazione");
 		card.add(login, "Autenticazione");
+		card.add(utentiNonRegistrati, "Non registrati");
+		
 		
 		this.getContentPane().add(cambiaCard, BorderLayout.NORTH);
 		this.getContentPane().add(card, BorderLayout.CENTER);
@@ -140,8 +156,12 @@ public class View extends JFrame {
 		CardLayout cl = (CardLayout)(card.getLayout());
 		cl.show(card, regUtente.getText());
 		
+		//listener cambia card
 		autenticazione.addActionListener(new ChangeCardListener(this));
 		regUtente.addActionListener(new ChangeCardListener(this));
+		nonRegistrati.addActionListener(new ChangeCardListener(this));
+		
+		//listener azioni bottoni
 		registra.addActionListener(new RegistrazioneListener(this));
 		loginB.addActionListener(new AccediListener(this));
 		
