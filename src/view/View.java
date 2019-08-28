@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 import controller.AccediListener;
 import controller.ChangeCardListener;
+import controller.OrdinaLibroListener;
 import controller.RegistrazioneListener;
 
 public class View extends JFrame {
@@ -164,6 +165,7 @@ public class View extends JFrame {
 		//listener azioni bottoni
 		registra.addActionListener(new RegistrazioneListener(this));
 		loginB.addActionListener(new AccediListener(this));
+		ordina.addActionListener(new OrdinaLibroListener(this));
 		
 	}
 	
