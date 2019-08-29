@@ -197,7 +197,7 @@ public class View extends JFrame {
 		// - north
 		bottoni.add(cambiaCard, "default");
 		bottoni.add(operazioniUtenteR, "Login");
-		bottoni.add(operazioniUtenteNonR, "Esegui un ordine");
+		bottoni.add(operazioniUtenteNonR, "Lista Libri");
 		// - center
 		card.add(registrazione, "Registrazione");
 		card.add(login, "Autenticazione");

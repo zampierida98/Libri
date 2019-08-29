@@ -41,7 +41,7 @@ public class ChangeCardListener implements ActionListener {
 			//frame.getPasswordField().setVisible(false);
 			card.add(frame.getRegistrazione(), "Non registrati");
 			clC = (CardLayout)card.getLayout();
-			frame.getButtonRegistrazione().setText("Ordina");
+			frame.getButtonRegistrazione().setText("Lista Libri");
 			frame.setPassword("Visualizza ordine: ");
 			frame.setPasswordField((char)0);
 			
@@ -57,11 +57,10 @@ public class ChangeCardListener implements ActionListener {
 			frame.setPasswordField('•');
 		}
 		
-		
-		
 		if(button.getText().equals("Esci")) {
 			//caso speciale bottone Home
 			clN.show(bottoni, "default");
+			card.add(frame.getRegistrazione(), "Registrazione");
 			clC.show(card, "Registrazione");
 		} else {
 			//caso base (testo del bottone)

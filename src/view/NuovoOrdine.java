@@ -38,7 +38,7 @@ public class NuovoOrdine extends JPanel {
 	
 	public NuovoOrdine() {
 		int i = 0;
-		this.setLayout(new GridLayout(listaLibri.size(), 3));
+		this.setLayout(new GridLayout(listaLibri.size(), 2));
 		for(Libro libro : listaLibri) {
 			JCheckBox bookButton = new JCheckBox(libro.getTitolo());
 			bookButton.setSelected(false);
@@ -47,7 +47,6 @@ public class NuovoOrdine extends JPanel {
 			this.add(bookButton);
 			this.add(numeroLibri);
 		}
-		
 	}
 
 }

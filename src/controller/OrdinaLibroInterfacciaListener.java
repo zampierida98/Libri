@@ -30,7 +30,7 @@ public class OrdinaLibroInterfacciaListener implements ActionListener{
 		JButton button = (JButton)e.getSource();
 		JPanel card = frame.getCard();
 		NuovoOrdine ordinaLibro = new NuovoOrdine();
-		card.add(ordinaLibro, "Ordina");
+		card.add(ordinaLibro, "Lista Libri");
 		CardLayout clC = (CardLayout)(card.getLayout());
 		clC.show(card, button.getText());
 		//bottoni NORD
