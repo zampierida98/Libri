@@ -79,14 +79,14 @@ public class VisualizzaOrdini extends JPanel {
 				Component comp = table.prepareRenderer(renderer, row, column);
 				width = Math.max(comp.getPreferredSize().width +1 , width);
 			}
-			if(width > 300)
-				width=300;
+			//if(width > 300)
+				//width=300;
 			columnModel.getColumn(column).setPreferredWidth(width);
 		}
 	}
 
 	private void resizeRowHeight() {
-		int riga = 0;
+		int riga = 1;
 		for(Ordine ordine : this.listaOrdini){
 			this.tabellaOrdini.setRowHeight(riga, ordine.getListaLibri().size() * 16);
 			riga++;

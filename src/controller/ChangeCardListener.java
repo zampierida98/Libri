@@ -63,6 +63,7 @@ public class ChangeCardListener implements ActionListener {
 			//caso speciale bottone Esci (torna alle card di default)
 			clN.show(bottoni, frame.getDefaultNorthPanel());
 			clC.show(card, frame.getRegistrationPanel());
+			frame.pack();
 		} else {
 			//caso base (testo del bottone)
 			clC.show(card, button.getText());
