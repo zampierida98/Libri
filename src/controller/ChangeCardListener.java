@@ -50,7 +50,7 @@ public class ChangeCardListener implements ActionListener {
 			//frame.getPasswordField().setVisible(true);
 			frame.getButtonRegistrazione().setText("Registrami");
 			frame.setPassword("Password: ");
-			frame.setPasswordField(' ');
+			frame.setPasswordField('•');
 		}
 		
 		
