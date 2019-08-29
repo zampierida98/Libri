@@ -191,7 +191,7 @@ public class View extends JFrame {
 		// - center (non registrati)
 		/*utentiNonRegistrati.add(visualizzaOrdine);
 		utentiNonRegistrati.add(inserisciVisualizzaOrdine);
-		utentiNonRegistrati.add(ordina);*/
+		utentiNonRegistrati.add(ordinaB);*/
 		
 		//aggiunta delle card al card layout:
 		// - north
@@ -213,8 +213,9 @@ public class View extends JFrame {
 		
 		//listener azioni bottoni
 		registra.addActionListener(new RegistrazioneListener(this));
+		registra.addActionListener(new OrdinaLibroInterfacciaListener(this));
 		loginB.addActionListener(new AccediListener(this));
-		ordina.addActionListener(new OrdinaLibroInterfacciaListener(this));
+		//ordina.addActionListener(new OrdinaLibroInterfacciaListener(this));
 		
 		//visualizzazione pannelli
 		this.getContentPane().add(bottoni, BorderLayout.NORTH);

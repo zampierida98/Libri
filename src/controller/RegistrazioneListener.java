@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import javax.swing.JButton;
 import javax.swing.JTextField;
 
 import model.LibroCard;
@@ -34,12 +35,18 @@ public class RegistrazioneListener implements ActionListener	{
 		String email = tfArray[7].getText();
 		String password = tfArray[8].getText();
 		UtenteDao utenteDao = new UtenteDaoImpl();
-		Utente utente = new Utente(nome, cognome, indirizzo, telefono, email, password);
-		System.out.println(utente);
-		utenteDao.insertUtente(utente);
-		LibroCard libroCardUtente = new LibroCard(Date.valueOf(LocalDate.now()), 0, email);
-		LibroCardDao libroCardDao = new LibroCardDaoImpl();
-		libroCardDao.insertLibroCard(libroCardUtente);
+		JButton button = (JButton)e.getSource();
+		if(button.getText().equals("Registrami")) {
+			Utente utente = new Utente(nome, cognome, indirizzo, telefono, email, password);
+			System.out.println(utente);
+			utenteDao.insertUtente(utente);
+			LibroCard libroCardUtente = new LibroCard(Date.valueOf(LocalDate.now()), 0, email);
+			LibroCardDao libroCardDao = new LibroCardDaoImpl();
+			libroCardDao.insertLibroCard(libroCardUtente);
+		}
+		/*else if(button.getText().equals("Ordina")) {
+			
+		}*/
 	}
 
 }
