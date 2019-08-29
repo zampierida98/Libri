@@ -13,6 +13,12 @@ public class Utente {
 	private String email;
 	private String password;
 
+	@Override
+	public String toString() {
+		return "Utente [nome=" + nome + ", cognome=" + cognome + ", indirizzo=" + indirizzo + ", telefono=" + telefono
+				+ ", email=" + email + ", password=" + password + "]";
+	}
+
 	public Utente(String nome, String cognome, String indirizzo, String telefono, String email, String password) {
 		this.nome = nome;
 		this.cognome = cognome;

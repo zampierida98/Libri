@@ -8,18 +8,20 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import view.GUIApp;
+import view.View;
 
 public class ChangeCardListener implements ActionListener {
 
-	// riferimento alla finestra
-	private GUIApp frame;
+	private View frame;
 
-	public ChangeCardListener(GUIApp frame) {
+	public ChangeCardListener(View frame) {
 		this.frame = frame;
 	}
 
-	public void actionPerformed(ActionEvent e){
+	public void actionPerformed(ActionEvent e) {
+		JButton button = (JButton)e.getSource();
+		
+		//pulisco tutti i campi di testo
 		JTextField[] tfArray = frame.getTfArrayA();
 		for(JTextField tf: tfArray) {
 			tf.setText(null);
@@ -29,11 +31,43 @@ public class ChangeCardListener implements ActionListener {
 			tf.setText(null);
 		}
 		
+		//riferimenti ai card layout
 		JPanel card = frame.getCard();
-		JButton button = (JButton)e.getSource();
+		CardLayout clC = (CardLayout)(card.getLayout());
+		JPanel bottoni = frame.getBottoni();
+		CardLayout clN = (CardLayout)(bottoni.getLayout());
 		
-		CardLayout cl = (CardLayout)(card.getLayout());
-		cl.show(card, button.getText());
+		/*if(button.getText().equals("Non registrati")) {
+			//OSCURO solo campo PASSWORD della card REGISTRAZIONE
+			//frame.getPassword().setVisible(false);
+			//frame.getPasswordField().setVisible(false);
+			card.add(frame.getRegistrazione(), "Non registrati");
+			clC = (CardLayout)card.getLayout();
+			frame.getButtonRegistrazione().setText("Lista Libri");
+			frame.setPassword("Visualizza ordine: ");
+			frame.setPasswordField((char)0);
+			
+		}
+		else if(button.getText().equals("Registrazione")) {
+			//OSCURO solo campo PASSWORD della card REGISTRAZIONE
+			//frame.getPassword().setVisible(true);
+			//frame.getPasswordField().setVisible(true);
+			card.add(frame.getRegistrazione(), "Registrazione");
+			clC = (CardLayout)card.getLayout();
+			frame.getButtonRegistrazione().setText("Registrami");
+			frame.setPassword("Password: ");
+			frame.setPasswordField('•');
+		}*/
+		
+		if(button.getText().equals("Esci")) {
+			//caso speciale bottone Esci (torna alle card di default)
+			clN.show(bottoni, frame.getDefaultNorthPanel());
+			clC.show(card, frame.getRegistrationPanel());
+		} else {
+			//caso base (testo del bottone)
+			clC.show(card, button.getText());
+			clN.show(bottoni, button.getText());
+		}
 	}
 
 }

@@ -99,5 +99,10 @@ public class Libro {
 	public void setPunti(int punti) {
 		this.punti = punti;
 	}
+	
+	@Override
+	public String toString() {
+		return "[ISBN='" + ISBN + "', titolo='" + titolo + "']";
+	}
 
 }

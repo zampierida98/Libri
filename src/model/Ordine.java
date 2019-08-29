@@ -92,5 +92,5 @@ public class Ordine {
 	public void setPuntiAccumulati(int puntiAccumulati) {
 		this.puntiAccumulati = puntiAccumulati;
 	}
-
+	
 }
