@@ -34,8 +34,28 @@ public class ChangeCardListener implements ActionListener {
 		CardLayout clC = (CardLayout)(card.getLayout());
 		JPanel bottoni = frame.getBottoni();
 		CardLayout clN = (CardLayout)(bottoni.getLayout());
+				
+		if(button.getText().equals("Non registrati")) {
+			//OSCURO solo campo PASSWORD della card REGISTRAZIONE
+			//frame.getPassword().setVisible(false);
+			//frame.getPasswordField().setVisible(false);
+			frame.getButtonRegistrazione().setText("Ordina");
+			frame.setPassword("Visualizza ordine: ");
+			frame.setPasswordField((char)0);
+			
+		}
+		else if(button.getText().equals("Registrazione")) {
+			//OSCURO solo campo PASSWORD della card REGISTRAZIONE
+			//frame.getPassword().setVisible(true);
+			//frame.getPasswordField().setVisible(true);
+			frame.getButtonRegistrazione().setText("Registrami");
+			frame.setPassword("Password: ");
+			frame.setPasswordField(' ');
+		}
 		
-		if(button.getText().equals("Home")) {
+		
+		
+		if(button.getText().equals("Esci")) {
 			//caso speciale bottone Home
 			clN.show(bottoni, "default");
 			clC.show(card, "Registrazione");

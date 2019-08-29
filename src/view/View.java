@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 
 import controller.AccediListener;
 import controller.ChangeCardListener;
-import controller.OrdinaLibroListener;
+import controller.OrdinaLibroInterfacciaListener;
 import controller.RegistrazioneListener;
 
 public class View extends JFrame {
@@ -54,8 +54,15 @@ public class View extends JFrame {
 	//bottoni cambia card (utente registrato)
 	private static final JPanel operazioniUtenteR = new JPanel(new FlowLayout());
 	private static final JButton visualizzaOrdiniB = new JButton("Visualizza ordini");
-	private static final JButton homeB = new JButton("Home");
 	//...
+	
+	//bottoni cambia card (utente non registrato)
+	private static final JPanel operazioniUtenteNonR = new JPanel(new FlowLayout());
+	private static final JButton ordinaB = new JButton("Ordina");
+	//...
+	
+	//BOTTONE USCITA PER TUTTE LE CARD
+	private static final JButton esciB = new JButton("Esci");
 	
 	//card autenticazione
 	private static final JPanel login = new JPanel(new GridLayout(3, 2));
@@ -90,9 +97,12 @@ public class View extends JFrame {
 	private static final JTextField[] tfArrayR = {compNomeR, compCognomeR, compIndirizzoR, compCapR, compCittaR, compProvR, compTelefonoR, compEmailR, compPwdR};
 	
 	//card non registrati
-	private static final JPanel utentiNonRegistrati = new JPanel(new GridLayout(2, 2));
-	private static final JLabel visualizzaOrdine = new JLabel("Visualizza ordine: ");
-	private static final JTextField inserisciVisualizzaOrdine = new JTextField();
+	/*private static final JPanel utentiNonRegistrati = new JPanel(new GridLayout(2, 2));
+	private static final JLabel visualizzaOrdine = new JLabel("Inserisci codice ordine: ");
+	private static final JTextField inserisciVisualizzaOrdine = new JTextField();*/
+	//-------------------------------------------------------------------------------------------------
+	//Acquisizione dati utente non registrato
+	
 	private static final JButton ordina = new JButton("Esegui un ordine");
 	
 	
@@ -112,6 +122,29 @@ public class View extends JFrame {
 		return tfArrayR;
 	}
 	
+	public void setPassword(String cambiaTesto) {
+		this.pwdR.setText(cambiaTesto);
+	}
+	
+	public void setPasswordField(char cambiaTesto) {
+		this.compPwdR.setEchoChar(cambiaTesto);
+	}
+	
+	public JLabel getPassword() {
+		return this.pwdR;
+	}
+	
+	public JPasswordField getPasswordField() {
+		return this.compPwdR;
+	}
+	
+	public JPanel getRegistrazione() {
+		return registrazione;
+	}
+	
+	public JButton getButtonRegistrazione() {
+		return registra;
+	}
 
 	/**
 	 * Create the frame.
@@ -126,7 +159,9 @@ public class View extends JFrame {
 		cambiaCard.add(regUtente);
 		cambiaCard.add(autenticazione);
 		operazioniUtenteR.add(visualizzaOrdiniB);
-		operazioniUtenteR.add(homeB);
+		operazioniUtenteR.add(esciB);
+		operazioniUtenteNonR.add(ordinaB);
+		operazioniUtenteNonR.add(esciB);
 		// - center (login)
 		login.add(email);
 		login.add(compEmail);
@@ -154,18 +189,19 @@ public class View extends JFrame {
 		registrazione.add(compPwdR);
 		registrazione.add(registra);
 		// - center (non registrati)
-		utentiNonRegistrati.add(visualizzaOrdine);
+		/*utentiNonRegistrati.add(visualizzaOrdine);
 		utentiNonRegistrati.add(inserisciVisualizzaOrdine);
-		utentiNonRegistrati.add(ordina);
+		utentiNonRegistrati.add(ordina);*/
 		
 		//aggiunta delle card al card layout:
 		// - north
 		bottoni.add(cambiaCard, "default");
 		bottoni.add(operazioniUtenteR, "Login");
+		bottoni.add(operazioniUtenteNonR, "Esegui un ordine");
 		// - center
 		card.add(registrazione, "Registrazione");
 		card.add(login, "Autenticazione");
-		card.add(utentiNonRegistrati, "Non registrati");
+		//card.add(utentiNonRegistrati, "Non registrati");
 		
 		//listener cambia card
 		autenticazione.addActionListener(new ChangeCardListener(this));
@@ -173,12 +209,12 @@ public class View extends JFrame {
 		nonRegistrati.addActionListener(new ChangeCardListener(this));
 		areaRiservataB.addActionListener(new ChangeCardListener(this));
 		visualizzaOrdiniB.addActionListener(new ChangeCardListener(this));
-		homeB.addActionListener(new ChangeCardListener(this));
+		esciB.addActionListener(new ChangeCardListener(this));
 		
 		//listener azioni bottoni
 		registra.addActionListener(new RegistrazioneListener(this));
 		loginB.addActionListener(new AccediListener(this));
-		ordina.addActionListener(new OrdinaLibroListener(this));
+		ordina.addActionListener(new OrdinaLibroInterfacciaListener(this));
 		
 		//visualizzazione pannelli
 		this.getContentPane().add(bottoni, BorderLayout.NORTH);
