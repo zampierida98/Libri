@@ -39,6 +39,8 @@ public class ChangeCardListener implements ActionListener {
 			//OSCURO solo campo PASSWORD della card REGISTRAZIONE
 			//frame.getPassword().setVisible(false);
 			//frame.getPasswordField().setVisible(false);
+			card.add(frame.getRegistrazione(), "Non registrati");
+			clC = (CardLayout)card.getLayout();
 			frame.getButtonRegistrazione().setText("Ordina");
 			frame.setPassword("Visualizza ordine: ");
 			frame.setPasswordField((char)0);
@@ -48,6 +50,8 @@ public class ChangeCardListener implements ActionListener {
 			//OSCURO solo campo PASSWORD della card REGISTRAZIONE
 			//frame.getPassword().setVisible(true);
 			//frame.getPasswordField().setVisible(true);
+			card.add(frame.getRegistrazione(), "Registrazione");
+			clC = (CardLayout)card.getLayout();
 			frame.getButtonRegistrazione().setText("Registrami");
 			frame.setPassword("Password: ");
 			frame.setPasswordField('•');
