@@ -226,6 +226,8 @@ public class View extends JFrame {
 		loginB.addActionListener(new AccediListener(this));
 		// - utente registrato
 		visualizzaOrdiniB.addActionListener(new ChangeCardListener(this));
+		visualizzaProfiloB.addActionListener(new ChangeCardListener(this));
+		modificaProfiloB.addActionListener(new ChangeCardListener(this));
 		esciUtenteR.addActionListener(new ChangeCardListener(this));
 		// - utente non registrato
 		ordineB.addActionListener(new ChangeCardListener(this));

@@ -12,8 +12,10 @@ import model.OrdineDao;
 import model.OrdineDaoImpl;
 import model.UtenteDao;
 import model.UtenteDaoImpl;
+import view.ModificaProfilo;
 import view.View;
 import view.VisualizzaOrdini;
+import view.VisualizzaProfilo;
 
 public class AccediListener implements ActionListener {
 	
@@ -37,6 +39,9 @@ public class AccediListener implements ActionListener {
 			//se il login va a buon fine, visualizzo gli ordini dell'utente
 			OrdineDao ordineDao = new OrdineDaoImpl();
 			VisualizzaOrdini visualizzaOrdini = new VisualizzaOrdini(ordineDao.getAllOrders(email));
+			VisualizzaProfilo visualizzaProfilo = new VisualizzaProfilo(utenteDao.getUser(email));
+			VisualizzaProfilo visualizzaProfilo2 = new VisualizzaProfilo(utenteDao.getUser(email));
+			ModificaProfilo modificaProfilo = new ModificaProfilo(utenteDao.getUser(email));
 			//... INSTANZIO TUTTE I POSSIBILI PANEL (CARD) PER LE OPERAZIONI E NE FACCIO VEDERE UNO
 			
 			//riferimenti ai card layout
@@ -46,7 +51,10 @@ public class AccediListener implements ActionListener {
 			CardLayout clN = (CardLayout)(bottoni.getLayout());
 			
 			clN.show(bottoni, frame.getRegUserPanel());
-			card.add(visualizzaOrdini, button.getText());
+			card.add(visualizzaProfilo, button.getText());
+			card.add(visualizzaProfilo2, "Visualizza profilo");
+			card.add(visualizzaOrdini, "Visualizza ordini");
+			card.add(modificaProfilo, "Modifica profilo");
 			clC.show(card, button.getText());
 			
 			frame.pack();
