@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,8 +24,7 @@ public class ModificaProfiloListener implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		JButton modifica = (JButton)e.getSource();
 		if(modifica.getText().equals("Modifica Dati")) {
-			JTextField campoNome = modificaProfilo.getNome();
-			String nome = campoNome.getText();
+			String nome = modificaProfilo.getNome().getText();
 			String cognome = modificaProfilo.getCognome().getText();
 			String indirizzo = modificaProfilo.getIndirizzo().getText();
 			String telefono = modificaProfilo.getTelefono().getText();
@@ -38,6 +38,7 @@ public class ModificaProfiloListener implements ActionListener{
 					password
 			);
 			utenteDao.updateUser(modificaProfilo.getEmail(), modificaUtente);
+			modificaProfilo.getResponse().setText("Modifica Effettuata");
 		}
 	}
 }
