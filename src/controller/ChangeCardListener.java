@@ -12,14 +12,16 @@ import view.View;
 
 public class ChangeCardListener implements ActionListener {
 
-	// riferimento alla finestra
 	private View frame;
 
 	public ChangeCardListener(View frame) {
 		this.frame = frame;
 	}
 
-	public void actionPerformed(ActionEvent e){
+	public void actionPerformed(ActionEvent e) {
+		JButton button = (JButton)e.getSource();
+		
+		//pulisco tutti i campi di testo
 		JTextField[] tfArray = frame.getTfArrayA();
 		for(JTextField tf: tfArray) {
 			tf.setText(null);
@@ -29,13 +31,13 @@ public class ChangeCardListener implements ActionListener {
 			tf.setText(null);
 		}
 		
-		JButton button = (JButton)e.getSource();
+		//riferimenti ai card layout
 		JPanel card = frame.getCard();
 		CardLayout clC = (CardLayout)(card.getLayout());
 		JPanel bottoni = frame.getBottoni();
 		CardLayout clN = (CardLayout)(bottoni.getLayout());
-				
-		if(button.getText().equals("Non registrati")) {
+		
+		/*if(button.getText().equals("Non registrati")) {
 			//OSCURO solo campo PASSWORD della card REGISTRAZIONE
 			//frame.getPassword().setVisible(false);
 			//frame.getPasswordField().setVisible(false);
@@ -55,16 +57,18 @@ public class ChangeCardListener implements ActionListener {
 			frame.getButtonRegistrazione().setText("Registrami");
 			frame.setPassword("Password: ");
 			frame.setPasswordField('•');
-		}
+		}*/
 		
 		if(button.getText().equals("Esci")) {
-			//caso speciale bottone Home
-			clN.show(bottoni, "default");
-			card.add(frame.getRegistrazione(), "Registrazione");
-			clC.show(card, "Registrazione");
+			//caso speciale bottone Esci (torna alle card di default)
+			clN.show(bottoni, frame.getDefaultNorthPanel());
+			clC.show(card, frame.getRegistrationPanel());
+			
+			frame.setSize(frame.getDefaultDim());
 		} else {
 			//caso base (testo del bottone)
 			clC.show(card, button.getText());
+			clN.show(bottoni, button.getText());
 		}
 	}
 

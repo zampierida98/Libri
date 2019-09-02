@@ -100,10 +100,9 @@ public class Libro {
 		this.punti = punti;
 	}
 	
-
 	@Override
 	public String toString() {
-		return "[ISBN=" + ISBN + " titolo=" + titolo + "\n]";
+		return "[ISBN='" + ISBN + "', titolo='" + titolo + "']";
 	}
 
 }
