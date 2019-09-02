@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -15,7 +16,6 @@ import javax.swing.JTextField;
 
 import controller.AccediListener;
 import controller.ChangeCardListener;
-import controller.OrdinaLibroInterfacciaListener;
 import controller.RegistrazioneListener;
 
 public class View extends JFrame {
@@ -28,7 +28,7 @@ public class View extends JFrame {
 					
 					frame.pack();
 					frame.setResizable(false);
-					this.DEFAULT_DIM = frame.getSize();
+					View.DEFAULT_DIM = frame.getSize();
 					
 					frame.setVisible(true);
 				} catch (Exception e) {
