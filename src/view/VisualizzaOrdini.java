@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -11,16 +12,22 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
+import controller.ChangeCardListener;
+import controller.EseguiOrdineListener;
 import model.Libro;
 import model.Ordine;
 
 public class VisualizzaOrdini extends JPanel {
 
 	private static final String[] columns = {"Data", "Lista Libri", "Costo Totale", "Pagamento", "Indirizzo spedizione", "Punti Accumulati"};
+	
+	private View frame; 
 	private List<Ordine> listaOrdini;
 	private JTable tabellaOrdini;
+	private JButton eseguiOrdine = new JButton("Esegui ordine");
 	
-	public VisualizzaOrdini(List<Ordine> listaOrdini) {
+	public VisualizzaOrdini(View frame, List<Ordine> listaOrdini) {
+		this.frame = frame;
 		this.listaOrdini = listaOrdini;
 		Object[][] data = allOrders(listaOrdini);
 		
@@ -40,6 +47,10 @@ public class VisualizzaOrdini extends JPanel {
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.add(tabellaOrdini);
+		this.add(new JLabel("<html><div><br><br></div></html>"));
+		eseguiOrdine.setAlignmentX(Component.CENTER_ALIGNMENT);
+		this.add(eseguiOrdine);
+		eseguiOrdine.addActionListener(new EseguiOrdineListener(frame, this));
 	}
 
 	private Object[][] allOrders(List<Ordine> listaOrdini){

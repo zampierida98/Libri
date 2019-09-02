@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -15,7 +16,6 @@ import javax.swing.JTextField;
 
 import controller.AccediListener;
 import controller.ChangeCardListener;
-import controller.OrdinaLibroInterfacciaListener;
 import controller.RegistrazioneListener;
 
 public class View extends JFrame {
@@ -28,6 +28,7 @@ public class View extends JFrame {
 					
 					frame.pack();
 					frame.setResizable(false);
+					View.DEFAULT_DIM = frame.getSize();
 					
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -44,6 +45,7 @@ public class View extends JFrame {
 	private static final String DEFAULT_NORTH_PANEL = "Default";
 	private static final String REG_USER_PANEL = "Registrati";
 	private static final String REGISTRATION_PANEL = "Registrazione";
+	private static Dimension DEFAULT_DIM;
 	
 	
 	//bottoni cambia card (pagina iniziale)
@@ -127,6 +129,10 @@ public class View extends JFrame {
 	
 	public String getRegistrationPanel() {
 		return REGISTRATION_PANEL;
+	}
+	
+	public Dimension getDefaultDim() {
+		return DEFAULT_DIM;
 	}
 
 	public JTextField[] getTfArrayA() {
