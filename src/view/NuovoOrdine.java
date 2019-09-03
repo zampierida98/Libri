@@ -9,6 +9,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import controller.InviaOrdineListener;
 import model.Libro;
 import model.LibroDao;
 import model.LibroDaoImpl;
@@ -16,7 +17,6 @@ import model.Utente;
 
 
 public class NuovoOrdine extends JPanel {
-	
 	
 	private LibroDao libroDao = new LibroDaoImpl();
 	private List<Libro> listaLibri = libroDao.getAllBooks();
@@ -50,8 +50,6 @@ public class NuovoOrdine extends JPanel {
 		return arrayBookButton;
 	}
 
-
-
 	public NuovoOrdine() {
 		int i = 0;
 		this.setLayout(new GridLayout(listaLibri.size() + 2, 2));
@@ -63,9 +61,9 @@ public class NuovoOrdine extends JPanel {
 			JComboBox<Integer> addNumeroLibri = new JComboBox<Integer>(quantitaOrdinabile);
 			numeroLibri.add(i, addNumeroLibri);
 			this.add(addNumeroLibri);
-			i++;	
+			i++;
 		}
 		this.add(ordinaB);
+		ordinaB.addActionListener(new InviaOrdineListener(this)); // SI BLOCCA QUI
 	}
-
 }

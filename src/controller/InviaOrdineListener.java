@@ -12,27 +12,36 @@ import java.util.List;
 import javax.swing.JButton;
 
 import model.Libro;
+import model.LibroCard;
+import model.LibroCardDao;
+import model.LibroCardDaoImpl;
+import model.Ordine;
 import model.OrdineDao;
 import model.OrdineDaoImpl;
 import model.Pagamento;
 import view.NuovoOrdine;
+import view.VisualizzaProfilo;
 
 public class InviaOrdineListener implements ActionListener{
 
 	
 	private NuovoOrdine nuovoOrdine = new NuovoOrdine();
 	private OrdineDao ordineDao = new OrdineDaoImpl();
+	private LibroCardDao libroCardDao = new LibroCardDaoImpl();
 	private HashMap<Libro, Integer> bookMap = new HashMap<Libro, Integer>();
 	
 	public void setBookMap() {
 		for(int indiceLibro = 0; indiceLibro < nuovoOrdine.getArrayBookButton().size(); indiceLibro++) {
-			this.bookMap.put(nuovoOrdine.getArrayBookButton().get(indiceLibro), (Integer)nuovoOrdine.getNumeroLibri().get(indiceLibro).getSelectedItem());
+			//System.out.println("Indice Libro: " + indiceLibro);
+			ArrayList<Libro> arrayBook = nuovoOrdine.getArrayBookButton();
+			bookMap.put(arrayBook.get(indiceLibro), (Integer)((nuovoOrdine.getNumeroLibri()).get(indiceLibro)).getSelectedItem());
 		}
 	}
 	
 	public InviaOrdineListener(NuovoOrdine nuovoOrdine) {
+		System.out.println("Costruttore invia Ordine");
 		this.nuovoOrdine = nuovoOrdine;
-		this.setBookMap();
+		//this.setBookMap();
 	}
 	
 	
@@ -63,9 +72,16 @@ public class InviaOrdineListener implements ActionListener{
 				}
 			}
 			Pagamento pagamento = Pagamento.PAYPAL;
-			
+			String email = VisualizzaProfilo.getEmail();
+			String spedizione = "Amazon";
+			LibroCard libroCard = libroCardDao.getLibroCard(email);
+			int puntiAccumulati = libroCard.getSaldoPunti();
+			for(Libro libro : listaLibri) {
+				puntiAccumulati += libro.getPunti();
+			}
+			Ordine ordine = new Ordine(id, data, listaLibri, costoTotale, pagamento, email, spedizione, puntiAccumulati);
+			ordineDao.insertOrder(ordine);
 		}
-		//ordineDao.insertOrder(ordine);
 	}
 	
 }

@@ -15,6 +15,7 @@ import model.UtenteDaoImpl;
 import view.NuovoOrdine;
 import view.View;
 import view.VisualizzaOrdini;
+import view.VisualizzaProfilo;
 
 public class OrdinaLibroInterfacciaListener implements ActionListener{
 	private View frame;

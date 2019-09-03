@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import view.NuovoOrdine;
 import view.View;
 import view.VisualizzaOrdini;
+import view.VisualizzaProfilo;
 
 public class EseguiOrdineListener implements ActionListener{
 	
@@ -25,6 +26,7 @@ public class EseguiOrdineListener implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		JButton eseguiOrdine = (JButton)e.getSource();
 		if(eseguiOrdine.getText().equals("Esegui ordine")) {
+				
 			NuovoOrdine nuovoOrdine = new NuovoOrdine();
 			
 			JPanel card = frame.getCard();
@@ -34,7 +36,6 @@ public class EseguiOrdineListener implements ActionListener{
 			clC.show(card, eseguiOrdine.getText());
 			
 			frame.pack();
-			
 		}
 		
 	}
