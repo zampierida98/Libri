@@ -41,7 +41,7 @@ public class VisualizzaOrdini extends JPanel {
 		};
 		tabellaOrdini.setModel(tableModel);
 		
-		resizeRowHeight();
+		//resizeRowHeight();
 		resizeColumnWidth(tabellaOrdini);
 		tabellaOrdini.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		
@@ -66,8 +66,8 @@ public class VisualizzaOrdini extends JPanel {
 			orders[i][0] = ordine.getData();
 			
 			String listaLibri = "<html>";
-			for(Libro libro : ordine.getListaLibri()) {
-				listaLibri += (libro.toString() + "<br/>");
+			for(Libro libro : ordine.getListaLibri().keySet()) { //	MODIFICA
+				listaLibri += (libro.getTitolo() + " x" + ordine.getListaLibri().get(libro) + "<br/>");
 			}
 			orders[i][1] = listaLibri + "</html>";
 			

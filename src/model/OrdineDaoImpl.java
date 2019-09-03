@@ -41,12 +41,13 @@ public class OrdineDaoImpl implements OrdineDao {
 		}
 
 		// inserimento libri
-		final String queryLibri = "INSERT INTO ListaLibri VALUES(?,?)";
-		for(Libro l : o.getListaLibri()) {
+		final String queryLibri = "INSERT INTO ListaLibri VALUES(?,?,?)";
+		for(Libro l : o.getListaLibri().keySet()) {
 			try {
 				pst = con.prepareStatement(queryLibri);
 				pst.setInt(1, o.getIdOrdine());
 				pst.setString(2, l.getISBN());
+				pst.setInt(3, o.getListaLibri().get(l));
 				pst.execute();
 			} catch (SQLException ex) {
 				System.out.println(ex);
@@ -173,7 +174,7 @@ public class OrdineDaoImpl implements OrdineDao {
 	 */
 	private Ordine mapRowToOrdine(ResultSet rs) throws SQLException {
 		// seleziono tutti i libri
-		List<Libro> listaLibri = new ArrayList<>();
+		HashMap<Libro, Integer> listaLibri = new HashMap<Libro, Integer>();
 		final String queryLibri = "SELECT * FROM ListaLibri LL INNER JOIN Libro L ON(LL.ISBN=L.ISBN) WHERE idOrdine=?";
 		Connection con = DaoManager.getConnection();
 		PreparedStatement pst;
@@ -183,7 +184,7 @@ public class OrdineDaoImpl implements OrdineDao {
 			ResultSet rsLibri = pst.executeQuery();
 
 			while(rsLibri.next()) {
-				listaLibri.add(mapRowToLibro(rsLibri));
+				listaLibri.put(mapRowToLibro(rsLibri), rsLibri.getInt("copie"));
 			}
 
 			con.close();

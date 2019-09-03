@@ -32,24 +32,7 @@ import model.UtenteDaoImpl;
  */
 public class Test {
 	
-	private static void testRegistrazione() {
-		UtenteDao utenteDao = new UtenteDaoImpl();
-		Utente u1 = utenteDao.getUser("raffaele@libero.it");
-		System.out.println(u1.getNome() + u1.getIndirizzo());
-		LibroCardDao libroCardDao = new LibroCardDaoImpl();
-		LibroCard libroCard = libroCardDao.getLibroCard("raffaele@libero.it");
-		System.out.println(libroCard.getIdLibroCard());
-		System.out.println(libroCard.getEmail());
-		System.out.println(libroCard.getSaldoPunti());
-		System.out.println(libroCard.getDataEmissione());
-	}
-	
-	/*private static void testCancellazioneUtenti() {
-		UtenteDao utenteDao = new UtenteDaoImpl();
-		System.out.println(utenteDao.deleteAllUtenti());
-	}*/
-	
-	private static void testUtente() {
+	/*private static void testUtente() {
 		UtenteDao utenteDao = new UtenteDaoImpl();
 
         Utente u1 = utenteDao.getUser("zampierida98@gmail.com");
@@ -95,7 +78,7 @@ public class Test {
         List<LibroCard> llc = libroCardDao.getAllLibroCard();
         for(LibroCard lc : llc)
         	System.out.println(String.format("%010d", lc.getIdLibroCard()) + " " + lc.getDataEmissione() + " " + lc.getSaldoPunti());
-	}
+	}*/
 	
 	private static void testLibro() {
 		LibroDao libroDao = new LibroDaoImpl();
@@ -109,8 +92,11 @@ public class Test {
         libroDao.insertBook(l3);
         */
 		List<Libro> libri = libroDao.getAllBooks();
-		for(Libro l : libri)
-			System.out.println(String.format("%s %s %s %s %d %s %f %s %d", l.getISBN(), l.getTitolo(), l.getAutori(), l.getCasaEditrice(), l.getAnnoPubblicazione(), l.getGenere(), l.getPrezzo(), l.getDescrizione(), l.getPunti()));
+		int i = 1;
+		for(Libro l : libri) {
+			System.out.println(String.format("%d %s %s %s %s %d %s %f %s %d", i, l.getISBN(), l.getTitolo(), l.getAutori(), l.getCasaEditrice(), l.getAnnoPubblicazione(), l.getGenere(), l.getPrezzo(), l.getDescrizione(), l.getPunti()));
+			i++;
+		}
 	}
 	
 	private static void testOrdine() throws InterruptedException {
@@ -121,6 +107,13 @@ public class Test {
 		
 		// utenti e libri
 		Utente u1 = utenteDao.getUser("zampierida98@gmail.com");
+		
+		/*LibroCard lc1 = new LibroCard(Date.valueOf(LocalDate.now()), 0, "zampierida98@gmail.com");
+        if(libroCardDao.insertLibroCard(lc1) == true) {
+	    	lc1 = libroCardDao.getLibroCard("zampierida98@gmail.com");
+	    	System.out.println(lc1.getIdLibroCard() + " " + lc1.getDataEmissione() + " " + lc1.getSaldoPunti());
+        }*/
+		
 		List<Libro> ll = libroDao.getAllBooks();
 		Libro l1 = null, l2 = null, l3 = null;
 		if(ll.size() >= 3) {
@@ -130,17 +123,18 @@ public class Test {
 		} else {
 			return;
 		}
-		/*
+		
+		
         int id1 = (int) Instant.now().getEpochSecond();
-        List<Libro> ll1 = new ArrayList<>();
-        ll1.add(l1);
-        ll1.add(l2);
-        double tot1 = l1.getPrezzo() + l2.getPrezzo();
-        int p1 = libroCardDao.getLibroCard("zampierida98@gmail.com").getSaldoPunti() + l1.getPunti() + l2.getPunti();
+        HashMap<Libro, Integer> ll1 = new HashMap<Libro, Integer>();
+        ll1.put(l1, 1);
+        ll1.put(l2, 3);
+        double tot1 = l1.getPrezzo() + (l2.getPrezzo() * 3);
+        int p1 = libroCardDao.getLibroCard("zampierida98@gmail.com").getSaldoPunti() + l1.getPunti() + (l2.getPunti() * 3);
         
         Ordine o1 = new Ordine(id1, Date.valueOf(LocalDate.now()), ll1, tot1, Pagamento.CARTA, "zampierida98@gmail.com", u1.getIndirizzo(), p1);
         ordineDao.insertOrder(o1);
-        
+        /*
         Thread.sleep(5000);
         int id2 = (int) Instant.now().getEpochSecond();
         List<Libro> ll2 = new ArrayList<>();
@@ -171,13 +165,14 @@ public class Test {
         Ordine o3 = new Ordine(id3, Date.valueOf(LocalDate.now()), ll3, tot3, Pagamento.CONTRASSEGNO, "raffa@gmail.com", "prova", p3);
         ordineDao.insertOrder(o3);
         */
+		
         HashMap<String, List<Ordine>> mo = ordineDao.getOrdersStatus();
         for(String email : mo.keySet()) {
         	List<Ordine> os = mo.get(email);
         	for(Ordine o : os) {
             	System.out.println(String.format("%010d %s %.2f %d", o.getIdOrdine(), o.getEmail(), o.getCostoTotale(), o.getPuntiAccumulati()));
-            	for(Libro l : o.getListaLibri())
-            		System.out.println("\t" + l.getISBN() + " " + l.getPunti());
+            	for(Libro l : o.getListaLibri().keySet())
+            		System.out.println("\t" + l.getISBN() + " " + l.getPunti() + " " + o.getListaLibri().get(l) + "copie");
             }
         }
 	}
@@ -212,10 +207,11 @@ public class Test {
 		DaoManager dao = DaoManager.getInstance();
 		//testUtente();
 		//testLibroCard();
+		
 		//testLibro();
-		//testOrdine();
+		
+		testOrdine();
+		
 		//testClassifica();
-		testRegistrazione();
-		//testCancellazioneUtenti();
 	}
 }
