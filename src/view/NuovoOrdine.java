@@ -13,8 +13,6 @@ import controller.InviaOrdineListener;
 import model.Libro;
 import model.LibroDao;
 import model.LibroDaoImpl;
-import model.Utente;
-
 
 public class NuovoOrdine extends JPanel {
 	
@@ -22,7 +20,6 @@ public class NuovoOrdine extends JPanel {
 	private List<Libro> listaLibri = libroDao.getAllBooks();
 	
 	private ArrayList<JComboBox<Integer>> numeroLibri = new ArrayList<JComboBox<Integer>>();
-	
 	
 	private Integer[] quantitaOrdinabile = {0,1,2,3,4,5,6,7,8,9};
 	private ArrayList<Libro> arrayBookButton = new ArrayList<Libro>();
@@ -33,18 +30,9 @@ public class NuovoOrdine extends JPanel {
 		return this.listaLibri;
 	}
 	
-	
-	
-	/*public HashMap<Libro, Integer> getBookMap(){
-		return this.bookMap;
-	}*/
-	
-	
 	public ArrayList<JComboBox<Integer>> getNumeroLibri() {
 		return numeroLibri;
 	}
-
-
 
 	public ArrayList<Libro> getArrayBookButton() {
 		return arrayBookButton;
@@ -66,4 +54,5 @@ public class NuovoOrdine extends JPanel {
 		this.add(ordinaB);
 		ordinaB.addActionListener(new InviaOrdineListener(this));
 	}
+	
 }

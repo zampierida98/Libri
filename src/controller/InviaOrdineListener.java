@@ -24,7 +24,6 @@ import view.VisualizzaProfilo;
 
 public class InviaOrdineListener implements ActionListener{
 
-	
 	private NuovoOrdine nuovoOrdine;
 	private OrdineDao ordineDao = new OrdineDaoImpl();
 	private LibroCardDao libroCardDao = new LibroCardDaoImpl();
@@ -32,53 +31,46 @@ public class InviaOrdineListener implements ActionListener{
 	
 	public void setBookMap() {
 		for(int indiceLibro = 0; indiceLibro < nuovoOrdine.getArrayBookButton().size(); indiceLibro++) {
-			//System.out.println("Indice Libro: " + indiceLibro);
 			ArrayList<Libro> arrayBook = nuovoOrdine.getArrayBookButton();
 			bookMap.put(arrayBook.get(indiceLibro), (Integer)((nuovoOrdine.getNumeroLibri()).get(indiceLibro)).getSelectedItem());
 		}
 	}
 	
 	public InviaOrdineListener(NuovoOrdine nuovoOrdine) {
-		//System.out.println("Costruttore invia Ordine");
 		this.nuovoOrdine = nuovoOrdine;
-		this.setBookMap();
 	}
-	
-	
-	
-	/*
-	 * 
-	 * private int idOrdine;
-		private Date data;
-		private List<Libro> listaLibri;//ATTENZIONE da tabella n..n
-		private double costoTotale;
-		private Pagamento pagamento;
-		private String email;
-		private String spedizione;
-		private int puntiAccumulati;//ATTENZIONE nel nuovo ordine si parte dal saldo e si aggiungono quelli della lista
-	 * */
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		List<Libro> listaLibri = new ArrayList<Libro>();
+		this.setBookMap(); // IMPORTANTE
+		
+		HashMap<Libro, Integer> listaLibri = new HashMap<Libro, Integer>();
 		JButton ordinaB = (JButton)e.getSource();
+		
 		if(ordinaB.getText().equals("Ordina")) {
+			String email = VisualizzaProfilo.getEmail();
 			int id = (int) Instant.now().getEpochSecond();
 			Date data = Date.valueOf(LocalDate.now());
+			
 			int costoTotale = 0;
-			for(Libro libro : nuovoOrdine.getListaLibri()){
-				for(int numeroCopie = 0; numeroCopie < bookMap.get(libro); numeroCopie++) {
-					listaLibri.add(libro);
-					costoTotale += libro.getPrezzo();
+			for(Libro libro : bookMap.keySet()) {
+				int copie = bookMap.get(libro);
+				if(copie > 0) {
+					costoTotale += (libro.getPrezzo() * copie);
+					listaLibri.put(libro, copie);
 				}
 			}
+			
+			//provvisorio:
 			Pagamento pagamento = Pagamento.PAYPAL;
-			String email = VisualizzaProfilo.getEmail();
 			String spedizione = "Amazon";
+			
 			LibroCard libroCard = libroCardDao.getLibroCard(email);
 			int puntiAccumulati = libroCard.getSaldoPunti();
-			for(Libro libro : listaLibri) {
-				puntiAccumulati += libro.getPunti();
+			for(Libro libro : bookMap.keySet()) {
+				puntiAccumulati += (libro.getPunti() * bookMap.get(libro));
 			}
+			
 			Ordine ordine = new Ordine(id, data, listaLibri, costoTotale, pagamento, email, spedizione, puntiAccumulati);
 			if(ordineDao.insertOrder(ordine) == true)
 				System.out.println("Ordine effettuato");			

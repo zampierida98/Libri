@@ -41,7 +41,7 @@ public class VisualizzaOrdini extends JPanel {
 		};
 		tabellaOrdini.setModel(tableModel);
 		
-		//resizeRowHeight();
+		resizeRowHeight();
 		resizeColumnWidth(tabellaOrdini);
 		tabellaOrdini.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		

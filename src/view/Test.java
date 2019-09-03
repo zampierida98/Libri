@@ -108,11 +108,11 @@ public class Test {
 		// utenti e libri
 		Utente u1 = utenteDao.getUser("zampierida98@gmail.com");
 		
-		/*LibroCard lc1 = new LibroCard(Date.valueOf(LocalDate.now()), 0, "zampierida98@gmail.com");
+		LibroCard lc1 = new LibroCard(Date.valueOf(LocalDate.now()), 0, "zampierida98@gmail.com");
         if(libroCardDao.insertLibroCard(lc1) == true) {
 	    	lc1 = libroCardDao.getLibroCard("zampierida98@gmail.com");
 	    	System.out.println(lc1.getIdLibroCard() + " " + lc1.getDataEmissione() + " " + lc1.getSaldoPunti());
-        }*/
+        }
 		
 		List<Libro> ll = libroDao.getAllBooks();
 		Libro l1 = null, l2 = null, l3 = null;
