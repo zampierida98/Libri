@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 
 import controller.AccediListener;
 import controller.ChangeCardListener;
+import controller.DaoManager;
 import controller.RegistrazioneListener;
 
 public class View extends JFrame {
@@ -24,12 +25,13 @@ public class View extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					View frame = new View();
+					View frame = getInstance();
 					
 					frame.pack();
 					frame.setResizable(false);
 					View.DEFAULT_DIM = frame.getSize();
 					
+					//frame.setLocationRelativeTo(null); 
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -120,7 +122,13 @@ public class View extends JFrame {
 	private static final JButton accediOrdineB = new JButton("Accedi all'ordine");
 	
 	
-	public JPanel getCard() {
+	//ATTENZIONE: singleton
+	private static View instance = new View();
+	public static View getInstance(){
+		return instance;
+	}
+	
+	public static JPanel getCard() {
 		return card;
 	}
 	

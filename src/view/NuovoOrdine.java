@@ -9,7 +9,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import controller.InviaOrdineListener;
+import controller.PagamentoIndirizzoListener;
 import model.Libro;
 import model.LibroDao;
 import model.LibroDaoImpl;
@@ -52,7 +52,8 @@ public class NuovoOrdine extends JPanel {
 			i++;
 		}
 		this.add(ordinaB);
-		ordinaB.addActionListener(new InviaOrdineListener(this));
+		//ordinaB.addActionListener(new InviaOrdineListener(this));
+		ordinaB.addActionListener(new PagamentoIndirizzoListener(this));
 	}
 	
 }

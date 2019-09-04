@@ -12,8 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-import controller.ChangeCardListener;
 import controller.EseguiOrdineListener;
+import controller.InviaOrdineListener;
 import model.Libro;
 import model.Ordine;
 
