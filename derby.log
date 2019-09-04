@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Wed Sep 04 14:47:25 CEST 2019:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-016c-fc50-bbda-00000a568e80 
+Wed Sep 04 14:54:36 CEST 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-016c-fc57-4e47-00000a568c90 
 on database directory C:\Users\Raffaele\Documents\GitHub\Libri\LIBRI with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
 Loaded from file:/C:/Users/Raffaele/Documents/GitHub/Libri/derby.jar
 java.vendor=Oracle Corporation

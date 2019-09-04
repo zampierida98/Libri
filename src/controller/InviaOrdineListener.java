@@ -105,13 +105,18 @@ public class InviaOrdineListener implements ActionListener{
 				}
 				LibroCard libroCard = libroCardDao.getLibroCard(email);
 				int puntiAccumulati = libroCard.getSaldoPunti();
-				for(Libro libro : bookMap.keySet()) {
-					puntiAccumulati += (libro.getPunti() * bookMap.get(libro));
-				}
+				if(!bookMap.keySet().isEmpty()) {
+					for(Libro libro : bookMap.keySet()) {
+						puntiAccumulati += (libro.getPunti() * bookMap.get(libro));
+					}
 
-				Ordine ordine = new Ordine(id, data, bookMap, costoTotale, pagamento, email, spedizione, puntiAccumulati);
-				if(ordineDao.insertOrder(ordine) == true)
-					System.out.println("Ordine effettuato");
+					Ordine ordine = new Ordine(id, data, bookMap, costoTotale, pagamento, email, spedizione, puntiAccumulati);
+					if(ordineDao.insertOrder(ordine) == true)
+						System.out.println("Ordine effettuato");
+				}
+				else{
+					System.out.println("Ordine NON effettuato");
+				}
 
 			}
 
