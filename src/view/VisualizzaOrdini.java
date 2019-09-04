@@ -99,7 +99,8 @@ public class VisualizzaOrdini extends JPanel {
 	private void resizeRowHeight() {
 		int riga = 1;
 		for(Ordine ordine : this.listaOrdini){
-			this.tabellaOrdini.setRowHeight(riga, ordine.getListaLibri().size() * 16);
+			if(ordine.getListaLibri().size()>0)
+				this.tabellaOrdini.setRowHeight(riga, ordine.getListaLibri().size() * 16);
 			riga++;
 		}
 	}

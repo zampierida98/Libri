@@ -53,7 +53,6 @@ public class PagamentoIndirizzo extends JPanel{
 		pagamento.add(paypal);
 		pagamento.add(contrassegno);
 		inviaDati.addActionListener(new InviaOrdineListener(nuovoOrdine, this));
-		
 	}
 	
 	/*public class campoIndirizzo implements ActionListener{

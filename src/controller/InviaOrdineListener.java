@@ -5,11 +5,11 @@ import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 
 import model.Libro;
@@ -35,9 +35,16 @@ public class InviaOrdineListener implements ActionListener{
 	private Pagamento pagamento;
 
 	public void setBookMap() {
-		for(int indiceLibro = 0; indiceLibro < nuovoOrdine.getArrayBookButton().size(); indiceLibro++) {
+		/*for(int indiceLibro = 0; indiceLibro < nuovoOrdine.getArrayBookButton().size(); indiceLibro++) {
 			ArrayList<Libro> arrayBook = nuovoOrdine.getArrayBookButton();
 			bookMap.put(arrayBook.get(indiceLibro), (Integer)((nuovoOrdine.getNumeroLibri()).get(indiceLibro)).getSelectedItem());
+		}*/
+		for(Libro libro : nuovoOrdine.getArrayLibri()) {
+			JCheckBox checkBox = nuovoOrdine.getMapLibro().get(libro);
+			if(checkBox.isSelected()) {
+				JComboBox<Integer> quantita = nuovoOrdine.getMapQuantita().get(libro);
+				bookMap.put(libro, (Integer)quantita.getSelectedItem());
+			}
 		}
 	}
 
@@ -50,7 +57,6 @@ public class InviaOrdineListener implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		this.setBookMap(); // IMPORTANTE
 
-		HashMap<Libro, Integer> listaLibri = new HashMap<Libro, Integer>();
 		JButton ordinaB = (JButton)e.getSource();
 
 		if(ordinaB.getText().equals("Invia dati")) {
@@ -63,7 +69,7 @@ public class InviaOrdineListener implements ActionListener{
 				int copie = bookMap.get(libro);
 				if(copie > 0) {
 					costoTotale += (libro.getPrezzo() * copie);
-					listaLibri.put(libro, copie);
+					bookMap.put(libro, copie);
 				}
 			}
 
@@ -103,7 +109,7 @@ public class InviaOrdineListener implements ActionListener{
 					puntiAccumulati += (libro.getPunti() * bookMap.get(libro));
 				}
 
-				Ordine ordine = new Ordine(id, data, listaLibri, costoTotale, pagamento, email, spedizione, puntiAccumulati);
+				Ordine ordine = new Ordine(id, data, bookMap, costoTotale, pagamento, email, spedizione, puntiAccumulati);
 				if(ordineDao.insertOrder(ordine) == true)
 					System.out.println("Ordine effettuato");
 
