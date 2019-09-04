@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 
 import controller.AccediListener;
 import controller.ChangeCardListener;
+import controller.EseguiOrdineListener;
+import controller.OrdineNonRegistratoListener;
 import controller.RegistrazioneListener;
 
 public class View extends JFrame {
@@ -24,12 +26,13 @@ public class View extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					View frame = new View();
+					View frame = getInstance();
 					
 					frame.pack();
 					frame.setResizable(false);
 					View.DEFAULT_DIM = frame.getSize();
 					
+					//frame.setLocationRelativeTo(null); 
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,6 +47,7 @@ public class View extends JFrame {
 	private static final JPanel bottoni = new JPanel(new CardLayout());
 	private static final String DEFAULT_NORTH_PANEL = "Default";
 	private static final String REG_USER_PANEL = "Registrati";
+	private static final String NOT_REG_USER_PANEL = "Non registrati";
 	private static final String REGISTRATION_PANEL = "Registrazione";
 	private static Dimension DEFAULT_DIM;
 	
@@ -111,6 +115,27 @@ public class View extends JFrame {
 	private static final JTextField[] tfArrayR = {compNomeR, compCognomeR, compIndirizzoR, compCapR, compCittaR, compProvR, compTelefonoR, compEmailR, compPwdR};
 	
 	//card fai un ordine (utente non registrato)
+	/*private static final JPanel nonRegistratiCard = new JPanel(new GridLayout(4,4));
+	private static final JLabel nomeNonR = new JLabel("Nome:");
+	private static final JTextField compNomeNonR = new JTextField();
+	private static final JLabel cognomeNonR = new JLabel("Cognome:");
+	private static final JTextField compCognomeNonR = new JTextField();
+	private static final JLabel indirizzoNonR = new JLabel("Indirizzo:");
+	private static final JTextField compIndirizzoNonR = new JTextField();
+	private static final JLabel capNonR = new JLabel("CAP:");
+	private static final JTextField compCapNonR = new JTextField();
+	private static final JLabel cittaNonR = new JLabel("Città:");
+	private static final JTextField compCittaNonR = new JTextField();
+	private static final JLabel provNonR = new JLabel("Provincia:");
+	private static final JTextField compProvNonR = new JTextField();
+	private static final JLabel telefonoNonR = new JLabel("Telefono:");
+	private static final JTextField compTelefonoNonR = new JTextField();
+	private static final JLabel emailNonR = new JLabel("E-mail:");
+	private static final JTextField compEmailNonR = new JTextField();
+	private static final JButton eseguiOrdineNRB = new JButton("Esegui ordine");
+	private static final JTextField[] tfArrayNonR = {compNomeNonR, compCognomeNonR, compIndirizzoNonR, compCapNonR, compCittaNonR, compProvNonR, compTelefonoNonR, compEmailNonR};
+	*/
+	
 	//... COPIA DEI CAMPI DELLA REGISTRAZIONE (POI PROSEGUE SU UN NUOVO PANEL PER I LIBRI)
 	
 	//card codice ordine
@@ -120,6 +145,12 @@ public class View extends JFrame {
 	private static final JButton accediOrdineB = new JButton("Accedi all'ordine");
 	
 	
+	//ATTENZIONE: singleton
+	private static View instance = new View();
+	public static View getInstance(){
+		return instance;
+	}
+	
 	public static JPanel getCard() {
 		return card;
 	}
@@ -128,12 +159,20 @@ public class View extends JFrame {
 		return bottoni;
 	}
 	
+	public JTextField getCompCodiceOrdine() {
+		return compCodiceOrdine;
+	}
+	
 	public String getDefaultNorthPanel() {
 		return DEFAULT_NORTH_PANEL;
 	}
 	
 	public String getRegUserPanel() {
 		return REG_USER_PANEL;
+	}
+	
+	public String getNotRegUserPanel() {
+		return NOT_REG_USER_PANEL;
 	}
 	
 	public String getRegistrationPanel() {
@@ -209,12 +248,12 @@ public class View extends JFrame {
 		// - north
 		bottoni.add(cambiaCard, DEFAULT_NORTH_PANEL);
 		bottoni.add(operazioniUtenteR, REG_USER_PANEL);
-		bottoni.add(operazioniUtenteNonR, "Non registrati");
+		bottoni.add(operazioniUtenteNonR, NOT_REG_USER_PANEL);
 		bottoni.add(operazioniResponsabile, "Area Riservata");
 		// - center
 		card.add(registrazione, REGISTRATION_PANEL);
 		card.add(login, "Autenticazione");
-		card.add(utentiNonRegistrati, "Non registrati");
+		card.add(utentiNonRegistrati, NOT_REG_USER_PANEL);
 		
 		//listener:
 		// - pagina iniziale
@@ -230,7 +269,8 @@ public class View extends JFrame {
 		modificaProfiloB.addActionListener(new ChangeCardListener(this));
 		esciUtenteR.addActionListener(new ChangeCardListener(this));
 		// - utente non registrato
-		ordineB.addActionListener(new ChangeCardListener(this));
+		ordineB.addActionListener(new EseguiOrdineListener(this));
+		accediOrdineB.addActionListener(new OrdineNonRegistratoListener());
 		codiceOrdineB.addActionListener(new ChangeCardListener(this));
 		esciUtenteNonR.addActionListener(new ChangeCardListener(this));
 		// - responsabile

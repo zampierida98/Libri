@@ -10,6 +10,9 @@ import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import model.Libro;
@@ -60,66 +63,132 @@ public class InviaOrdineListener implements ActionListener{
 		JButton ordinaB = (JButton)e.getSource();
 
 		if(ordinaB.getText().equals("Invia dati")) {
-			String email = VisualizzaProfilo.getEmail();
-			int id = (int) Instant.now().getEpochSecond();
-			Date data = Date.valueOf(LocalDate.now());
+			if(!nuovoOrdine.isEnabled()) {
+				String email = nuovoOrdine.getEmail().getText();
+				int id = (int) Instant.now().getEpochSecond();
+				Date data = Date.valueOf(LocalDate.now());
 
-			int costoTotale = 0;
-			for(Libro libro : bookMap.keySet()) {
-				int copie = bookMap.get(libro);
-				if(copie > 0) {
-					costoTotale += (libro.getPrezzo() * copie);
-					bookMap.put(libro, copie);
+				int costoTotale = 0;
+				for(Libro libro : bookMap.keySet()) {
+					int copie = bookMap.get(libro);
+					if(copie > 0) {
+						costoTotale += (libro.getPrezzo() * copie);
+						bookMap.put(libro, copie);
+					}
 				}
-			}
 
-			//Boolean pagamentoSelezionato = false;
-			//provvisorio
-			for(JRadioButton tipoPagamento : pagamentoIndirizzo.getArrayPagamento()) {
-				//pagamentoSelezionato = tipoPagamento.isSelected();
-				if(tipoPagamento.isSelected()) {
-					switch(tipoPagamento.getText()) {
-					case "CARTA":
-						pagamento = Pagamento.CARTA;
-						break;
-					case "PAYPAL":
-						pagamento = Pagamento.PAYPAL;
-						break;
-					case "CONTRASSEGNO":
-						pagamento = Pagamento.CONTRASSEGNO;
-						break;
-					default:
-						System.out.println("Nessun pagamento selezionato");
+				//Boolean pagamentoSelezionato = false;
+				//provvisorio
+				for(JRadioButton tipoPagamento : pagamentoIndirizzo.getArrayPagamento()) {
+					//pagamentoSelezionato = tipoPagamento.isSelected();
+					if(tipoPagamento.isSelected()) {
+						switch(tipoPagamento.getText()) {
+						case "CARTA":
+							pagamento = Pagamento.CARTA;
+							break;
+						case "PAYPAL":
+							pagamento = Pagamento.PAYPAL;
+							break;
+						case "CONTRASSEGNO":
+							pagamento = Pagamento.CONTRASSEGNO;
+							break;
+						default:
+							System.out.println("Nessun pagamento selezionato");
+							break;
+						}
 						break;
 					}
-					break;
 				}
-			}
-			if(pagamento == null) {
-				System.out.println("Ordine NON effettuato");
-			}
-			else {
-				String spedizione = VisualizzaProfilo.getIndirizzo();
-				if(!pagamentoIndirizzo.getCampoModifica().getText().equals("")) {
-					spedizione = pagamentoIndirizzo.getCampoModifica().getText();
-				}
-				LibroCard libroCard = libroCardDao.getLibroCard(email);
-				int puntiAccumulati = libroCard.getSaldoPunti();
-				if(!bookMap.keySet().isEmpty()) {
-					for(Libro libro : bookMap.keySet()) {
-						puntiAccumulati += (libro.getPunti() * bookMap.get(libro));
-					}
-
-					Ordine ordine = new Ordine(id, data, bookMap, costoTotale, pagamento, email, spedizione, puntiAccumulati);
-					if(ordineDao.insertOrder(ordine) == true)
-						System.out.println("Ordine effettuato");
-				}
-				else{
+				if(pagamento == null) {
 					System.out.println("Ordine NON effettuato");
 				}
+				else {
+					String spedizione = VisualizzaProfilo.getIndirizzo();
+					if(!pagamentoIndirizzo.getCampoModifica().getText().equals("")) {
+						spedizione = pagamentoIndirizzo.getCampoModifica().getText();
+					}
+					LibroCard libroCard = libroCardDao.getLibroCard(email);
+					int puntiAccumulati = libroCard.getSaldoPunti();
+					if(!bookMap.keySet().isEmpty()) {
+						for(Libro libro : bookMap.keySet()) {
+							puntiAccumulati += (libro.getPunti() * bookMap.get(libro));
+						}
 
+						Ordine ordine = new Ordine(id, data, bookMap, costoTotale, pagamento, email, spedizione, puntiAccumulati);
+						if(ordineDao.insertOrder(ordine) == true)
+							System.out.println("Ordine effettuato");
+					}
+					else{
+						System.out.println("Ordine NON effettuato");
+					}
+
+				}
 			}
+			else {
+				String email = VisualizzaProfilo.getEmail();
+				int id = (int) Instant.now().getEpochSecond();
+				Date data = Date.valueOf(LocalDate.now());
 
+				int costoTotale = 0;
+				for(Libro libro : bookMap.keySet()) {
+					int copie = bookMap.get(libro);
+					if(copie > 0) {
+						costoTotale += (libro.getPrezzo() * copie);
+						bookMap.put(libro, copie);
+					}
+				}
+
+				//Boolean pagamentoSelezionato = false;
+				//provvisorio
+				for(JRadioButton tipoPagamento : pagamentoIndirizzo.getArrayPagamento()) {
+					//pagamentoSelezionato = tipoPagamento.isSelected();
+					if(tipoPagamento.isSelected()) {
+						switch(tipoPagamento.getText()) {
+						case "CARTA":
+							pagamento = Pagamento.CARTA;
+							break;
+						case "PAYPAL":
+							pagamento = Pagamento.PAYPAL;
+							break;
+						case "CONTRASSEGNO":
+							pagamento = Pagamento.CONTRASSEGNO;
+							break;
+						default:
+							System.out.println("Nessun pagamento selezionato");
+							break;
+						}
+						break;
+					}
+				}
+				if(pagamento == null) {
+					System.out.println("Ordine NON effettuato");
+				}
+				else {
+					String spedizione = VisualizzaProfilo.getIndirizzo();
+					if(!pagamentoIndirizzo.getCampoModifica().getText().equals("")) {
+						spedizione = pagamentoIndirizzo.getCampoModifica().getText();
+					}
+					int puntiAccumulati = 0;
+					if(!bookMap.keySet().isEmpty()) {
+						Ordine ordine = new Ordine(id, data, bookMap, costoTotale, pagamento, email, spedizione, puntiAccumulati);
+						if(ordineDao.insertOrder(ordine) == true) {
+							System.out.println("Ordine effettuato");
+							JFrame codice = new JFrame();
+							JPanel pannello = new JPanel();
+							JLabel codiceRestituito = new JLabel(String.valueOf(id));
+							pannello.add(codiceRestituito);
+							codice.add(pannello);
+							codice.pack();
+							codice.setVisible(true);
+							codice.setResizable(false);
+						}
+					}
+					else{
+						System.out.println("Ordine NON effettuato");
+					}
+
+				}
+			}
 		}
 	}
 

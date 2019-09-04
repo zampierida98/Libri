@@ -8,7 +8,9 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import controller.PagamentoIndirizzoListener;
 import model.Libro;
@@ -57,6 +59,8 @@ public class NuovoOrdine extends JPanel {
 		ordinaB.addActionListener(new PagamentoIndirizzoListener(this));
 	}*/
 	private LibroDao libroDao = new LibroDaoImpl();
+	private JLabel campoEmail = new JLabel("Inserisci email: ");
+	private JTextField email = new JTextField();
 	//CheckBox
 	private ArrayList<JCheckBox> arrayCheckBox = new ArrayList<JCheckBox>();
 	private List<Libro> arrayLibri = libroDao.getAllBooks();
@@ -73,6 +77,16 @@ public class NuovoOrdine extends JPanel {
 	public LibroDao getLibroDao() {
 		return libroDao;
 	}
+
+	public JLabel getCampoEmail() {
+		return campoEmail;
+	}
+
+	public JTextField getEmail() {
+		return email;
+	}
+
+
 
 	public ArrayList<JCheckBox> getArrayCheckBox() {
 		return arrayCheckBox;
@@ -100,6 +114,8 @@ public class NuovoOrdine extends JPanel {
 
 	public NuovoOrdine() {
 		this.setLayout(new GridLayout(arrayLibri.size() + 2, 2));
+		this.add(campoEmail);
+		this.add(email);
 		for(int indiceCheckBox = 0; indiceCheckBox < arrayLibri.size(); indiceCheckBox++) {
 			//Configurazione CheckBox
 			Libro libro = arrayLibri.get(indiceCheckBox);
@@ -113,7 +129,6 @@ public class NuovoOrdine extends JPanel {
 			mapQuantita.put(libro, addNumeroLibri);
 			this.add(addNumeroLibri);
 		}
-		
 		this.add(ordinaB);
 		ordinaB.addActionListener(new PagamentoIndirizzoListener(this));
 	}
