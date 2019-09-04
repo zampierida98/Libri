@@ -16,6 +16,7 @@ public class VisualizzaProfilo extends JPanel {
 	private JLabel email = new JLabel("Email: ");*/
 	
 	private static String email;
+	private static String indirizzo;
 	
 	private String[] campiProfilo = {"Nome: ", "Cognome: ", "Indirizzo: ", "Telefono: "};
 	
@@ -23,9 +24,13 @@ public class VisualizzaProfilo extends JPanel {
 		return email;
 	}
 	
+	public static String getIndirizzo() {
+		return indirizzo;
+	}
 	
 	public VisualizzaProfilo(Utente utente) {
 		this.email = utente.getEmail();
+		this.indirizzo = utente.getIndirizzo();
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		String[] campiUtente = {utente.getNome(), utente.getCognome(), utente.getIndirizzo(), utente.getTelefono(), utente.getEmail()};
 		for(int i = 0; i < campiProfilo.length; i++) {

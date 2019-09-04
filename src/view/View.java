@@ -68,6 +68,15 @@ public class View extends JFrame {
 	private static final JButton codiceOrdineB = new JButton("Visualizza un ordine");
 	private static final JButton esciUtenteNonR = new JButton("Esci");
 	
+	//NUOVO==================================
+	//bottoni cambia card (utente registrato)
+	private static final JPanel operazioniResponsabile = new JPanel(new FlowLayout());
+	private static final JButton statoOrdiniB = new JButton("Ordini");
+	private static final JButton statoLibroCardB = new JButton("Libro Card");
+	private static final JButton libriB = new JButton("Aggiungi libro");
+	private static final JButton classificheB = new JButton("Aggiorna classifiche");
+	private static final JButton esciResponsabile = new JButton("Esci");
+	
 	
 	//card autenticazione
 	private static final JPanel login = new JPanel(new GridLayout(3, 2));
@@ -111,7 +120,7 @@ public class View extends JFrame {
 	private static final JButton accediOrdineB = new JButton("Accedi all'ordine");
 	
 	
-	public JPanel getCard() {
+	public static JPanel getCard() {
 		return card;
 	}
 	
@@ -143,27 +152,6 @@ public class View extends JFrame {
 		return tfArrayR;
 	}
 	
-	/*
-	public void setPassword(String cambiaTesto) {
-		this.pwdR.setText(cambiaTesto);
-	}
-	
-	public void setPasswordField(char cambiaTesto) {
-		this.compPwdR.setEchoChar(cambiaTesto);
-	}
-	
-	public JLabel getPassword() {
-		return this.pwdR;
-	}
-	
-	public JPasswordField getPasswordField() {
-		return this.compPwdR;
-	}
-	
-	public JButton getButtonRegistrazione() {
-		return registraB;
-	}
-	*/
 	
 	public View() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -181,6 +169,11 @@ public class View extends JFrame {
 		operazioniUtenteNonR.add(ordineB);
 		operazioniUtenteNonR.add(codiceOrdineB);
 		operazioniUtenteNonR.add(esciUtenteNonR);
+		operazioniResponsabile.add(statoOrdiniB);
+		operazioniResponsabile.add(statoLibroCardB);
+		operazioniResponsabile.add(libriB);
+		operazioniResponsabile.add(classificheB);
+		operazioniResponsabile.add(esciResponsabile);
 		// - center (login)
 		login.add(email);
 		login.add(compEmail);
@@ -217,6 +210,7 @@ public class View extends JFrame {
 		bottoni.add(cambiaCard, DEFAULT_NORTH_PANEL);
 		bottoni.add(operazioniUtenteR, REG_USER_PANEL);
 		bottoni.add(operazioniUtenteNonR, "Non registrati");
+		bottoni.add(operazioniResponsabile, "Area Riservata");
 		// - center
 		card.add(registrazione, REGISTRATION_PANEL);
 		card.add(login, "Autenticazione");
@@ -239,6 +233,8 @@ public class View extends JFrame {
 		ordineB.addActionListener(new ChangeCardListener(this));
 		codiceOrdineB.addActionListener(new ChangeCardListener(this));
 		esciUtenteNonR.addActionListener(new ChangeCardListener(this));
+		// - responsabile
+		esciResponsabile.addActionListener(new ChangeCardListener(this));
 		
 		
 		//visualizzazione pannelli

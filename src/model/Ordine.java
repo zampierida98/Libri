@@ -1,7 +1,7 @@
 package model;
 
 import java.sql.Date;
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * Per ogni ordine si memorizzano un codice univoco, la data, i libri che lo compongono, il costo totale, il tipo di pagamento, l'utente che lo ha effettuato ed eventualmente il saldo punti della sua LibroCard.
@@ -11,14 +11,14 @@ public class Ordine {
 
 	private int idOrdine;
 	private Date data;
-	private List<Libro> listaLibri;//ATTENZIONE da tabella n..n
+	private HashMap<Libro, Integer> listaLibri;//ATTENZIONE da tabella n..n
 	private double costoTotale;
 	private Pagamento pagamento;
 	private String email;
 	private String spedizione;
 	private int puntiAccumulati;//ATTENZIONE nel nuovo ordine si parte dal saldo e si aggiungono quelli della lista
 
-	public Ordine(int idOrdine, Date data, List<Libro> listaLibri, double costoTotale, Pagamento pagamento, String email, String spedizione, int puntiAccumulati) {
+	public Ordine(int idOrdine, Date data, HashMap<Libro, Integer> listaLibri, double costoTotale, Pagamento pagamento, String email, String spedizione, int puntiAccumulati) {
 		this.idOrdine = idOrdine;
 		this.data = data;
 		this.listaLibri = listaLibri;
@@ -45,11 +45,11 @@ public class Ordine {
 		this.data = data;
 	}
 
-	public List<Libro> getListaLibri() {
+	public HashMap<Libro, Integer> getListaLibri() {
 		return listaLibri;
 	}
 
-	public void setListaLibri(List<Libro> listaLibri) {
+	public void setListaLibri(HashMap<Libro, Integer> listaLibri) {
 		this.listaLibri = listaLibri;
 	}
 
