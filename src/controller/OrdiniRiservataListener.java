@@ -38,6 +38,7 @@ public class OrdiniRiservataListener implements ActionListener{
 		if (login) {
 			//se il login va a buon fine, visualizzo gli ordini dell'utente
 			OrdiniResponsabile ordineResponsabile = new OrdiniResponsabile();
+			OrdiniResponsabile ordineResponsabile2 = new OrdiniResponsabile();
 			
 			
 			//... INSTANZIO TUTTE I POSSIBILI PANEL (CARD) PER LE OPERAZIONI E NE FACCIO VEDERE UNO
@@ -45,6 +46,7 @@ public class OrdiniRiservataListener implements ActionListener{
 			//riferimenti ai card layout
 			JPanel card = View.getInstance().getCard();
 			card.add(ordineResponsabile, "Login area riservata");
+			card.add(ordineResponsabile2, "Ordini");
 			CardLayout clC = (CardLayout)(card.getLayout());
 			JPanel bottoni = View.getInstance().getBottoni();
 			CardLayout clN = (CardLayout)(bottoni.getLayout());

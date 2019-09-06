@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import controller.AccediListener;
 import controller.ChangeCardListener;
 import controller.EseguiOrdineListener;
+import controller.LibroCardListener;
 import controller.OrdineNonRegistratoListener;
 import controller.OrdiniRiservataListener;
 import controller.RegistrazioneListener;
@@ -295,7 +296,10 @@ public class View extends JFrame {
 		esciUtenteNonR.addActionListener(new ChangeCardListener(this));
 		// - responsabile
 		loginBA.addActionListener(new OrdiniRiservataListener());
+		statoLibroCardB.addActionListener(new LibroCardListener());
+		statoOrdiniB.addActionListener(new OrdiniRiservataListener());
 		esciResponsabile.addActionListener(new ChangeCardListener(this));
+		
 		
 		
 		//visualizzazione pannelli

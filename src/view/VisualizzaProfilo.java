@@ -4,6 +4,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.LibroCardDao;
+import model.LibroCardDaoImpl;
 import model.Utente;
 
 public class VisualizzaProfilo extends JPanel {
@@ -18,7 +20,7 @@ public class VisualizzaProfilo extends JPanel {
 	private static String email;
 	private static String indirizzo;
 	
-	private String[] campiProfilo = {"Nome: ", "Cognome: ", "Indirizzo: ", "Telefono: "};
+	private String[] campiProfilo = {"Nome: ", "Cognome: ", "Indirizzo: ", "Telefono: ", "Email: ", "Libro Card: "};
 	
 	public static String getEmail() {
 		return email;
@@ -29,10 +31,11 @@ public class VisualizzaProfilo extends JPanel {
 	}
 	
 	public VisualizzaProfilo(Utente utente) {
+		LibroCardDao libroCard = new LibroCardDaoImpl();
 		this.email = utente.getEmail();
 		this.indirizzo = utente.getIndirizzo();
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		String[] campiUtente = {utente.getNome(), utente.getCognome(), utente.getIndirizzo(), utente.getTelefono(), utente.getEmail()};
+		String[] campiUtente = {utente.getNome(), utente.getCognome(), utente.getIndirizzo(), utente.getTelefono(), utente.getEmail(), String.valueOf(libroCard.getLibroCard(email).getSaldoPunti())};
 		for(int i = 0; i < campiProfilo.length; i++) {
 			JLabel visualizzazioneProfilo = new JLabel(campiProfilo[i] + campiUtente[i]);
 			this.add(visualizzazioneProfilo);
