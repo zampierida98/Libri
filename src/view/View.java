@@ -18,6 +18,7 @@ import controller.AccediListener;
 import controller.ChangeCardListener;
 import controller.EseguiOrdineListener;
 import controller.OrdineNonRegistratoListener;
+import controller.OrdiniRiservataListener;
 import controller.RegistrazioneListener;
 
 public class View extends JFrame {
@@ -81,7 +82,15 @@ public class View extends JFrame {
 	private static final JButton classificheB = new JButton("Aggiorna classifiche");
 	private static final JButton esciResponsabile = new JButton("Esci");
 	
-	
+	//card autenticazione riservata
+	private static final JPanel loginRiservata = new JPanel(new GridLayout(3, 2));
+	private static final JPanel loginA = new JPanel(new GridLayout(3, 2));
+	private static final JLabel emailA = new JLabel("Username: ");
+	private static final JTextField compEmailA = new JTextField();
+	private static final JLabel pwdA = new JLabel("Password: ");
+	private static final JPasswordField compPwdA = new JPasswordField();
+	private static final JButton loginBA = new JButton("Login area riservata");
+	private static final JTextField[] tfArrayAA = {compEmailA, compPwdA};
 	//card autenticazione
 	private static final JPanel login = new JPanel(new GridLayout(3, 2));
 	private static final JLabel email = new JLabel("E-mail: ");
@@ -151,7 +160,7 @@ public class View extends JFrame {
 		return instance;
 	}
 	
-	public static JPanel getCard() {
+	public JPanel getCard() {
 		return card;
 	}
 	
@@ -182,6 +191,10 @@ public class View extends JFrame {
 	public Dimension getDefaultDim() {
 		return DEFAULT_DIM;
 	}
+	
+	public JTextField[] getTfArrayAA() {
+		return tfArrayAA;
+	}
 
 	public JTextField[] getTfArrayA() {
 		return tfArrayA;
@@ -192,7 +205,7 @@ public class View extends JFrame {
 	}
 	
 	
-	public View() {
+	private View() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//aggiunta informazioni ai vari panel:
@@ -213,6 +226,12 @@ public class View extends JFrame {
 		operazioniResponsabile.add(libriB);
 		operazioniResponsabile.add(classificheB);
 		operazioniResponsabile.add(esciResponsabile);
+		// - center (area riservata)
+		loginRiservata.add(emailA);
+		loginRiservata.add(compEmailA);
+		loginRiservata.add(pwdA);
+		loginRiservata.add(compPwdA);
+		loginRiservata.add(loginBA);
 		// - center (login)
 		login.add(email);
 		login.add(compEmail);
@@ -249,11 +268,12 @@ public class View extends JFrame {
 		bottoni.add(cambiaCard, DEFAULT_NORTH_PANEL);
 		bottoni.add(operazioniUtenteR, REG_USER_PANEL);
 		bottoni.add(operazioniUtenteNonR, NOT_REG_USER_PANEL);
-		bottoni.add(operazioniResponsabile, "Area Riservata");
+		bottoni.add(operazioniResponsabile, "Login area riservata");
 		// - center
 		card.add(registrazione, REGISTRATION_PANEL);
 		card.add(login, "Autenticazione");
 		card.add(utentiNonRegistrati, NOT_REG_USER_PANEL);
+		card.add(loginRiservata, "Area Riservata");
 		
 		//listener:
 		// - pagina iniziale
@@ -274,6 +294,7 @@ public class View extends JFrame {
 		codiceOrdineB.addActionListener(new ChangeCardListener(this));
 		esciUtenteNonR.addActionListener(new ChangeCardListener(this));
 		// - responsabile
+		loginBA.addActionListener(new OrdiniRiservataListener());
 		esciResponsabile.addActionListener(new ChangeCardListener(this));
 		
 		

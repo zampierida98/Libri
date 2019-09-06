@@ -31,17 +31,16 @@ public class InviaOrdineListener implements ActionListener{
 
 	private NuovoOrdine nuovoOrdine;
 	private PagamentoIndirizzo pagamentoIndirizzo;
-	private OrdineDao ordineDao = new OrdineDaoImpl();
-	private LibroCardDao libroCardDao = new LibroCardDaoImpl();
 	private HashMap<Libro, Integer> bookMap = new HashMap<Libro, Integer>();
 
-	private Pagamento pagamento;
+
+	public InviaOrdineListener(NuovoOrdine nuovoOrdine, PagamentoIndirizzo pagamentoIndirizzo) {
+		this.nuovoOrdine = nuovoOrdine;
+		this.pagamentoIndirizzo = pagamentoIndirizzo;
+	}
+
 
 	public void setBookMap() {
-		/*for(int indiceLibro = 0; indiceLibro < nuovoOrdine.getArrayBookButton().size(); indiceLibro++) {
-			ArrayList<Libro> arrayBook = nuovoOrdine.getArrayBookButton();
-			bookMap.put(arrayBook.get(indiceLibro), (Integer)((nuovoOrdine.getNumeroLibri()).get(indiceLibro)).getSelectedItem());
-		}*/
 		for(Libro libro : nuovoOrdine.getArrayLibri()) {
 			JCheckBox checkBox = nuovoOrdine.getMapLibro().get(libro);
 			if(checkBox.isSelected()) {
@@ -51,142 +50,134 @@ public class InviaOrdineListener implements ActionListener{
 		}
 	}
 
-	public InviaOrdineListener(NuovoOrdine nuovoOrdine, PagamentoIndirizzo pagamentoIndirizzo) {
-		this.nuovoOrdine = nuovoOrdine;
-		this.pagamentoIndirizzo = pagamentoIndirizzo;
-	}
+	/*
+	private int idOrdine;
+	private Date data;
+	private HashMap<Libro, Integer> listaLibri;
+	private double costoTotale;
+	private Pagamento pagamento;
+	private String email;
+	private String spedizione;
+	private int puntiAccumulati;
+
+	int id1 = (int) Instant.now().getEpochSecond();
+    HashMap<Libro, Integer> ll1 = new HashMap<Libro, Integer>();
+    ll1.put(l1, 1);
+    ll1.put(l2, 3);
+    double tot1 = l1.getPrezzo() + (l2.getPrezzo() * 3);
+    int p1 = libroCardDao.getLibroCard("zampierida98@gmail.com").getSaldoPunti() + l1.getPunti() + (l2.getPunti() * 3);
+
+    Ordine o1 = new Ordine(id1, Date.valueOf(LocalDate.now()), ll1, tot1, Pagamento.CARTA, "zampierida98@gmail.com", u1.getIndirizzo(), p1);
+    ordineDao.insertOrder(o1);
+	 */
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		this.setBookMap(); // IMPORTANTE
+		//associo la quantita ai libri selezionati
+		this.setBookMap();
 
 		JButton ordinaB = (JButton)e.getSource();
-
 		if(ordinaB.getText().equals("Invia dati")) {
-			if(!nuovoOrdine.isEnabled()) {
-				String email = nuovoOrdine.getEmail().getText();
+			OrdineDao ordineDao = new OrdineDaoImpl();
+			LibroCardDao libroCardDao = new LibroCardDaoImpl();
+
+			if(!nuovoOrdine.getEmail().isEnabled()) {
+				//costruzione di un ordine per l'utente registrato
+
 				int id = (int) Instant.now().getEpochSecond();
 				Date data = Date.valueOf(LocalDate.now());
+				String email = VisualizzaProfilo.getEmail();
+				System.out.println(email);
 
+				HashMap<Libro, Integer> listaLibri = new HashMap<Libro, Integer>();
 				int costoTotale = 0;
 				for(Libro libro : bookMap.keySet()) {
 					int copie = bookMap.get(libro);
 					if(copie > 0) {
 						costoTotale += (libro.getPrezzo() * copie);
-						bookMap.put(libro, copie);
+						listaLibri.put(libro, copie);
 					}
 				}
 
-				//Boolean pagamentoSelezionato = false;
-				//provvisorio
+				Pagamento pagamento = null;
 				for(JRadioButton tipoPagamento : pagamentoIndirizzo.getArrayPagamento()) {
-					//pagamentoSelezionato = tipoPagamento.isSelected();
 					if(tipoPagamento.isSelected()) {
-						switch(tipoPagamento.getText()) {
-						case "CARTA":
-							pagamento = Pagamento.CARTA;
-							break;
-						case "PAYPAL":
-							pagamento = Pagamento.PAYPAL;
-							break;
-						case "CONTRASSEGNO":
-							pagamento = Pagamento.CONTRASSEGNO;
-							break;
-						default:
-							System.out.println("Nessun pagamento selezionato");
-							break;
-						}
+						pagamento = Pagamento.valueOf(tipoPagamento.getText());
 						break;
 					}
 				}
+
 				if(pagamento == null) {
 					System.out.println("Ordine NON effettuato");
-				}
-				else {
+				} else {
 					String spedizione = VisualizzaProfilo.getIndirizzo();
 					if(!pagamentoIndirizzo.getCampoModifica().getText().equals("")) {
 						spedizione = pagamentoIndirizzo.getCampoModifica().getText();
 					}
+
 					LibroCard libroCard = libroCardDao.getLibroCard(email);
 					int puntiAccumulati = libroCard.getSaldoPunti();
-					if(!bookMap.keySet().isEmpty()) {
-						for(Libro libro : bookMap.keySet()) {
-							puntiAccumulati += (libro.getPunti() * bookMap.get(libro));
-						}
+					for(Libro libro : listaLibri.keySet())
+						puntiAccumulati += (libro.getPunti() * listaLibri.get(libro));
 
-						Ordine ordine = new Ordine(id, data, bookMap, costoTotale, pagamento, email, spedizione, puntiAccumulati);
-						if(ordineDao.insertOrder(ordine) == true)
-							System.out.println("Ordine effettuato");
-					}
-					else{
-						System.out.println("Ordine NON effettuato");
-					}
-
+					Ordine ordine = new Ordine(id, data, listaLibri, costoTotale, pagamento, email, spedizione, puntiAccumulati);
+					if(ordineDao.insertOrder(ordine) == true)
+						System.out.println("Ordine effettuato");
 				}
-			}
-			else {
-				String email = VisualizzaProfilo.getEmail();
+			} else {
+				//costruzione di un ordine per l'utente non registrato
+
 				int id = (int) Instant.now().getEpochSecond();
 				Date data = Date.valueOf(LocalDate.now());
+				String email = nuovoOrdine.getEmail().getText();
+				System.out.println(email);
 
+				HashMap<Libro, Integer> listaLibri = new HashMap<Libro, Integer>();
 				int costoTotale = 0;
 				for(Libro libro : bookMap.keySet()) {
 					int copie = bookMap.get(libro);
 					if(copie > 0) {
 						costoTotale += (libro.getPrezzo() * copie);
-						bookMap.put(libro, copie);
+						listaLibri.put(libro, copie);
 					}
 				}
 
-				//Boolean pagamentoSelezionato = false;
-				//provvisorio
+				Pagamento pagamento = null;
 				for(JRadioButton tipoPagamento : pagamentoIndirizzo.getArrayPagamento()) {
-					//pagamentoSelezionato = tipoPagamento.isSelected();
 					if(tipoPagamento.isSelected()) {
-						switch(tipoPagamento.getText()) {
-						case "CARTA":
-							pagamento = Pagamento.CARTA;
-							break;
-						case "PAYPAL":
-							pagamento = Pagamento.PAYPAL;
-							break;
-						case "CONTRASSEGNO":
-							pagamento = Pagamento.CONTRASSEGNO;
-							break;
-						default:
-							System.out.println("Nessun pagamento selezionato");
-							break;
-						}
+						pagamento = Pagamento.valueOf(tipoPagamento.getText());
 						break;
 					}
 				}
+
 				if(pagamento == null) {
 					System.out.println("Ordine NON effettuato");
-				}
-				else {
-					String spedizione = VisualizzaProfilo.getIndirizzo();
-					if(!pagamentoIndirizzo.getCampoModifica().getText().equals("")) {
+				} else {
+					String spedizione = "";
+					if(pagamentoIndirizzo.getCampoModifica().getText().equals("")) {
+						System.out.println("Ordine NON effettuato");
+					} else {
 						spedizione = pagamentoIndirizzo.getCampoModifica().getText();
 					}
-					int puntiAccumulati = 0;
-					if(!bookMap.keySet().isEmpty()) {
-						Ordine ordine = new Ordine(id, data, bookMap, costoTotale, pagamento, email, spedizione, puntiAccumulati);
-						if(ordineDao.insertOrder(ordine) == true) {
-							System.out.println("Ordine effettuato");
-							JFrame codice = new JFrame();
-							JPanel pannello = new JPanel();
-							JLabel codiceRestituito = new JLabel(String.valueOf(id));
-							pannello.add(codiceRestituito);
-							codice.add(pannello);
-							codice.pack();
-							codice.setVisible(true);
-							codice.setResizable(false);
-						}
-					}
-					else{
-						System.out.println("Ordine NON effettuato");
-					}
 
+					int puntiAccumulati = 0;
+					for(Libro libro : listaLibri.keySet())
+						puntiAccumulati += (libro.getPunti() * listaLibri.get(libro));
+
+					Ordine ordine = new Ordine(id, data, listaLibri, costoTotale, pagamento, email, spedizione, puntiAccumulati);
+					if(ordineDao.insertOrder(ordine) == true) {
+						System.out.println("Ordine effettuato");
+						
+						//restituzione codice ordine
+						JFrame codice = new JFrame();
+						JPanel pannello = new JPanel();
+						JLabel codiceRestituito = new JLabel(String.valueOf(id));
+						pannello.add(codiceRestituito);
+						codice.add(pannello);
+						codice.pack();
+						codice.setVisible(true);
+						codice.setResizable(false);
+					}
 				}
 			}
 		}

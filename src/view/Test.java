@@ -202,6 +202,16 @@ public class Test {
         }
         */
 	}
+	
+	
+	/*private static void insertAdmin() {
+		UtenteDao admin = new UtenteDaoImpl();
+		Utente u = new Utente("admin", "admin", "admin", "3460791479", "admin", "admin");
+		admin.insertUtente(u);
+	}*/
+	
+	
+	
 
 	public static void main(String[] args) throws InterruptedException {
 		DaoManager dao = DaoManager.getInstance();
@@ -210,7 +220,7 @@ public class Test {
 		
 		//testLibro();
 		
-		testOrdine();
+		//testOrdine();
 		
 		//testClassifica();
 	}

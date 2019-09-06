@@ -25,7 +25,7 @@ public class OrdineNonRegistratoListener implements ActionListener{
 			Ordine o = ordineDao.getOrder(Integer.valueOf(View.getInstance().getCompCodiceOrdine().getText()));
 			List<Ordine> listaOrdini = new ArrayList<Ordine>();
 			listaOrdini.add(o);
-			VisualizzaOrdini visualizzaOrdine = new VisualizzaOrdini(View.getInstance(), listaOrdini);
+			VisualizzaOrdini visualizzaOrdine = new VisualizzaOrdini(listaOrdini);
 			visualizzaOrdine.getEseguiOrdine().setVisible(false);
 			//riferimenti ai card layout
 			JPanel card = View.getInstance().getCard();

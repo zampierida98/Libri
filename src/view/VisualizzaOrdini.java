@@ -21,7 +21,6 @@ public class VisualizzaOrdini extends JPanel {
 
 	private static final String[] columns = {"Data", "Lista Libri", "Costo Totale", "Pagamento", "Indirizzo spedizione", "Punti Accumulati"};
 	
-	private View frame; 
 	private List<Ordine> listaOrdini;
 	private JTable tabellaOrdini;
 	private JButton eseguiOrdine = new JButton("Esegui ordine");
@@ -31,8 +30,7 @@ public class VisualizzaOrdini extends JPanel {
 		return eseguiOrdine;
 	}
 
-	public VisualizzaOrdini(View frame, List<Ordine> listaOrdini) {
-		this.frame = frame;
+	public VisualizzaOrdini(List<Ordine> listaOrdini) {
 		this.listaOrdini = listaOrdini;
 		Object[][] data = allOrders(listaOrdini);
 		
@@ -55,7 +53,7 @@ public class VisualizzaOrdini extends JPanel {
 		this.add(new JLabel("<html><div><br><br></div></html>"));
 		eseguiOrdine.setAlignmentX(Component.CENTER_ALIGNMENT);
 		this.add(eseguiOrdine);
-		eseguiOrdine.addActionListener(new EseguiOrdineListener(frame));
+		eseguiOrdine.addActionListener(new EseguiOrdineListener(View.getInstance()));
 	}
 
 	private Object[][] allOrders(List<Ordine> listaOrdini){

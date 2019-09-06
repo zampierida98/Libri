@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import view.PagamentoIndirizzo;
 import view.View;
 
 public class ChangeCardListener implements ActionListener {
@@ -61,6 +62,7 @@ public class ChangeCardListener implements ActionListener {
 		
 		if(button.getText().equals("Esci")) {
 			//caso speciale bottone Esci (torna alle card di default)
+			PagamentoIndirizzo.clean();
 			clN.show(bottoni, frame.getDefaultNorthPanel());
 			clC.show(card, frame.getRegistrationPanel());
 			

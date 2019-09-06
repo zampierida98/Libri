@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -14,20 +15,17 @@ import controller.InviaOrdineListener;
 
 public class PagamentoIndirizzo extends JPanel{
 	
-	private String indirizzoProfilo = VisualizzaProfilo.getIndirizzo();
-	NuovoOrdine nuovoOrdine;
-	
-	//Pannello Nord:
+	//Pannello Nord
 	private static final JPanel nordPnl=new JPanel();
 	private static final JLabel lblPagamento = new JLabel("Pagamento:");
-	//Pannello Centrale:
+	//Pannello Centro
 	private static final JPanel centroPnl=new JPanel(new GridLayout(2,1));
 	private static final JRadioButton carta = new JRadioButton("CARTA");
 	private static final JRadioButton paypal = new JRadioButton("PAYPAL");
 	private static final JRadioButton contrassegno = new JRadioButton("CONTRASSEGNO");
 	private static final JRadioButton[] arrayPagamento = {carta, paypal, contrassegno};
 	private static final ButtonGroup pagamento = new ButtonGroup();
-	//Pannello Sud:
+	//Pannello Sud
 	private static final JPanel sudPnl=new JPanel();
 	private static final JLabel lblIndirizzo = new JLabel("Vuoi cambiare indirizzo?");
 	private static final JTextField campoModifica = new JTextField();
@@ -41,19 +39,14 @@ public class PagamentoIndirizzo extends JPanel{
 	public JTextField getCampoModifica() {
 		return campoModifica;
 	}
+	
+	public static void clean() {
+		campoModifica.setText(null);
+		pagamento.clearSelection();
+	}
 
 
 	public PagamentoIndirizzo(NuovoOrdine nuovoOrdine) {
-		this.nuovoOrdine = nuovoOrdine;
-		/*this.setLayout(new GridLayout(2, 4));
-		this.add();
-		this.add(carta);
-		this.add(paypal);
-		this.add(contrassegno);
-		this.add(labelIndirizzo);
-		this.add(campoModifica);
-		this.add(inviaDati);*/
-		
 		//Pannello Nord
 		nordPnl.setLayout(new GridLayout(1, 3));
 		nordPnl.add(lblPagamento);
@@ -70,6 +63,11 @@ public class PagamentoIndirizzo extends JPanel{
 		sudPnl.add(lblIndirizzo);
 		sudPnl.add(campoModifica);
 		sudPnl.add(inviaDati);
+		
+		//rimuovo i listener relativi agli ordini precedenti
+		for(ActionListener al : inviaDati.getActionListeners()) {
+			inviaDati.removeActionListener(al);
+		}
 		inviaDati.addActionListener(new InviaOrdineListener(nuovoOrdine, this));
 		
 		//Container Principale
@@ -78,22 +76,5 @@ public class PagamentoIndirizzo extends JPanel{
 		this.add(centroPnl, BorderLayout.CENTER);
 		this.add(sudPnl, BorderLayout.SOUTH);
 	}
-	
-	/*public class campoIndirizzo implements ActionListener{
-
-		private PagamentoIndirizzo pagamentoIndirizzo;
-		public campoIndirizzo(PagamentoIndirizzo pagamentoIndirizzo) {
-			this.pagamentoIndirizzo = pagamentoIndirizzo;
-		}
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JButton modificaIndirizzo = (JButton)e.getSource();
-			if(modificaIndirizzo.getText().equals("Modifica indirizzo")) {
-				pagamentoIndirizzo.getCampoModifica().setVisible(true);
-			}
-		}
-	}
-	*/
 	
 }

@@ -38,7 +38,7 @@ public class AccediListener implements ActionListener {
 		if (login) {
 			//se il login va a buon fine, visualizzo gli ordini dell'utente
 			OrdineDao ordineDao = new OrdineDaoImpl();
-			VisualizzaOrdini visualizzaOrdini = new VisualizzaOrdini(frame, ordineDao.getAllOrders(email));
+			VisualizzaOrdini visualizzaOrdini = new VisualizzaOrdini(ordineDao.getAllOrders(email));
 			VisualizzaProfilo visualizzaProfilo = new VisualizzaProfilo(utenteDao.getUser(email));
 			VisualizzaProfilo visualizzaProfilo2 = new VisualizzaProfilo(utenteDao.getUser(email));
 			ModificaProfilo modificaProfilo = new ModificaProfilo(utenteDao.getUser(email));
@@ -56,7 +56,7 @@ public class AccediListener implements ActionListener {
 			card.add(visualizzaOrdini, "Visualizza ordini");
 			card.add(modificaProfilo, "Modifica profilo");
 			clC.show(card, button.getText());
-			
+
 			frame.pack();
 		}
 		else {
