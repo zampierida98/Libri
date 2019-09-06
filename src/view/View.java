@@ -299,6 +299,7 @@ public class View extends JFrame {
 		statoLibroCardB.addActionListener(new LibroCardListener());
 		statoOrdiniB.addActionListener(new OrdiniRiservataListener());
 		esciResponsabile.addActionListener(new ChangeCardListener(this));
+		libriB.addActionListener(new ChangeCardListener(this));
 		
 		
 		

@@ -17,6 +17,7 @@ import model.OrdineDao;
 import model.OrdineDaoImpl;
 import model.UtenteDao;
 import model.UtenteDaoImpl;
+import view.InserisciLibro;
 import view.ModificaProfilo;
 import view.OrdiniResponsabile;
 import view.View;
@@ -39,7 +40,7 @@ public class OrdiniRiservataListener implements ActionListener{
 			//se il login va a buon fine, visualizzo gli ordini dell'utente
 			OrdiniResponsabile ordineResponsabile = new OrdiniResponsabile();
 			OrdiniResponsabile ordineResponsabile2 = new OrdiniResponsabile();
-			
+			InserisciLibro inserisciLibro = new InserisciLibro();
 			
 			//... INSTANZIO TUTTE I POSSIBILI PANEL (CARD) PER LE OPERAZIONI E NE FACCIO VEDERE UNO
 
@@ -47,6 +48,8 @@ public class OrdiniRiservataListener implements ActionListener{
 			JPanel card = View.getInstance().getCard();
 			card.add(ordineResponsabile, "Login area riservata");
 			card.add(ordineResponsabile2, "Ordini");
+			card.add(inserisciLibro, "Aggiungi libro");
+			
 			CardLayout clC = (CardLayout)(card.getLayout());
 			JPanel bottoni = View.getInstance().getBottoni();
 			CardLayout clN = (CardLayout)(bottoni.getLayout());
