@@ -26,6 +26,11 @@ public class VisualizzaOrdini extends JPanel {
 	private JTable tabellaOrdini;
 	private JButton eseguiOrdine = new JButton("Esegui ordine");
 	
+	
+	public JButton getEseguiOrdine() {
+		return eseguiOrdine;
+	}
+
 	public VisualizzaOrdini(View frame, List<Ordine> listaOrdini) {
 		this.frame = frame;
 		this.listaOrdini = listaOrdini;
@@ -50,7 +55,7 @@ public class VisualizzaOrdini extends JPanel {
 		this.add(new JLabel("<html><div><br><br></div></html>"));
 		eseguiOrdine.setAlignmentX(Component.CENTER_ALIGNMENT);
 		this.add(eseguiOrdine);
-		eseguiOrdine.addActionListener(new EseguiOrdineListener(frame, this));
+		eseguiOrdine.addActionListener(new EseguiOrdineListener(frame));
 	}
 
 	private Object[][] allOrders(List<Ordine> listaOrdini){
@@ -99,7 +104,8 @@ public class VisualizzaOrdini extends JPanel {
 	private void resizeRowHeight() {
 		int riga = 1;
 		for(Ordine ordine : this.listaOrdini){
-			this.tabellaOrdini.setRowHeight(riga, ordine.getListaLibri().size() * 16);
+			if(ordine.getListaLibri().size()>0)
+				this.tabellaOrdini.setRowHeight(riga, ordine.getListaLibri().size() * 16);
 			riga++;
 		}
 	}

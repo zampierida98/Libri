@@ -26,7 +26,7 @@ public class PagamentoIndirizzoListener implements ActionListener{
 		JButton eseguiOrdine = (JButton)e.getSource();
 		PagamentoIndirizzo pagamentoIndirizzo = new PagamentoIndirizzo(nuovoOrdine);
 		
-		JPanel card = View.getCard();
+		JPanel card = View.getInstance().getCard();
 		card.add(pagamentoIndirizzo, "Ordina");
 		CardLayout clC = (CardLayout)(card.getLayout());
 		clC.show(card, eseguiOrdine.getText());

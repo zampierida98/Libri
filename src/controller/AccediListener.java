@@ -56,7 +56,7 @@ public class AccediListener implements ActionListener {
 			card.add(visualizzaOrdini, "Visualizza ordini");
 			card.add(modificaProfilo, "Modifica profilo");
 			clC.show(card, button.getText());
-			
+
 			frame.pack();
 		}
 		else {
