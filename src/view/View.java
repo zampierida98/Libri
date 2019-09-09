@@ -84,12 +84,12 @@ public class View extends JFrame {
 	//card autenticazione riservata
 	private static final JPanel loginRiservata = new JPanel(new GridLayout(3, 2));
 	private static final JPanel loginA = new JPanel(new GridLayout(3, 2));
-	private static final JLabel emailA = new JLabel("Username: ");
-	private static final JTextField compEmailA = new JTextField();
+	private static final JLabel usernameA = new JLabel("Username: ");
+	private static final JTextField compUsernameA = new JTextField();
 	private static final JLabel pwdA = new JLabel("Password: ");
 	private static final JPasswordField compPwdA = new JPasswordField();
 	private static final JButton loginBA = new JButton("Login area riservata");
-	private static final JTextField[] tfArrayAA = {compEmailA, compPwdA};
+	private static final JTextField[] tfArrayAA = {compUsernameA, compPwdA};
 	
 	//card autenticazione
 	private static final JPanel login = new JPanel(new GridLayout(3, 2));
@@ -203,12 +203,16 @@ public class View extends JFrame {
 		operazioniResponsabile.add(classificheB);
 		operazioniResponsabile.add(esciResponsabile);
 		// - center (area riservata)
-		loginRiservata.add(emailA);
-		loginRiservata.add(compEmailA);
+		compUsernameA.setHorizontalAlignment(JTextField.CENTER);
+		compPwdA.setHorizontalAlignment(JTextField.CENTER);
+		loginRiservata.add(usernameA);
+		loginRiservata.add(compUsernameA);
 		loginRiservata.add(pwdA);
 		loginRiservata.add(compPwdA);
 		loginRiservata.add(loginBA);
 		// - center (login)
+		compEmail.setHorizontalAlignment(JTextField.CENTER);
+		compPwd.setHorizontalAlignment(JTextField.CENTER);
 		login.add(email);
 		login.add(compEmail);
 		login.add(pwd);

@@ -90,6 +90,7 @@ public class InviaOrdineListener implements ActionListener{
 
 				if(pagamento == null) {
 					System.out.println("Ordine NON effettuato");
+					return;
 				} else {
 					String spedizione = VisualizzaProfilo.getIndirizzo();
 					if(!pagamentoIndirizzo.getCampoModifica().getText().equals("")) {
@@ -132,10 +133,12 @@ public class InviaOrdineListener implements ActionListener{
 
 				if(pagamento == null) {
 					System.out.println("Ordine NON effettuato");
+					return;
 				} else {
 					String spedizione = "";
 					if(pagamentoIndirizzo.getCampoModifica().getText().equals("")) {
 						System.out.println("Ordine NON effettuato");
+						return;
 					} else {
 						spedizione = pagamentoIndirizzo.getCampoModifica().getText();
 					}
@@ -157,7 +160,7 @@ public class InviaOrdineListener implements ActionListener{
 						JLabel rigaVuota1 = new JLabel("<html><div><br></div></html>");
 						JLabel codiceRestituito = new JLabel(String.valueOf(id));
 						JLabel rigaVuota2 = new JLabel("<html><div><br></div></html>");
-						JLabel messaggio = new JLabel("Attenzione: salvalo per accedere ai dati dell'ordine successivamente!");
+						JLabel messaggio = new JLabel("Salvalo per accedere ai dati dell'ordine successivamente!");
 						
 						titolo.setAlignmentX(Component.CENTER_ALIGNMENT);
 						codiceRestituito.setAlignmentX(Component.CENTER_ALIGNMENT);
