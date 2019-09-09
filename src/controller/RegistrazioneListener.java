@@ -42,7 +42,7 @@ public class RegistrazioneListener implements ActionListener	{
 		
 		//controlli
 		for(int i = 0; i < tfArray.length; i++) {
-			if(tfArray[i].getText() == null)
+			if(tfArray[i].getText().isEmpty())
 				return;
 		}
 		if(!email.contains("@") || !email.contains("."))

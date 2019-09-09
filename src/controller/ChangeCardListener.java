@@ -23,7 +23,11 @@ public class ChangeCardListener implements ActionListener {
 		JButton button = (JButton)e.getSource();
 		
 		//pulisco tutti i campi di testo
-		JTextField[] tfArray = frame.getTfArrayA();
+		JTextField[] tfArray = frame.getTfArrayAA();
+		for(JTextField tf: tfArray) {
+			tf.setText(null);
+		}
+		tfArray = frame.getTfArrayA();
 		for(JTextField tf: tfArray) {
 			tf.setText(null);
 		}

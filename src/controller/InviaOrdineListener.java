@@ -1,5 +1,8 @@
 package controller;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
@@ -7,6 +10,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashMap;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -15,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import javafx.scene.shape.Box;
 import model.Libro;
 import model.LibroCard;
 import model.LibroCardDao;
@@ -33,12 +38,10 @@ public class InviaOrdineListener implements ActionListener{
 	private PagamentoIndirizzo pagamentoIndirizzo;
 	private HashMap<Libro, Integer> bookMap = new HashMap<Libro, Integer>();
 
-
 	public InviaOrdineListener(NuovoOrdine nuovoOrdine, PagamentoIndirizzo pagamentoIndirizzo) {
 		this.nuovoOrdine = nuovoOrdine;
 		this.pagamentoIndirizzo = pagamentoIndirizzo;
 	}
-
 
 	public void setBookMap() {
 		for(Libro libro : nuovoOrdine.getArrayLibri()) {
@@ -49,27 +52,6 @@ public class InviaOrdineListener implements ActionListener{
 			}
 		}
 	}
-
-	/*
-	private int idOrdine;
-	private Date data;
-	private HashMap<Libro, Integer> listaLibri;
-	private double costoTotale;
-	private Pagamento pagamento;
-	private String email;
-	private String spedizione;
-	private int puntiAccumulati;
-
-	int id1 = (int) Instant.now().getEpochSecond();
-    HashMap<Libro, Integer> ll1 = new HashMap<Libro, Integer>();
-    ll1.put(l1, 1);
-    ll1.put(l2, 3);
-    double tot1 = l1.getPrezzo() + (l2.getPrezzo() * 3);
-    int p1 = libroCardDao.getLibroCard("zampierida98@gmail.com").getSaldoPunti() + l1.getPunti() + (l2.getPunti() * 3);
-
-    Ordine o1 = new Ordine(id1, Date.valueOf(LocalDate.now()), ll1, tot1, Pagamento.CARTA, "zampierida98@gmail.com", u1.getIndirizzo(), p1);
-    ordineDao.insertOrder(o1);
-	 */
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -87,7 +69,6 @@ public class InviaOrdineListener implements ActionListener{
 				int id = (int) Instant.now().getEpochSecond();
 				Date data = Date.valueOf(LocalDate.now());
 				String email = VisualizzaProfilo.getEmail();
-				System.out.println(email);
 
 				HashMap<Libro, Integer> listaLibri = new HashMap<Libro, Integer>();
 				int costoTotale = 0;
@@ -130,7 +111,6 @@ public class InviaOrdineListener implements ActionListener{
 				int id = (int) Instant.now().getEpochSecond();
 				Date data = Date.valueOf(LocalDate.now());
 				String email = nuovoOrdine.getEmail().getText();
-				System.out.println(email);
 
 				HashMap<Libro, Integer> listaLibri = new HashMap<Libro, Integer>();
 				int costoTotale = 0;
@@ -170,13 +150,30 @@ public class InviaOrdineListener implements ActionListener{
 						
 						//restituzione codice ordine
 						JFrame codice = new JFrame();
+						
 						JPanel pannello = new JPanel();
+						pannello.setLayout(new BoxLayout(pannello, BoxLayout.Y_AXIS));
+						JLabel titolo = new JLabel("Il codice del tuo ordine è:");
+						JLabel rigaVuota1 = new JLabel("<html><div><br></div></html>");
 						JLabel codiceRestituito = new JLabel(String.valueOf(id));
+						JLabel rigaVuota2 = new JLabel("<html><div><br></div></html>");
+						JLabel messaggio = new JLabel("Attenzione: salvalo per accedere ai dati dell'ordine successivamente!");
+						
+						titolo.setAlignmentX(Component.CENTER_ALIGNMENT);
+						codiceRestituito.setAlignmentX(Component.CENTER_ALIGNMENT);
+						codiceRestituito.setForeground(Color.RED);
+						messaggio.setAlignmentX(Component.CENTER_ALIGNMENT);
+						pannello.add(titolo);
+						pannello.add(rigaVuota1);
 						pannello.add(codiceRestituito);
+						pannello.add(rigaVuota2);
+						pannello.add(messaggio);
+						
 						codice.add(pannello);
 						codice.pack();
-						codice.setVisible(true);
 						codice.setResizable(false);
+						codice.setLocationRelativeTo(null);
+						codice.setVisible(true);
 					}
 				}
 			}
