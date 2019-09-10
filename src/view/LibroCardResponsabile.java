@@ -9,19 +9,38 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-import model.Libro;
 import model.LibroCard;
 import model.LibroCardDao;
 import model.LibroCardDaoImpl;
-import model.Ordine;
 
-public class LibroCardRiservata extends JPanel{
-	private LibroCardDao libroCardDao = new LibroCardDaoImpl();
-	private List<LibroCard> listLibroCard = libroCardDao.getAllLibroCard();
-	private String[] columns = {"Numero identificativo ","Data di emissione", "Saldo Punti", "Email"};
+public class LibroCardResponsabile extends JPanel {
 	
-	private Object[][] allCards(List<LibroCard> listaCard){
-		Object[][] cards = new Object[listaCard.size()+1][4];
+	private static final String[] columns = {"Numero identificativo", "Data di emissione", "Saldo punti", "Email"};
+ 
+	private List<LibroCard> listaLibroCard;
+	
+	public LibroCardResponsabile() {
+		LibroCardDao libroCardDao = new LibroCardDaoImpl();
+		this.listaLibroCard = libroCardDao.getAllLibroCard();
+		
+		//creo una JTable non modificabile
+		Object[][] data = allCards();
+		JTable tabellaCard = new JTable();
+		DefaultTableModel tableModel = new DefaultTableModel(data, columns) {
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
+		tabellaCard.setModel(tableModel);
+		
+		resizeColumnWidth(tabellaCard);
+		tabellaCard.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+		this.add(tabellaCard);
+	}
+	
+	private Object[][] allCards(){
+		Object[][] cards = new Object[listaLibroCard.size()+1][4];
 		
 		//intestazione colonne
 		for(int c = 0; c < columns.length; c++)
@@ -29,7 +48,7 @@ public class LibroCardRiservata extends JPanel{
 		
 		//riempimento righe
 		int i = 1;
-		for(LibroCard libroCard : listaCard){
+		for(LibroCard libroCard : listaLibroCard){
 			cards[i][0] = libroCard.getIdLibroCard();
 			cards[i][1] = libroCard.getDataEmissione();
 			cards[i][2] = libroCard.getSaldoPunti();
@@ -39,10 +58,8 @@ public class LibroCardRiservata extends JPanel{
 		
 		return cards;
 	}
-	
-	
-	
-	public void resizeColumnWidth(JTable table) {
+
+	private void resizeColumnWidth(JTable table) {
 		final TableColumnModel columnModel = table.getColumnModel();
 		for (int column = 0; column < table.getColumnCount(); column++) {
 			int width = 15;
@@ -57,21 +74,4 @@ public class LibroCardRiservata extends JPanel{
 		}
 	}
 
-	
-	public LibroCardRiservata() {
-		//creo una JTable non modificabile
-		Object[][] data = allCards(listLibroCard);
-		JTable tabellaCard = new JTable();
-		DefaultTableModel tableModel = new DefaultTableModel(data, columns) {
-		    @Override
-		    public boolean isCellEditable(int row, int column) {
-		       return false;
-		    }
-		};
-		tabellaCard.setModel(tableModel);
-		
-		resizeColumnWidth(tabellaCard);
-		tabellaCard.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-		this.add(tabellaCard);
-	}
 }

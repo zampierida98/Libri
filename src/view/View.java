@@ -17,9 +17,9 @@ import javax.swing.JTextField;
 import controller.AccediListener;
 import controller.ChangeCardListener;
 import controller.EseguiOrdineListener;
-import controller.LibroCardListener;
+import controller.LibroCardResponsabileListener;
 import controller.OrdineNonRegistratoListener;
-import controller.OrdiniRiservataListener;
+import controller.AccediResponsabileListener;
 import controller.RegistrazioneListener;
 
 public class View extends JFrame {
@@ -49,6 +49,7 @@ public class View extends JFrame {
 	private static final String DEFAULT_NORTH_PANEL = "Default";
 	private static final String REG_USER_PANEL = "Registrati";
 	private static final String NOT_REG_USER_PANEL = "Non registrati";
+	private static final String RESP_PANEL = "Login area riservata";
 	private static final String REGISTRATION_PANEL = "Registrazione";
 	private static Dimension DEFAULT_DIM;
 	
@@ -73,7 +74,7 @@ public class View extends JFrame {
 	private static final JButton codiceOrdineB = new JButton("Visualizza un ordine");
 	private static final JButton esciUtenteNonR = new JButton("Esci");
 
-	//bottoni cambia card (utente registrato)
+	//bottoni cambia card (responsabile)
 	private static final JPanel operazioniResponsabile = new JPanel(new FlowLayout());
 	private static final JButton statoOrdiniB = new JButton("Ordini");
 	private static final JButton statoLibroCardB = new JButton("Libro Card");
@@ -81,17 +82,16 @@ public class View extends JFrame {
 	private static final JButton classificheB = new JButton("Aggiorna classifiche");
 	private static final JButton esciResponsabile = new JButton("Esci");
 	
-	//card autenticazione riservata
-	private static final JPanel loginRiservata = new JPanel(new GridLayout(3, 2));
-	private static final JPanel loginA = new JPanel(new GridLayout(3, 2));
-	private static final JLabel usernameA = new JLabel("Username: ");
-	private static final JTextField compUsernameA = new JTextField();
-	private static final JLabel pwdA = new JLabel("Password: ");
-	private static final JPasswordField compPwdA = new JPasswordField();
-	private static final JButton loginBA = new JButton("Login area riservata");
-	private static final JTextField[] tfArrayAA = {compUsernameA, compPwdA};
+	//card autenticazione (responsabile)
+	private static final JPanel loginAR = new JPanel(new GridLayout(3, 2));
+	private static final JLabel usernameAR = new JLabel("Username: ");
+	private static final JTextField compUsernameAR = new JTextField();
+	private static final JLabel pwdAR = new JLabel("Password: ");
+	private static final JPasswordField compPwdAR = new JPasswordField();
+	private static final JButton loginBAR = new JButton("Login area riservata");
+	private static final JTextField[] tfArrayAR = {compUsernameAR, compPwdAR};
 	
-	//card autenticazione
+	//card autenticazione (utente registrato)
 	private static final JPanel login = new JPanel(new GridLayout(3, 2));
 	private static final JLabel email = new JLabel("E-mail: ");
 	private static final JTextField compEmail = new JTextField();
@@ -164,12 +164,12 @@ public class View extends JFrame {
 		return REGISTRATION_PANEL;
 	}
 	
-	public Dimension getDefaultDim() {
-		return DEFAULT_DIM;
+	public String getRespPanel() {
+		return RESP_PANEL;
 	}
 	
-	public JTextField[] getTfArrayAA() {
-		return tfArrayAA;
+	public Dimension getDefaultDim() {
+		return DEFAULT_DIM;
 	}
 
 	public JTextField[] getTfArrayA() {
@@ -178,6 +178,10 @@ public class View extends JFrame {
 
 	public JTextField[] getTfArrayR() {
 		return tfArrayR;
+	}
+	
+	public JTextField[] getTfArrayAR() {
+		return tfArrayAR;
 	}
 	
 	
@@ -203,13 +207,13 @@ public class View extends JFrame {
 		operazioniResponsabile.add(classificheB);
 		operazioniResponsabile.add(esciResponsabile);
 		// - center (area riservata)
-		compUsernameA.setHorizontalAlignment(JTextField.CENTER);
-		compPwdA.setHorizontalAlignment(JTextField.CENTER);
-		loginRiservata.add(usernameA);
-		loginRiservata.add(compUsernameA);
-		loginRiservata.add(pwdA);
-		loginRiservata.add(compPwdA);
-		loginRiservata.add(loginBA);
+		compUsernameAR.setHorizontalAlignment(JTextField.CENTER);
+		compPwdAR.setHorizontalAlignment(JTextField.CENTER);
+		loginAR.add(usernameAR);
+		loginAR.add(compUsernameAR);
+		loginAR.add(pwdAR);
+		loginAR.add(compPwdAR);
+		loginAR.add(loginBAR);
 		// - center (login)
 		compEmail.setHorizontalAlignment(JTextField.CENTER);
 		compPwd.setHorizontalAlignment(JTextField.CENTER);
@@ -248,12 +252,12 @@ public class View extends JFrame {
 		bottoni.add(cambiaCard, DEFAULT_NORTH_PANEL);
 		bottoni.add(operazioniUtenteR, REG_USER_PANEL);
 		bottoni.add(operazioniUtenteNonR, NOT_REG_USER_PANEL);
-		bottoni.add(operazioniResponsabile, "Login area riservata");
+		bottoni.add(operazioniResponsabile, RESP_PANEL);
 		// - center
 		card.add(registrazione, REGISTRATION_PANEL);
 		card.add(login, "Autenticazione");
 		card.add(utentiNonRegistrati, NOT_REG_USER_PANEL);
-		card.add(loginRiservata, "Area Riservata");
+		card.add(loginAR, "Area Riservata");
 		
 		//listener:
 		// - pagina iniziale
@@ -270,15 +274,16 @@ public class View extends JFrame {
 		esciUtenteR.addActionListener(new ChangeCardListener(this));
 		// - utente non registrato
 		ordineB.addActionListener(new EseguiOrdineListener(this));
-		accediOrdineB.addActionListener(new OrdineNonRegistratoListener());
+		accediOrdineB.addActionListener(new OrdineNonRegistratoListener(this));
 		codiceOrdineB.addActionListener(new ChangeCardListener(this));
 		esciUtenteNonR.addActionListener(new ChangeCardListener(this));
 		// - responsabile
-		loginBA.addActionListener(new OrdiniRiservataListener());
-		statoLibroCardB.addActionListener(new LibroCardListener());
-		statoOrdiniB.addActionListener(new OrdiniRiservataListener());
-		esciResponsabile.addActionListener(new ChangeCardListener(this));
+		loginBAR.addActionListener(new AccediResponsabileListener(this));
+		statoLibroCardB.addActionListener(new LibroCardResponsabileListener(this));
+		statoOrdiniB.addActionListener(new ChangeCardListener(this));
 		libriB.addActionListener(new ChangeCardListener(this));
+		classificheB.addActionListener(new ChangeCardListener(this));
+		esciResponsabile.addActionListener(new ChangeCardListener(this));
 
 		//visualizzazione pannelli
 		this.getContentPane().add(bottoni, BorderLayout.NORTH);

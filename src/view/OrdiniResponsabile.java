@@ -10,7 +10,7 @@ import java.util.Set;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import controller.VisualizzaOrdiniUtentiListener;
+import controller.OrdiniResponsabileListener;
 import model.Ordine;
 import model.OrdineDao;
 import model.OrdineDaoImpl;
@@ -47,7 +47,7 @@ public class OrdiniResponsabile extends JPanel {
 		CardLayout clC = (CardLayout)centroPnl.getLayout();
 		clC.show(centroPnl, emailSelezionata);
 
-		addEmail.addActionListener(new VisualizzaOrdiniUtentiListener(this));
+		addEmail.addActionListener(new OrdiniResponsabileListener(this));
 	}
 	
 }

@@ -16,13 +16,13 @@ import view.OrdiniResponsabile;
 import view.View;
 import view.VisualizzaOrdini;
 
-public class VisualizzaOrdiniUtentiListener implements ActionListener{
+public class OrdiniResponsabileListener implements ActionListener {
 
-	private OrdiniResponsabile ordiniResponsabili;
+	private OrdiniResponsabile ordiniResponsabile;
 	private HashMap<String, List<Ordine>> allOrdersMap;
 	
-	public VisualizzaOrdiniUtentiListener(OrdiniResponsabile ordiniResponsabili) {
-		this.ordiniResponsabili = ordiniResponsabili;
+	public OrdiniResponsabileListener(OrdiniResponsabile ordiniResponsabile) {
+		this.ordiniResponsabile = ordiniResponsabile;
 		
 		OrdineDao ordineDao = new OrdineDaoImpl();
 		this.allOrdersMap = ordineDao.getOrdersStatus();
@@ -37,7 +37,7 @@ public class VisualizzaOrdiniUtentiListener implements ActionListener{
 		VisualizzaOrdini visualizzaOrdini = new VisualizzaOrdini(listaOrdini);
 		visualizzaOrdini.getEseguiOrdine().setVisible(false);
 		
-		JPanel card = ordiniResponsabili.getCard();
+		JPanel card = ordiniResponsabile.getCard();
 		card.add(visualizzaOrdini, emailSelezionata);
 		CardLayout clC = (CardLayout)card.getLayout();
 		clC.show(card, emailSelezionata);

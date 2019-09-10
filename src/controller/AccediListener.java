@@ -37,8 +37,15 @@ public class AccediListener implements ActionListener {
 			JTextField[] tfArray = frame.getTfArrayA();
 			String email = tfArray[0].getText();
 			String password = tfArray[1].getText();
-			boolean login = utenteDao.login(email, password);
 			
+			//controllo
+			if(!email.contains("@") || !email.contains(".")) {
+				tfArray[0].setText(null);
+				tfArray[1].setText(null);
+				return;
+			}
+			
+			boolean login = utenteDao.login(email, password);
 			if(login) {
 				VisualizzaProfilo visualizzaProfilo = new VisualizzaProfilo(utenteDao.getUser(email));
 				VisualizzaProfilo visualizzaProfilo2 = new VisualizzaProfilo(utenteDao.getUser(email));
