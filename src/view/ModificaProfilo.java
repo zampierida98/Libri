@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Component;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -14,61 +13,55 @@ import model.Utente;
 
 public class ModificaProfilo extends JPanel {
 	
-	private String[] arrayLabel = {"Nome: ", "Cognome: ", "Indirizzo: ", "Telefono: ", "Password: "};
 	private String email;
 	private JTextField nome = new JTextField();
 	private JTextField cognome = new JTextField();
 	private JTextField indirizzo = new JTextField();
 	private JTextField telefono = new JTextField();
 	private JTextField password = new JTextField();
+	private JTextField[] tfArray = {nome, cognome, indirizzo, telefono, password};
 	private JLabel response = new JLabel("", SwingConstants.CENTER);
 	private JButton modificaProfiloButton = new JButton("Modifica Dati");
 	
 	public String getEmail() {
 		return email;
 	}
-	
-	public JTextField getNome() {
-		return nome;
-	}
 
-	public JTextField getCognome() {
-		return cognome;
-	}
-
-	public JTextField getIndirizzo() {
-		return indirizzo;
-	}
-
-	public JTextField getTelefono() {
-		return telefono;
-	}
-
-	public JTextField getPassword() {
-		return password;
-	}
-	
-	public JButton getModificaProfiloButton() {
-		return modificaProfiloButton;
+	public JTextField[] getTfArray() {
+		return tfArray;
 	}
 
 	public JLabel getResponse() {
 		return response;
 	}
 	
-	public ModificaProfilo(Utente u) {
-		this.setLayout(new GridLayout(7, 2));
-		this.email = u.getEmail();
-		String[] utente = {u.getNome(), u.getCognome(), u.getIndirizzo(), u.getTelefono(),  u.getPassword() };
-		JTextField[] modificaCampi = {nome, cognome, indirizzo, telefono, password};
-		for(int i = 0; i < arrayLabel.length; i++) {
-			JLabel campo = new JLabel(arrayLabel[i]);
-			this.add(campo);
-			modificaCampi[i].setText(utente[i]);
-			this.add(modificaCampi[i]);
-		}
+	public ModificaProfilo(Utente utente) {
+		this.email = utente.getEmail();
+		this.setLayout(new GridLayout(6,2));
+
+		this.add(new JLabel("Nome:"));
+		nome.setText(utente.getNome());
+		this.add(nome);
+		
+		this.add(new JLabel("Cognome:"));
+		cognome.setText(utente.getCognome());
+		this.add(cognome);
+		
+		this.add(new JLabel("Indirizzo:"));
+		indirizzo.setText(utente.getIndirizzo());
+		this.add(indirizzo);
+		
+		this.add(new JLabel("Telefono:"));
+		telefono.setText(utente.getTelefono());
+		this.add(telefono);
+		
+		this.add(new JLabel("Password:"));
+		password.setText(utente.getPassword());
+		this.add(password);
+		
 		this.add(modificaProfiloButton);
 		this.add(response);
 		modificaProfiloButton.addActionListener(new ModificaProfiloListener(this));
 	}
+	
 }

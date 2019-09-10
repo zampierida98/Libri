@@ -12,7 +12,7 @@ import view.NuovoOrdine;
 import view.PagamentoIndirizzo;
 import view.View;
 
-public class PagamentoIndirizzoListener implements ActionListener{
+public class PagamentoIndirizzoListener implements ActionListener {
 
 	private NuovoOrdine nuovoOrdine;
 	
@@ -22,18 +22,21 @@ public class PagamentoIndirizzoListener implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		JButton eseguiOrdine = (JButton)e.getSource();
+		JButton button = (JButton)e.getSource();
 		PagamentoIndirizzo pagamentoIndirizzo = new PagamentoIndirizzo(nuovoOrdine);
+		
+		if(nuovoOrdine.getEmail().isEnabled())
+			pagamentoIndirizzo.getLblIndirizzo().setText("Inserisci l'indirizzo:");
+		else
+			pagamentoIndirizzo.getLblIndirizzo().setText("Vuoi cambiare indirizzo?");
 		
 		JPanel card = View.getInstance().getCard();
 		card.add(pagamentoIndirizzo, "Ordina");
 		CardLayout clC = (CardLayout)(card.getLayout());
-		clC.show(card, eseguiOrdine.getText());
+		clC.show(card, button.getText());
 		
 		Dimension d = View.getInstance().getDefaultDim();
 		View.getInstance().setSize(d);
-		//View.getFrame().pack();
 	}
 
 }

@@ -2,7 +2,6 @@ package controller;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
@@ -19,7 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import javafx.scene.shape.Box;
 import model.Libro;
 import model.LibroCard;
 import model.LibroCardDao;

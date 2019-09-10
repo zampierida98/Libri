@@ -1,28 +1,25 @@
 package controller;
 
-import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.time.LocalDate;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.apache.derby.iapi.util.JBitSet;
 
 import model.LibroCard;
 import model.LibroCardDao;
 import model.LibroCardDaoImpl;
-import model.OrdineDao;
-import model.OrdineDaoImpl;
 import model.Utente;
 import model.UtenteDao;
 import model.UtenteDaoImpl;
 import view.View;
-import view.VisualizzaOrdini;
 
 
-public class RegistrazioneListener implements ActionListener	{
+public class RegistrazioneListener implements ActionListener {
 	
 	private View frame;
 	
@@ -59,23 +56,13 @@ public class RegistrazioneListener implements ActionListener	{
 		LibroCardDao libroCardDao = new LibroCardDaoImpl();
 		if(libroCardDao.insertLibroCard(libroCardUtente) == false)
 			return;
-		/*
-		//visualizzo gli ordini dell'utente
-		OrdineDao ordineDao = new OrdineDaoImpl();
-		VisualizzaOrdini visualizzaOrdini = new VisualizzaOrdini(ordineDao.getAllOrders(email));
 		
-		//riferimenti ai card layout
-		JPanel card = frame.getCard();
-		CardLayout clC = (CardLayout)(card.getLayout());
-		JPanel bottoni = frame.getBottoni();
-		CardLayout clN = (CardLayout)(bottoni.getLayout());
-		
-		clN.show(bottoni, frame.getRegUserPanel());
-		card.add(visualizzaOrdini, button.getText());
-		clC.show(card, button.getText());
-		
-		frame.pack();
-		*/
+		//accesso
+		tfArray = frame.getTfArrayA();
+		tfArray[0].setText(email);
+		tfArray[1].setText(password);
+		AccediListener accedi = new AccediListener(frame);
+		accedi.actionPerformed(e);
 	}
 
 }
