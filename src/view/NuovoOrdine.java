@@ -12,7 +12,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
+import controller.DettagliLibroListener;
 import controller.PagamentoIndirizzoListener;
 import model.Libro;
 import model.LibroDao;
@@ -23,11 +25,13 @@ public class NuovoOrdine extends JPanel {
 	private List<Libro> arrayLibri;
 
 	private JPanel nordPnl = new JPanel();
-	private JLabel campoEmail = new JLabel("Inserisci email: ");
+	private JLabel campoEmail = new JLabel("Inserisci email: ", SwingConstants.RIGHT);
 	private JTextField email = new JTextField();
 
 	private JPanel centroPnl = new JPanel();
+	private JLabel lblQuantita = new JLabel("Quantità:", SwingConstants.CENTER);
 	private HashMap<Libro, JCheckBox> mapLibro = new HashMap<Libro, JCheckBox>();
+	private HashMap<JLabel, Libro> mapTitoli = new HashMap<JLabel, Libro>();
 	private static final Integer[] quantitaOrdinabile = {0,1,2,3,4,5,6,7,8,9};
 	private HashMap<Libro, JComboBox> mapQuantita = new HashMap<Libro, JComboBox>();
 	
@@ -50,6 +54,10 @@ public class NuovoOrdine extends JPanel {
 	public HashMap<Libro, JCheckBox> getMapLibro() {
 		return mapLibro;
 	}
+	
+	public HashMap<JLabel, Libro> getMapTitoli() {
+		return mapTitoli;
+	}
 
 	public HashMap<Libro, JComboBox> getMapQuantita() {
 		return mapQuantita;
@@ -62,24 +70,33 @@ public class NuovoOrdine extends JPanel {
 		this.arrayLibri = arrayLibri;
 
 		//Pannello Nord
-		nordPnl.setLayout(new GridLayout(1,2));
+		nordPnl.setLayout(new GridLayout(1,3));
 		nordPnl.add(campoEmail);
 		nordPnl.add(email);
+		nordPnl.add(new JLabel("<html><div><br></div></html>"));
 
 		//Pannello Centro
-		centroPnl.setLayout(new GridLayout(arrayLibri.size(), 3));
+		centroPnl.setLayout(new GridLayout(arrayLibri.size()+1, 3));
+		centroPnl.add(new JLabel("<html><div><br></div></html>"));
+		centroPnl.add(new JLabel("<html><div><br></div></html>"));
+		centroPnl.add(lblQuantita);
 		for(int indiceCheckBox = 0; indiceCheckBox < arrayLibri.size(); indiceCheckBox++) {
-			//configurazione CheckBox e label prezzo
+			//configurazione CheckBox
 			Libro libro = arrayLibri.get(indiceCheckBox);
 			JCheckBox checkBox = new JCheckBox(libro.getTitolo());
 			mapLibro.put(libro, checkBox);
 			centroPnl.add(checkBox);
-			JLabel prezzo = new JLabel(String.format("%.2f €", libro.getPrezzo()));
+			
+			//configurazione label prezzo
+			JLabel prezzo = new JLabel("<html><div>" + String.format("%.2f € ", libro.getPrezzo()) + "<u>+</u></div></html>");
 			prezzo.setHorizontalAlignment(JLabel.CENTER);
+			prezzo.addMouseListener(new DettagliLibroListener(this));
+			mapTitoli.put(prezzo, libro);
 			centroPnl.add(prezzo);
 
 			//configurazione ComboBox
 			JComboBox<Integer> addNumeroLibri = new JComboBox<Integer>(quantitaOrdinabile);
+			((JLabel)addNumeroLibri.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
 			mapQuantita.put(libro, addNumeroLibri);
 			centroPnl.add(addNumeroLibri);
 		}

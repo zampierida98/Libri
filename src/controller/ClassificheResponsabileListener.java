@@ -15,6 +15,7 @@ import model.Libro;
 import model.LibroDao;
 import model.LibroDaoImpl;
 import view.ClassificheResponsabile;
+import view.View;
 
 public class ClassificheResponsabileListener implements ActionListener {
 
@@ -69,6 +70,8 @@ public class ClassificheResponsabileListener implements ActionListener {
 				Classifica c = new Classifica(libro.getISBN(), Integer.valueOf(posizione), 0);
 				classificaDao.insertClassifica(c);
 			}
+			
+			View.getInstance().pack();
 			
 			//DEBUG
 			mapClassifiche = classificaDao.getClassifiche();

@@ -29,7 +29,7 @@ public class InserisciLibro extends JPanel{
 	private static final JTextField campoPrezzo = new JTextField();
 	private static final JTextField campoDescrizione = new JTextField();
 	private static final JTextField campoPunti = new JTextField();
-	private static final JButton inviaLibro = new JButton("Invia libro");
+	private JButton inviaLibro = new JButton("Invia libro");
 	private static final JTextField[] tfArrayLibro = {campoISBN, campoTitolo, campoAutori, campoCasaEditrice, campoAnnoPubblicazione, campoGenere, campoPrezzo, campoDescrizione, campoPunti};
 
 	public JTextField[] getTfArrayLibro() {
