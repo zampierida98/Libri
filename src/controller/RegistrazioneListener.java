@@ -4,11 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import javax.swing.JButton;
 import javax.swing.JTextField;
-
-import org.apache.derby.iapi.util.JBitSet;
 
 import model.LibroCard;
 import model.LibroCardDao;
@@ -42,7 +41,18 @@ public class RegistrazioneListener implements ActionListener {
 			if(tfArray[i].getText().isEmpty())
 				return;
 		}
+		
 		if(!email.contains("@") || !email.contains("."))
+			return;
+		
+		Pattern p = Pattern.compile("[0-9]+");
+        Matcher m = p.matcher(tfArray[3].getText());
+		if(!m.matches())
+			return;
+		
+		p = Pattern.compile("[0-9.+-/]+");
+        m = p.matcher(telefono);
+		if(!m.matches())
 			return;
 		
 		//salvataggio dati utente

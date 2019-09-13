@@ -2,6 +2,8 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -42,6 +44,13 @@ public class ModificaProfiloListener implements ActionListener {
 					modificaProfilo.getResponse().setText("Modifica NON effettuata");
 					return;
 				}
+			}
+
+			Pattern p = Pattern.compile("[0-9.+-/]+");
+			Matcher m = p.matcher(telefono);
+			if(!m.matches()) {
+				modificaProfilo.getResponse().setText("Modifica NON effettuata");
+				return;
 			}
 			
 			UtenteDao utenteDao = new UtenteDaoImpl();

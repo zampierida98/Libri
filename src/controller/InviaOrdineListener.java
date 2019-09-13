@@ -150,7 +150,7 @@ public class InviaOrdineListener implements ActionListener{
 						System.out.println("Ordine effettuato");
 						
 						//restituzione codice ordine
-						JFrame codice = new JFrame();
+						JFrame codice = new JFrame("Codice ordine");
 						
 						JPanel pannello = new JPanel();
 						pannello.setLayout(new BoxLayout(pannello, BoxLayout.Y_AXIS));

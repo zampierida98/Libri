@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Cursor;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -10,6 +11,7 @@ import javax.swing.JPanel;
 
 import model.Libro;
 import view.NuovoOrdine;
+import view.View;
 
 public class DettagliLibroListener implements MouseListener {
 	
@@ -34,7 +36,7 @@ public class DettagliLibroListener implements MouseListener {
 		Libro libro = nuovoOrdine.getMapTitoli().get(libroPremuto);
 		
 		//creazione finestra per mostrare tutti i dati del libro
-		JFrame dettagli = new JFrame();
+		JFrame dettagli = new JFrame(libro.getTitolo());
 		
 		JPanel pannello = new JPanel();
 		pannello.setLayout(new GridLayout(9,2));
@@ -54,7 +56,23 @@ public class DettagliLibroListener implements MouseListener {
 		pannello.add(lblPrezzo);
 		pannello.add(new JLabel(String.format("%.2f €", libro.getPrezzo())));
 		pannello.add(lblDescrizione);
-		pannello.add(new JLabel("NON DISPONIBILE"));//DA IMPLEMENTARE
+		
+		String[] parole = libro.getDescrizione().split(" ");
+		String descrizione = "<html>";
+		if(parole.length > 20) {
+			for(int i = 0; i < 20; i++) {
+				descrizione += parole[i] + " ";
+				if(i == 9)
+					descrizione += "<br/>";
+			}
+			descrizione += "...";
+		} else {
+			for(int i = 0; i < parole.length; i++)
+				descrizione += parole[i] + " ";
+		}
+		descrizione += "</html>";
+		
+		pannello.add(new JLabel(descrizione));
 		pannello.add(lblPunti);
 		pannello.add(new JLabel(String.valueOf(libro.getPunti())));
 		
@@ -67,14 +85,14 @@ public class DettagliLibroListener implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		Cursor cursor = new Cursor(Cursor.HAND_CURSOR);
+        View.getInstance().setCursor(cursor);
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		Cursor cursor = new Cursor(Cursor.DEFAULT_CURSOR);
+        View.getInstance().setCursor(cursor);
 	}
 
 	@Override

@@ -88,7 +88,7 @@ public class NuovoOrdine extends JPanel {
 			centroPnl.add(checkBox);
 			
 			//configurazione label prezzo
-			JLabel prezzo = new JLabel("<html><div>" + String.format("%.2f € ", libro.getPrezzo()) + "<u>+</u></div></html>");
+			JLabel prezzo = new JLabel("<html>" + String.format("%.2f € ", libro.getPrezzo()) + "<body style=\"color:blue;\"><u>+</u></body></html>");
 			prezzo.setHorizontalAlignment(JLabel.CENTER);
 			prezzo.addMouseListener(new DettagliLibroListener(this));
 			mapTitoli.put(prezzo, libro);

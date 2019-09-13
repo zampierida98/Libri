@@ -186,6 +186,7 @@ public class View extends JFrame {
 	
 	
 	private View() {
+		super("Libri");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//aggiunta informazioni ai vari panel:
@@ -243,6 +244,7 @@ public class View extends JFrame {
 		registrazione.add(compPwdR);
 		registrazione.add(registraB);
 		// - center (codice ordine)
+		compCodiceOrdine.setHorizontalAlignment(JTextField.CENTER);
 		utentiNonRegistrati.add(codiceOrdine);
 		utentiNonRegistrati.add(compCodiceOrdine);
 		utentiNonRegistrati.add(accediOrdineB);
