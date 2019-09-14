@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -28,6 +29,8 @@ import model.OrdineDaoImpl;
 import model.Pagamento;
 import view.NuovoOrdine;
 import view.PagamentoIndirizzo;
+import view.View;
+import view.VisualizzaOrdini;
 import view.VisualizzaProfilo;
 
 public class InviaOrdineListener implements ActionListener{
@@ -77,6 +80,8 @@ public class InviaOrdineListener implements ActionListener{
 						listaLibri.put(libro, copie);
 					}
 				}
+				if(listaLibri.isEmpty())
+					return;
 
 				Pagamento pagamento = null;
 				for(JRadioButton tipoPagamento : pagamentoIndirizzo.getArrayPagamento()) {
@@ -87,7 +92,6 @@ public class InviaOrdineListener implements ActionListener{
 				}
 
 				if(pagamento == null) {
-					System.out.println("Ordine NON effettuato");
 					return;
 				} else {
 					String spedizione = VisualizzaProfilo.getIndirizzo();
@@ -101,8 +105,19 @@ public class InviaOrdineListener implements ActionListener{
 						puntiAccumulati += (libro.getPunti() * listaLibri.get(libro));
 
 					Ordine ordine = new Ordine(id, data, listaLibri, costoTotale, pagamento, email, spedizione, puntiAccumulati);
-					if(ordineDao.insertOrder(ordine) == true)
-						System.out.println("Ordine effettuato");
+					if(ordineDao.insertOrder(ordine) == true) {
+						PagamentoIndirizzo.clean();
+						
+						//sostituisco la card visualizza ordini
+						JPanel card = View.getInstance().getCard();				
+						VisualizzaOrdini visualizzaOrdini = new VisualizzaOrdini(ordineDao.getAllOrders(email));
+						card.remove(visualizzaOrdini);
+						card.add(visualizzaOrdini, "Visualizza ordini");
+						
+						CardLayout clC = (CardLayout)(card.getLayout());
+						clC.show(card, "Visualizza ordini");
+						View.getInstance().pack();
+					}
 				}
 			} else {
 				//costruzione di un ordine per l'utente non registrato
@@ -110,6 +125,9 @@ public class InviaOrdineListener implements ActionListener{
 				int id = (int) Instant.now().getEpochSecond();
 				Date data = Date.valueOf(LocalDate.now());
 				String email = nuovoOrdine.getEmail().getText();
+				
+				if(!email.contains("@") || !email.contains("."))
+					return;
 
 				HashMap<Libro, Integer> listaLibri = new HashMap<Libro, Integer>();
 				int costoTotale = 0;
@@ -120,6 +138,8 @@ public class InviaOrdineListener implements ActionListener{
 						listaLibri.put(libro, copie);
 					}
 				}
+				if(listaLibri.isEmpty())
+					return;
 
 				Pagamento pagamento = null;
 				for(JRadioButton tipoPagamento : pagamentoIndirizzo.getArrayPagamento()) {
@@ -130,24 +150,18 @@ public class InviaOrdineListener implements ActionListener{
 				}
 
 				if(pagamento == null) {
-					System.out.println("Ordine NON effettuato");
 					return;
 				} else {
 					String spedizione = "";
 					if(pagamentoIndirizzo.getCampoModifica().getText().equals("")) {
-						System.out.println("Ordine NON effettuato");
 						return;
 					} else {
 						spedizione = pagamentoIndirizzo.getCampoModifica().getText();
 					}
 
-					int puntiAccumulati = 0;
-					for(Libro libro : listaLibri.keySet())
-						puntiAccumulati += (libro.getPunti() * listaLibri.get(libro));
-
-					Ordine ordine = new Ordine(id, data, listaLibri, costoTotale, pagamento, email, spedizione, puntiAccumulati);
+					Ordine ordine = new Ordine(id, data, listaLibri, costoTotale, pagamento, email, spedizione, 0);
 					if(ordineDao.insertOrder(ordine) == true) {
-						System.out.println("Ordine effettuato");
+						PagamentoIndirizzo.clean();
 						
 						//restituzione codice ordine
 						JFrame codice = new JFrame("Codice ordine");
@@ -175,6 +189,12 @@ public class InviaOrdineListener implements ActionListener{
 						codice.setResizable(false);
 						codice.setLocationRelativeTo(null);
 						codice.setVisible(true);
+						
+						//mostro la card di default per i non registrati
+						JPanel card = View.getInstance().getCard();				
+						CardLayout clC = (CardLayout)(card.getLayout());
+						clC.show(card, View.getInstance().getNotRegUserPanel());
+						View.getInstance().setSize(View.getInstance().getDefaultDim());
 					}
 				}
 			}

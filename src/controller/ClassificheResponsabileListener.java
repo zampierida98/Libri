@@ -34,7 +34,14 @@ public class ClassificheResponsabileListener implements ActionListener {
 		if(button.getText().equals("Aggiorna")) {
 			JComboBox<String> titoli = classificheResponsabile.getTitoli();
 			String titoloSelezionato = (String) titoli.getSelectedItem();
-			String posizione = classificheResponsabile.getPosizione().getText();
+			
+			int posizione;
+			try {
+				posizione = Integer.valueOf(classificheResponsabile.getPosizione().getText());
+			} catch(NumberFormatException nfe) {
+				classificheResponsabile.getPosizione().setText(null);
+				return;
+			}
 
 			//recupero il libro dal titolo
 			Libro libro = null;
@@ -49,26 +56,31 @@ public class ClassificheResponsabileListener implements ActionListener {
 				return;
 			
 			//recupero la classifica
-			boolean presente = true;
+			boolean presente = false;
 			HashMap<String, List<Classifica>> mapClassifiche = classificaDao.getClassifiche();
-			if(mapClassifiche.isEmpty())
-				presente = false;
 			List<Classifica> libriInClassifica = mapClassifiche.get(libro.getGenere());
-			if(libriInClassifica == null)
-				presente = false;
+			if(libriInClassifica != null) {
+				for(Classifica c : libriInClassifica) {
+					if(c.getISBN().equals(libro.getISBN())) {
+						presente = true;
+						break;
+					}
+				}
+			}
 			
 			if(presente == true) {
 				//aggiorno la posizione in classifica
 				for(Classifica c : libriInClassifica) {
 					if(libro.getISBN().equals(c.getISBN())) {
-						c.setPosizione(Integer.valueOf(posizione));
+						c.setPosizione(posizione);
 						classificaDao.updateClassifica(libro.getISBN(), c);
 					}
 				}
 			} else {
 				//creo una nuova posizione in classifica
-				Classifica c = new Classifica(libro.getISBN(), Integer.valueOf(posizione), 0);
-				classificaDao.insertClassifica(c);
+				Classifica c = new Classifica(libro.getISBN(), posizione, 0);
+				if(classificaDao.insertClassifica(c) == true)
+					System.out.println("aggiornata classifica");
 			}
 			
 			View.getInstance().pack();
@@ -78,6 +90,7 @@ public class ClassificheResponsabileListener implements ActionListener {
 			for(String g : mapClassifiche.keySet())
 				for(Classifica c : mapClassifiche.get(g))
 					System.out.println(c.getISBN() + " " + c.getPosizione());
+			System.out.println();
 		}
 	}
 

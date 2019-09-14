@@ -28,8 +28,21 @@ public class OrdineNonRegistratoListener implements ActionListener {
 		JButton accediOrdine = (JButton)e.getSource();
 		
 		if(accediOrdine.getText().equals("Accedi all'ordine")) {
+			int idOrdine;
+			try {
+				idOrdine = Integer.valueOf(View.getInstance().getCompCodiceOrdine().getText());
+			} catch(NumberFormatException nfe) {
+				View.getInstance().getCompCodiceOrdine().setText(null);
+				return;
+			}
+			
 			OrdineDao ordineDao = new OrdineDaoImpl();
-			Ordine o = ordineDao.getOrder(Integer.valueOf(View.getInstance().getCompCodiceOrdine().getText()));
+			Ordine o = ordineDao.getOrder(idOrdine);
+			
+			if(o == null) {
+				View.getInstance().getCompCodiceOrdine().setText(null);
+				return;
+			}
 			
 			List<Ordine> listaOrdini = new ArrayList<Ordine>();
 			listaOrdini.add(o);
