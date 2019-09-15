@@ -28,6 +28,8 @@ public class RegistrazioneListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		UtenteDao utenteDao = new UtenteDaoImpl();
+		
 		JTextField[] tfArray = frame.getTfArrayR();
 		String nome = tfArray[0].getText();
 		String cognome = tfArray[1].getText();
@@ -42,7 +44,7 @@ public class RegistrazioneListener implements ActionListener {
 				return;
 		}
 		
-		if(!email.contains("@") || !email.contains("."))
+		if(!email.contains("@") || !email.contains(".") || utenteDao.getUser(email) != null)
 			return;
 		
 		Pattern p = Pattern.compile("[0-9]+");
@@ -56,7 +58,6 @@ public class RegistrazioneListener implements ActionListener {
 			return;
 		
 		//salvataggio dati utente
-		UtenteDao utenteDao = new UtenteDaoImpl();
 		Utente utente = new Utente(nome, cognome, indirizzo, telefono, email, password);
 		if(utenteDao.insertUtente(utente) == false)
 			return;

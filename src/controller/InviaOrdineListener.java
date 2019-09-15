@@ -27,6 +27,8 @@ import model.Ordine;
 import model.OrdineDao;
 import model.OrdineDaoImpl;
 import model.Pagamento;
+import model.UtenteDao;
+import model.UtenteDaoImpl;
 import view.NuovoOrdine;
 import view.PagamentoIndirizzo;
 import view.View;
@@ -61,6 +63,7 @@ public class InviaOrdineListener implements ActionListener{
 
 		JButton ordinaB = (JButton)e.getSource();
 		if(ordinaB.getText().equals("Invia dati")) {
+			UtenteDao utenteDao = new UtenteDaoImpl();
 			OrdineDao ordineDao = new OrdineDaoImpl();
 			LibroCardDao libroCardDao = new LibroCardDaoImpl();
 
@@ -126,7 +129,7 @@ public class InviaOrdineListener implements ActionListener{
 				Date data = Date.valueOf(LocalDate.now());
 				String email = nuovoOrdine.getEmail().getText();
 				
-				if(!email.contains("@") || !email.contains("."))
+				if(!email.contains("@") || !email.contains(".") || utenteDao.getUser(email) != null)
 					return;
 
 				HashMap<Libro, Integer> listaLibri = new HashMap<Libro, Integer>();

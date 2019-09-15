@@ -218,9 +218,9 @@ public class Test {
 		//testUtente();
 		//testLibroCard();
 		
-		//testLibro();
+		testLibro();
 		
-		//testOrdine();
+		testOrdine();
 		
 		//testClassifica();
 	}

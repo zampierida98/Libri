@@ -2,6 +2,8 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
@@ -73,12 +75,13 @@ public class ClassificheResponsabileListener implements ActionListener {
 				for(Classifica c : libriInClassifica) {
 					if(libro.getISBN().equals(c.getISBN())) {
 						c.setPosizione(posizione);
+						c.setData(Date.valueOf(LocalDate.now()));
 						classificaDao.updateClassifica(libro.getISBN(), c);
 					}
 				}
 			} else {
 				//creo una nuova posizione in classifica
-				Classifica c = new Classifica(libro.getISBN(), posizione, 0);
+				Classifica c = new Classifica(libro.getISBN(), posizione, Date.valueOf(LocalDate.now()));
 				if(classificaDao.insertClassifica(c) == true)
 					System.out.println("aggiornata classifica");
 			}

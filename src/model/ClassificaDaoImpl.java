@@ -28,7 +28,7 @@ public class ClassificaDaoImpl implements ClassificaDao {
 			pst = con.prepareStatement(query);
 			pst.setString(1, c.getISBN());
 			pst.setInt(2, c.getPosizione());
-			pst.setInt(3, c.getSettimane());
+			pst.setDate(3, c.getData());
 
 			pst.execute();
 			con.close();
@@ -48,14 +48,14 @@ public class ClassificaDaoImpl implements ClassificaDao {
 	 */
 	@Override
 	public boolean updateClassifica(String ISBN, Classifica c) {
-		final String query = "UPDATE Classifica SET posizione=?, settimane=? WHERE ISBN=?";
+		final String query = "UPDATE Classifica SET posizione=?, data=? WHERE ISBN=?";
 
 		Connection con = DaoManager.getConnection();
 		PreparedStatement pst;
 		try {
 			pst = con.prepareStatement(query);
 			pst.setInt(1, c.getPosizione());
-			pst.setInt(2, c.getSettimane());
+			pst.setDate(2, c.getData());
 			pst.setString(3, ISBN);
 
 			pst.execute();
@@ -110,7 +110,7 @@ public class ClassificaDaoImpl implements ClassificaDao {
 	 * @return un'istanza di Classifica
 	 */
 	private Classifica mapRowToClassifica(ResultSet rs) throws SQLException {
-		return new Classifica(rs.getString("ISBN"), rs.getInt("posizione"), rs.getInt("settimane"));
+		return new Classifica(rs.getString("ISBN"), rs.getInt("posizione"), rs.getDate("data"));
 	}
 
 }
