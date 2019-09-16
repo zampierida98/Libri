@@ -7,6 +7,5 @@ import java.util.List;
  */
 public interface LibroDao {
 	public boolean insertBook(Libro l);
-	//cancellazione e aggiornamento?
 	public List<Libro> getAllBooks();
 }
