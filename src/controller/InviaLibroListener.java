@@ -23,7 +23,7 @@ public class InviaLibroListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JButton button = (JButton)e.getSource();
 		
-		if(button.getText().equals("Invia libro")) {
+		if(button.getText().equals("Inserisci libro")) {
 			JTextField[] tfArray = inserisciLibro.getTfArrayLibro();
 			
 			String ISBN = tfArray[0].getText();
@@ -35,11 +35,15 @@ public class InviaLibroListener implements ActionListener {
 			
 			//controlli sulle stringhe
 			for(int i = 0; i < tfArray.length; i++) {
-				if(tfArray[i].getText().isEmpty())
+				if(tfArray[i].getText().isEmpty()) {
+					inserisciLibro.getResponse().setText("Inserimento NON effettuato");
 					return;
+				}
 			}
-			if(!ISBN.contains("-"))
+			if(!ISBN.contains("-")) {
+				inserisciLibro.getResponse().setText("Inserimento NON effettuato");
 				return;
+			}
 			
 			int annoPubblicazione;
 			double prezzo;
@@ -49,20 +53,23 @@ public class InviaLibroListener implements ActionListener {
 				prezzo = Double.valueOf(tfArray[6].getText());
 				punti = Integer.valueOf(tfArray[8].getText());
 			} catch(NumberFormatException nfe) {
+				inserisciLibro.getResponse().setText("Inserimento NON effettuato");
 				return;
 			}
 			
 			//controlli sui numeri
-			if(annoPubblicazione < 0)
+			if(annoPubblicazione < 0) {
+				inserisciLibro.getResponse().setText("Inserimento NON effettuato");
 				return;
+			}
 			
 			//inserimento del libro nel database
 			LibroDao libroDao = new LibroDaoImpl();
 			Libro libro = new Libro(ISBN, titolo, autori, casaEditrice, annoPubblicazione, genere, prezzo, descrizione, punti);
 			if(libroDao.insertBook(libro) == true)
-				System.out.println("Libro inserito");
+				inserisciLibro.getResponse().setText("Inserimento effettuato");
 			else
-				System.out.println("Libro NON inserito");
+				inserisciLibro.getResponse().setText("Inserimento NON effettuato");
 		}
 	}
 

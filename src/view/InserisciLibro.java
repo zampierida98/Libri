@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import controller.InviaLibroListener;
 
@@ -29,11 +30,16 @@ public class InserisciLibro extends JPanel{
 	private static final JTextField campoPrezzo = new JTextField();
 	private static final JTextField campoDescrizione = new JTextField();
 	private static final JTextField campoPunti = new JTextField();
-	private JButton inviaLibro = new JButton("Invia libro");
+	private JButton inviaLibro = new JButton("Inserisci libro");
+	private JLabel response = new JLabel("", SwingConstants.CENTER);
 	private static final JTextField[] tfArrayLibro = {campoISBN, campoTitolo, campoAutori, campoCasaEditrice, campoAnnoPubblicazione, campoGenere, campoPrezzo, campoDescrizione, campoPunti};
 
 	public JTextField[] getTfArrayLibro() {
 		return tfArrayLibro;
+	}
+	
+	public JLabel getResponse() {
+		return response;
 	}
 
 	public InserisciLibro() {
@@ -57,6 +63,7 @@ public class InserisciLibro extends JPanel{
 		this.add(punti);
 		this.add(campoPunti);
 		this.add(inviaLibro);
+		this.add(response);
 
 		inviaLibro.addActionListener(new InviaLibroListener(this));
 	}

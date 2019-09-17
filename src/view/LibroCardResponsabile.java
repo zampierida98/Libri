@@ -49,7 +49,7 @@ public class LibroCardResponsabile extends JPanel {
 		//riempimento righe
 		int i = 1;
 		for(LibroCard libroCard : listaLibroCard){
-			cards[i][0] = libroCard.getIdLibroCard();
+			cards[i][0] = String.format("%010d", libroCard.getIdLibroCard());
 			cards[i][1] = libroCard.getDataEmissione();
 			cards[i][2] = libroCard.getSaldoPunti();
 			cards[i][3] = libroCard.getEmail();
