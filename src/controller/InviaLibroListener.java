@@ -11,6 +11,9 @@ import model.LibroDao;
 import model.LibroDaoImpl;
 import view.InserisciLibro;
 
+/**
+ * Se tutti i dati sono corretti, aggiunge un nuovo libro al catalogo.
+ */
 public class InviaLibroListener implements ActionListener {
 	
 	private InserisciLibro inserisciLibro;

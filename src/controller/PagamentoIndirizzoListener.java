@@ -12,6 +12,9 @@ import view.NuovoOrdine;
 import view.PagamentoIndirizzo;
 import view.View;
 
+/**
+ * Predispone l'interfaccia per l'inserimento di pagamento e indirizzo a seconda dell'utente che lo vuole effettuare (registrato o non).
+ */
 public class PagamentoIndirizzoListener implements ActionListener {
 
 	private NuovoOrdine nuovoOrdine;

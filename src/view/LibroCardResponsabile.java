@@ -13,6 +13,9 @@ import model.LibroCard;
 import model.LibroCardDao;
 import model.LibroCardDaoImpl;
 
+/**
+ * Contiene l'interfaccia per permettere ai responsabili della libreria di verificare il saldo punti delle LibroCard degli utenti registrati.
+ */
 public class LibroCardResponsabile extends JPanel {
 	
 	private static final String[] columns = {"Numero identificativo", "Data di emissione", "Saldo punti", "Email"};

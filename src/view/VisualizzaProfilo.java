@@ -9,6 +9,9 @@ import model.LibroCardDao;
 import model.LibroCardDaoImpl;
 import model.Utente;
 
+/**
+ * Contiene i dati del profilo e della LibroCard di un utente registrato.
+ */
 public class VisualizzaProfilo extends JPanel {
 
 	private static String email;

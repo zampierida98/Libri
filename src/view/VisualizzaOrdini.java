@@ -16,6 +16,9 @@ import controller.EseguiOrdineListener;
 import model.Libro;
 import model.Ordine;
 
+/**
+ * Visualizza gli ordini effettuati nel tempo con il totale dei punti accumulati per ogni ordine.
+ */
 public class VisualizzaOrdini extends JPanel {
 
 	private static final String[] columns = {"Data", "Lista libri", "Costo totale", "Pagamento", "Indirizzo di spedizione", "Punti accumulati"};

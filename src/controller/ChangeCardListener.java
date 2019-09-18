@@ -10,6 +10,9 @@ import javax.swing.JTextField;
 
 import view.View;
 
+/**
+ * Legge il testo del bottone premuto e mostra la card corrispondente.
+ */
 public class ChangeCardListener implements ActionListener {
 
 	private View frame;

@@ -3,7 +3,6 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -17,6 +16,9 @@ import model.Libro;
 import model.LibroDao;
 import model.LibroDaoImpl;
 
+/**
+ * Contiene l'interfaccia per permettere ai responsabili della libreria di aggiornare le classifiche di vendita.
+ */
 public class ClassificheResponsabile extends JPanel {
 
 	private JPanel nordPnl = new JPanel();
@@ -49,6 +51,7 @@ public class ClassificheResponsabile extends JPanel {
 		nordPnl.add(lblTitoli);
 		nordPnl.add(titoli);
 		//Pannello Centro
+		posizione.setHorizontalAlignment(JTextField.CENTER);
 		centroPnl.setLayout(new GridLayout(1, 2));
 		centroPnl.add(lblPosizione);
 		centroPnl.add(posizione);

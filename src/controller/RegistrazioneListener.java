@@ -17,7 +17,9 @@ import model.UtenteDao;
 import model.UtenteDaoImpl;
 import view.View;
 
-
+/**
+ * Se tutti i dati sono corretti, registra un nuovo utente.
+ */
 public class RegistrazioneListener implements ActionListener {
 	
 	private View frame;

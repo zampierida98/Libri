@@ -17,6 +17,9 @@ import view.View;
 import view.VisualizzaOrdini;
 import view.VisualizzaProfilo;
 
+/**
+ * Esegue l'accesso controllando che e-mail e password corrispondano a quelle fornite in fase di registrazione.
+ */
 public class AccediListener implements ActionListener {
 	
 	private View frame;

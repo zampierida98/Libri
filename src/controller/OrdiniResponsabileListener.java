@@ -16,6 +16,9 @@ import view.OrdiniResponsabile;
 import view.View;
 import view.VisualizzaOrdini;
 
+/**
+ * Visualizza i dati di tutti gli ordini effettuati dall'utente selezionato.
+ */
 public class OrdiniResponsabileListener implements ActionListener {
 
 	private OrdiniResponsabile ordiniResponsabile;

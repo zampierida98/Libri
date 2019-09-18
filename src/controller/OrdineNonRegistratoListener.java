@@ -15,6 +15,9 @@ import model.OrdineDaoImpl;
 import view.View;
 import view.VisualizzaOrdini;
 
+/**
+ * Se viene fornito un codice corretto, visualizza i dati dell'ordine corrispondente.
+ */
 public class OrdineNonRegistratoListener implements ActionListener {
 	
 	private View frame;
@@ -43,6 +46,8 @@ public class OrdineNonRegistratoListener implements ActionListener {
 				View.getInstance().getCompCodiceOrdine().setText(null);
 				return;
 			}
+			
+			View.getInstance().getCompCodiceOrdine().setText(null);
 			
 			List<Ordine> listaOrdini = new ArrayList<Ordine>();
 			listaOrdini.add(o);

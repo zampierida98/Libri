@@ -10,6 +10,9 @@ import javax.swing.JPanel;
 import view.NuovoOrdine;
 import view.View;
 
+/**
+ * Predispone l'interfaccia del nuovo ordine a seconda dell'utente che lo vuole effettuare (registrato o non).
+ */
 public class EseguiOrdineListener implements ActionListener {
 	
 	private View frame;

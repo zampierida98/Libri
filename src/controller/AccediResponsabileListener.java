@@ -12,9 +12,13 @@ import model.UtenteDao;
 import model.UtenteDaoImpl;
 import view.ClassificheResponsabile;
 import view.InserisciLibro;
+import view.LibroCardResponsabile;
 import view.OrdiniResponsabile;
 import view.View;
 
+/**
+ * Esegue l'accesso controllando che username e password corrispondano a quelli di un responsabile della libreria.
+ */
 public class AccediResponsabileListener implements ActionListener {
 	
 	private View frame;
@@ -44,6 +48,7 @@ public class AccediResponsabileListener implements ActionListener {
 			if(login) {
 				OrdiniResponsabile ordineResponsabile = new OrdiniResponsabile();
 				OrdiniResponsabile ordineResponsabile2 = new OrdiniResponsabile();
+				LibroCardResponsabile libroCardRiservata = new LibroCardResponsabile();
 				InserisciLibro inserisciLibro = new InserisciLibro();
 				ClassificheResponsabile classificheResponsabile = new ClassificheResponsabile();
 				
@@ -57,6 +62,7 @@ public class AccediResponsabileListener implements ActionListener {
 				
 				//aggiungo le card di tutte le operazioni
 				card.add(ordineResponsabile, "Ordini");
+				card.add(libroCardRiservata, "Libro Card");
 				card.add(inserisciLibro, "Aggiungi libro");
 				card.add(classificheResponsabile, "Aggiorna classifiche");
 				

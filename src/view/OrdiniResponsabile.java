@@ -15,6 +15,9 @@ import model.Ordine;
 import model.OrdineDao;
 import model.OrdineDaoImpl;
 
+/**
+ * Contiene l'interfaccia per permettere ai responsabili della libreria di verificare lo stato degli ordini di tutti gli utenti.
+ */
 public class OrdiniResponsabile extends JPanel {
 
 	private JPanel nordPnl = new JPanel();

@@ -15,13 +15,15 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import controller.AccediListener;
+import controller.AccediResponsabileListener;
 import controller.ChangeCardListener;
 import controller.EseguiOrdineListener;
-import controller.LibroCardResponsabileListener;
 import controller.OrdineNonRegistratoListener;
-import controller.AccediResponsabileListener;
 import controller.RegistrazioneListener;
 
+/**
+ * Frame principale dell'interfaccia grafica (rispetta il design pattern Singleton).
+ */
 public class View extends JFrame {
 
 	public static void main(String[] args) {
@@ -82,6 +84,7 @@ public class View extends JFrame {
 	private static final JButton classificheB = new JButton("Aggiorna classifiche");
 	private static final JButton esciResponsabile = new JButton("Esci");
 	
+	
 	//card autenticazione (responsabile)
 	private static final JPanel loginAR = new JPanel(new GridLayout(3, 2));
 	private static final JLabel usernameAR = new JLabel("Username: ");
@@ -130,7 +133,6 @@ public class View extends JFrame {
 	private static final JButton accediOrdineB = new JButton("Accedi all'ordine");
 	
 	
-	//ATTENZIONE: singleton
 	private static View instance = new View();
 	public static View getInstance(){
 		return instance;
@@ -281,7 +283,7 @@ public class View extends JFrame {
 		esciUtenteNonR.addActionListener(new ChangeCardListener(this));
 		// - responsabile
 		loginBAR.addActionListener(new AccediResponsabileListener(this));
-		statoLibroCardB.addActionListener(new LibroCardResponsabileListener(this));
+		statoLibroCardB.addActionListener(new ChangeCardListener(this));
 		statoOrdiniB.addActionListener(new ChangeCardListener(this));
 		libriB.addActionListener(new ChangeCardListener(this));
 		classificheB.addActionListener(new ChangeCardListener(this));

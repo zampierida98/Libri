@@ -12,6 +12,9 @@ import javax.swing.JTextField;
 
 import controller.InviaOrdineListener;
 
+/**
+ * Contiene l'interfaccia per la memorizzazione del tipo di pagamento e dell'indirizzo di spedizione relativo a un ordine.
+ */
 public class PagamentoIndirizzo extends JPanel{
 	
 	//Pannello Nord

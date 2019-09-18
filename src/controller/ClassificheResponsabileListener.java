@@ -17,8 +17,12 @@ import model.Libro;
 import model.LibroDao;
 import model.LibroDaoImpl;
 import view.ClassificheResponsabile;
+import view.DettagliLibro;
 import view.View;
 
+/**
+ * Se viene fornita una posizione valida, aggiorna la classifica relativa a un libro.
+ */
 public class ClassificheResponsabileListener implements ActionListener {
 
 	private ClassificheResponsabile classificheResponsabile;
@@ -76,24 +80,22 @@ public class ClassificheResponsabileListener implements ActionListener {
 					if(libro.getISBN().equals(c.getISBN())) {
 						c.setPosizione(posizione);
 						c.setData(Date.valueOf(LocalDate.now()));
-						classificaDao.updateClassifica(libro.getISBN(), c);
+						if(classificaDao.updateClassifica(libro.getISBN(), c) == true) {
+							DettagliLibro dettagliFrame = new DettagliLibro(libro);
+							dettagliFrame.setVisible(true);
+						}
 					}
 				}
 			} else {
 				//creo una nuova posizione in classifica
 				Classifica c = new Classifica(libro.getISBN(), posizione, Date.valueOf(LocalDate.now()));
-				if(classificaDao.insertClassifica(c) == true)
-					System.out.println("aggiornata classifica");
+				if(classificaDao.insertClassifica(c) == true) {
+					DettagliLibro dettagliFrame = new DettagliLibro(libro);
+					dettagliFrame.setVisible(true);
+				}
 			}
 			
 			View.getInstance().pack();
-			
-			//DEBUG
-			mapClassifiche = classificaDao.getClassifiche();
-			for(String g : mapClassifiche.keySet())
-				for(Classifica c : mapClassifiche.get(g))
-					System.out.println(c.getISBN() + " " + c.getPosizione());
-			System.out.println();
 		}
 	}
 

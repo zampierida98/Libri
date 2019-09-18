@@ -11,6 +11,9 @@ import javax.swing.SwingConstants;
 import controller.ModificaProfiloListener;
 import model.Utente;
 
+/**
+ * Contiene l'interfaccia per la modifica dei dati anagrafici di un utente registrato.
+ */
 public class ModificaProfilo extends JPanel {
 	
 	private String email;

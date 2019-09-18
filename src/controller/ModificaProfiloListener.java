@@ -16,6 +16,9 @@ import view.ModificaProfilo;
 import view.View;
 import view.VisualizzaProfilo;
 
+/**
+ * Se tutti i dati sono corretti, aggiorna il profilo di un utente registrato.
+ */
 public class ModificaProfiloListener implements ActionListener {
 
 	private ModificaProfilo modificaProfilo;

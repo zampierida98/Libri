@@ -10,6 +10,9 @@ import javax.swing.SwingConstants;
 
 import controller.InviaLibroListener;
 
+/**
+ * Contiene l'interfaccia per permettere ai responsabili della libreria di inserire i dati relativi ai libri.
+ */
 public class InserisciLibro extends JPanel{
 
 	private static final JLabel ISBN = new JLabel("Inserisci codice ISBN:");

@@ -35,6 +35,9 @@ import view.View;
 import view.VisualizzaOrdini;
 import view.VisualizzaProfilo;
 
+/**
+ * Se tutti i dati sono corretti, crea un nuovo ordine.
+ */
 public class InviaOrdineListener implements ActionListener{
 
 	private NuovoOrdine nuovoOrdine;

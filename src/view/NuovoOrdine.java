@@ -20,6 +20,9 @@ import model.Libro;
 import model.LibroDao;
 import model.LibroDaoImpl;
 
+/**
+ * Contiene l'interfaccia per la memorizzazione dei libri che compongono l'ordine e dell’utente che lo sta effettuando.
+ */
 public class NuovoOrdine extends JPanel {
 
 	private List<Libro> arrayLibri;
