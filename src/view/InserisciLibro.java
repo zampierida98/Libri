@@ -1,128 +1,49 @@
 package view;
 
-import java.awt.CardLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import controller.InviaLibroListener;
 
+/**
+ * Contiene l'interfaccia per permettere ai responsabili della libreria di inserire i dati relativi ai libri.
+ */
 public class InserisciLibro extends JPanel{
 
-	JLabel ISBN = new JLabel("Inserisci ISBN: ");
-	JLabel titolo = new JLabel("Inserisci titolo: ");
-	JLabel autori = new JLabel("Inserisci autori: ");
-	JLabel casaEditrice = new JLabel("Inserisci casa editrice: ");
-	JLabel annoPubblicazione = new JLabel("Inserisci anno pubblicazione: ");
-	JLabel genere = new JLabel("Inserisci genere: ");
-	JLabel prezzo = new JLabel("Inserisci prezzo: ");
-	JLabel descrizione = new JLabel("Inserisci descrizione: ");
-	JLabel punti = new JLabel("Inserisci punti associati: ");
-	JTextField campoISBN = new JTextField();
-	JTextField campoTitolo = new JTextField();
-	JTextField campoAutori = new JTextField();
-	JTextField campoCasaEditrice = new JTextField();
-	JTextField campoAnnoPubblicazione = new JTextField();
-	JTextField campoGenere = new JTextField();
-	JTextField campoPrezzo = new JTextField();
-	JTextField campoDescrizione = new JTextField();
-	JTextField campoPunti = new JTextField();
-	JButton inviaLibro = new JButton("Invia libro");
+	private static final JLabel ISBN = new JLabel("Inserisci codice ISBN:");
+	private static final JLabel titolo = new JLabel("Inserisci titolo:");
+	private static final JLabel autori = new JLabel("Inserisci autori:");
+	private static final JLabel casaEditrice = new JLabel("Inserisci casa editrice:");
+	private static final JLabel annoPubblicazione = new JLabel("Inserisci anno di pubblicazione:");
+	private static final JLabel genere = new JLabel("Inserisci genere:");
+	private static final JLabel prezzo = new JLabel("Inserisci prezzo:");
+	private static final JLabel descrizione = new JLabel("Inserisci descrizione:");
+	private static final JLabel punti = new JLabel("Inserisci punti associati:");
+	private static final JTextField campoISBN = new JTextField();
+	private static final JTextField campoTitolo = new JTextField();
+	private static final JTextField campoAutori = new JTextField();
+	private static final JTextField campoCasaEditrice = new JTextField();
+	private static final JTextField campoAnnoPubblicazione = new JTextField();
+	private static final JTextField campoGenere = new JTextField();
+	private static final JTextField campoPrezzo = new JTextField();
+	private static final JTextField campoDescrizione = new JTextField();
+	private static final JTextField campoPunti = new JTextField();
+	private JButton inviaLibro = new JButton("Inserisci libro");
+	private JLabel response = new JLabel("", SwingConstants.CENTER);
+	private static final JTextField[] tfArrayLibro = {campoISBN, campoTitolo, campoAutori, campoCasaEditrice, campoAnnoPubblicazione, campoGenere, campoPrezzo, campoDescrizione, campoPunti};
 
-
-
-
-
-	public JTextField getCampoAutori() {
-		return campoAutori;
+	public JTextField[] getTfArrayLibro() {
+		return tfArrayLibro;
 	}
-
-
-
-
-
-	public void setCampoAutori(JTextField campoAutori) {
-		this.campoAutori = campoAutori;
+	
+	public JLabel getResponse() {
+		return response;
 	}
-
-
-
-
-
-	public JTextField getCampoAnnoPubblicazione() {
-		return campoAnnoPubblicazione;
-	}
-
-
-
-
-
-	public void setCampoAnnoPubblicazione(JTextField campoAnnoPubblicazione) {
-		this.campoAnnoPubblicazione = campoAnnoPubblicazione;
-	}
-
-
-
-
-
-	public JTextField getCampoISBN() {
-		return campoISBN;
-	}
-
-
-
-
-
-	public JTextField getCampoTitolo() {
-		return campoTitolo;
-	}
-
-
-
-
-
-	public JTextField getCampoCasaEditrice() {
-		return campoCasaEditrice;
-	}
-
-
-
-
-
-	public JTextField getCampoGenere() {
-		return campoGenere;
-	}
-
-
-
-
-
-	public JTextField getCampoPrezzo() {
-		return campoPrezzo;
-	}
-
-
-
-
-
-	public JTextField getCampoDescrizione() {
-		return campoDescrizione;
-	}
-
-
-
-
-
-	public JTextField getCampoPunti() {
-		return campoPunti;
-	}
-
-
-
-
 
 	public InserisciLibro() {
 		this.setLayout(new GridLayout(10, 2));
@@ -145,8 +66,9 @@ public class InserisciLibro extends JPanel{
 		this.add(punti);
 		this.add(campoPunti);
 		this.add(inviaLibro);
+		this.add(response);
 
 		inviaLibro.addActionListener(new InviaLibroListener(this));
-
 	}
+	
 }

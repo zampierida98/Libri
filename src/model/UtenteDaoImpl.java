@@ -132,29 +132,6 @@ public class UtenteDaoImpl implements UtenteDao {
 		
 		return result;
 	}
-	
-	
-	/**
-	 * Cancella tutti i dati dal DATABASE
-	 */
-	/*@Override
-	public boolean deleteAllUtenti() {
-		final String query = "DELETE FROM Utente";
-
-		Connection con = DaoManager.getConnection();
-		PreparedStatement pst;
-		try {
-			pst = con.prepareStatement(query);
-
-			pst.execute();
-			con.close();
-			
-			return true;
-		} catch (SQLException ex) {
-			System.out.println(ex);
-			return false;
-		}
-	}*/
 
 	/**
 	 * Mappa il risultato di una query in un oggetto di tipo Utente.

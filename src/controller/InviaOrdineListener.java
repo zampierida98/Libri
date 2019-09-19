@@ -1,5 +1,8 @@
 package controller;
 
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
@@ -7,6 +10,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashMap;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -23,22 +27,27 @@ import model.Ordine;
 import model.OrdineDao;
 import model.OrdineDaoImpl;
 import model.Pagamento;
+import model.UtenteDao;
+import model.UtenteDaoImpl;
 import view.NuovoOrdine;
 import view.PagamentoIndirizzo;
+import view.View;
+import view.VisualizzaOrdini;
 import view.VisualizzaProfilo;
 
+/**
+ * Se tutti i dati sono corretti, crea un nuovo ordine.
+ */
 public class InviaOrdineListener implements ActionListener{
 
 	private NuovoOrdine nuovoOrdine;
 	private PagamentoIndirizzo pagamentoIndirizzo;
 	private HashMap<Libro, Integer> bookMap = new HashMap<Libro, Integer>();
 
-
 	public InviaOrdineListener(NuovoOrdine nuovoOrdine, PagamentoIndirizzo pagamentoIndirizzo) {
 		this.nuovoOrdine = nuovoOrdine;
 		this.pagamentoIndirizzo = pagamentoIndirizzo;
 	}
-
 
 	public void setBookMap() {
 		for(Libro libro : nuovoOrdine.getArrayLibri()) {
@@ -50,27 +59,6 @@ public class InviaOrdineListener implements ActionListener{
 		}
 	}
 
-	/*
-	private int idOrdine;
-	private Date data;
-	private HashMap<Libro, Integer> listaLibri;
-	private double costoTotale;
-	private Pagamento pagamento;
-	private String email;
-	private String spedizione;
-	private int puntiAccumulati;
-
-	int id1 = (int) Instant.now().getEpochSecond();
-    HashMap<Libro, Integer> ll1 = new HashMap<Libro, Integer>();
-    ll1.put(l1, 1);
-    ll1.put(l2, 3);
-    double tot1 = l1.getPrezzo() + (l2.getPrezzo() * 3);
-    int p1 = libroCardDao.getLibroCard("zampierida98@gmail.com").getSaldoPunti() + l1.getPunti() + (l2.getPunti() * 3);
-
-    Ordine o1 = new Ordine(id1, Date.valueOf(LocalDate.now()), ll1, tot1, Pagamento.CARTA, "zampierida98@gmail.com", u1.getIndirizzo(), p1);
-    ordineDao.insertOrder(o1);
-	 */
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//associo la quantita ai libri selezionati
@@ -78,6 +66,7 @@ public class InviaOrdineListener implements ActionListener{
 
 		JButton ordinaB = (JButton)e.getSource();
 		if(ordinaB.getText().equals("Invia dati")) {
+			UtenteDao utenteDao = new UtenteDaoImpl();
 			OrdineDao ordineDao = new OrdineDaoImpl();
 			LibroCardDao libroCardDao = new LibroCardDaoImpl();
 
@@ -87,7 +76,6 @@ public class InviaOrdineListener implements ActionListener{
 				int id = (int) Instant.now().getEpochSecond();
 				Date data = Date.valueOf(LocalDate.now());
 				String email = VisualizzaProfilo.getEmail();
-				System.out.println(email);
 
 				HashMap<Libro, Integer> listaLibri = new HashMap<Libro, Integer>();
 				int costoTotale = 0;
@@ -98,6 +86,8 @@ public class InviaOrdineListener implements ActionListener{
 						listaLibri.put(libro, copie);
 					}
 				}
+				if(listaLibri.isEmpty())
+					return;
 
 				Pagamento pagamento = null;
 				for(JRadioButton tipoPagamento : pagamentoIndirizzo.getArrayPagamento()) {
@@ -108,7 +98,7 @@ public class InviaOrdineListener implements ActionListener{
 				}
 
 				if(pagamento == null) {
-					System.out.println("Ordine NON effettuato");
+					return;
 				} else {
 					String spedizione = VisualizzaProfilo.getIndirizzo();
 					if(!pagamentoIndirizzo.getCampoModifica().getText().equals("")) {
@@ -121,8 +111,24 @@ public class InviaOrdineListener implements ActionListener{
 						puntiAccumulati += (libro.getPunti() * listaLibri.get(libro));
 
 					Ordine ordine = new Ordine(id, data, listaLibri, costoTotale, pagamento, email, spedizione, puntiAccumulati);
-					if(ordineDao.insertOrder(ordine) == true)
-						System.out.println("Ordine effettuato");
+					if(ordineDao.insertOrder(ordine) == true) {
+						PagamentoIndirizzo.clean();
+						
+						//sostituisco le card visualizza profilo e visualizza ordini
+						JPanel card = View.getInstance().getCard();
+						
+						VisualizzaProfilo visualizzaProfilo = new VisualizzaProfilo(utenteDao.getUser(email));
+						card.remove(visualizzaProfilo);
+						card.add(visualizzaProfilo, "Visualizza profilo");
+						
+						VisualizzaOrdini visualizzaOrdini = new VisualizzaOrdini(ordineDao.getAllOrders(email));
+						card.remove(visualizzaOrdini);
+						card.add(visualizzaOrdini, "Visualizza ordini");
+						
+						CardLayout clC = (CardLayout)(card.getLayout());
+						clC.show(card, "Visualizza ordini");
+						View.getInstance().pack();
+					}
 				}
 			} else {
 				//costruzione di un ordine per l'utente non registrato
@@ -130,7 +136,9 @@ public class InviaOrdineListener implements ActionListener{
 				int id = (int) Instant.now().getEpochSecond();
 				Date data = Date.valueOf(LocalDate.now());
 				String email = nuovoOrdine.getEmail().getText();
-				System.out.println(email);
+				
+				if(!email.contains("@") || !email.contains(".") || utenteDao.getUser(email) != null)
+					return;
 
 				HashMap<Libro, Integer> listaLibri = new HashMap<Libro, Integer>();
 				int costoTotale = 0;
@@ -141,6 +149,8 @@ public class InviaOrdineListener implements ActionListener{
 						listaLibri.put(libro, copie);
 					}
 				}
+				if(listaLibri.isEmpty())
+					return;
 
 				Pagamento pagamento = null;
 				for(JRadioButton tipoPagamento : pagamentoIndirizzo.getArrayPagamento()) {
@@ -151,32 +161,51 @@ public class InviaOrdineListener implements ActionListener{
 				}
 
 				if(pagamento == null) {
-					System.out.println("Ordine NON effettuato");
+					return;
 				} else {
 					String spedizione = "";
 					if(pagamentoIndirizzo.getCampoModifica().getText().equals("")) {
-						System.out.println("Ordine NON effettuato");
+						return;
 					} else {
 						spedizione = pagamentoIndirizzo.getCampoModifica().getText();
 					}
 
-					int puntiAccumulati = 0;
-					for(Libro libro : listaLibri.keySet())
-						puntiAccumulati += (libro.getPunti() * listaLibri.get(libro));
-
-					Ordine ordine = new Ordine(id, data, listaLibri, costoTotale, pagamento, email, spedizione, puntiAccumulati);
+					Ordine ordine = new Ordine(id, data, listaLibri, costoTotale, pagamento, email, spedizione, 0);
 					if(ordineDao.insertOrder(ordine) == true) {
-						System.out.println("Ordine effettuato");
+						PagamentoIndirizzo.clean();
 						
 						//restituzione codice ordine
-						JFrame codice = new JFrame();
+						JFrame codice = new JFrame("Codice ordine");
+						
 						JPanel pannello = new JPanel();
+						pannello.setLayout(new BoxLayout(pannello, BoxLayout.Y_AXIS));
+						JLabel titolo = new JLabel("Il codice del tuo ordine è:");
+						JLabel rigaVuota1 = new JLabel("<html><div><br></div></html>");
 						JLabel codiceRestituito = new JLabel(String.valueOf(id));
+						JLabel rigaVuota2 = new JLabel("<html><div><br></div></html>");
+						JLabel messaggio = new JLabel("Salvalo per accedere ai dati dell'ordine successivamente!");
+						
+						titolo.setAlignmentX(Component.CENTER_ALIGNMENT);
+						codiceRestituito.setAlignmentX(Component.CENTER_ALIGNMENT);
+						codiceRestituito.setForeground(Color.RED);
+						messaggio.setAlignmentX(Component.CENTER_ALIGNMENT);
+						pannello.add(titolo);
+						pannello.add(rigaVuota1);
 						pannello.add(codiceRestituito);
+						pannello.add(rigaVuota2);
+						pannello.add(messaggio);
+						
 						codice.add(pannello);
 						codice.pack();
-						codice.setVisible(true);
 						codice.setResizable(false);
+						codice.setLocationRelativeTo(null);
+						codice.setVisible(true);
+						
+						//mostro la card di default per i non registrati
+						JPanel card = View.getInstance().getCard();				
+						CardLayout clC = (CardLayout)(card.getLayout());
+						clC.show(card, View.getInstance().getNotRegUserPanel());
+						View.getInstance().setSize(View.getInstance().getDefaultDim());
 					}
 				}
 			}

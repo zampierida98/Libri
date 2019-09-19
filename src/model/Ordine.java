@@ -11,12 +11,12 @@ public class Ordine {
 
 	private int idOrdine;
 	private Date data;
-	private HashMap<Libro, Integer> listaLibri;//ATTENZIONE da tabella n..n
+	private HashMap<Libro, Integer> listaLibri;
 	private double costoTotale;
 	private Pagamento pagamento;
 	private String email;
 	private String spedizione;
-	private int puntiAccumulati;//ATTENZIONE nel nuovo ordine si parte dal saldo e si aggiungono quelli della lista
+	private int puntiAccumulati;
 
 	public Ordine(int idOrdine, Date data, HashMap<Libro, Integer> listaLibri, double costoTotale, Pagamento pagamento, String email, String spedizione, int puntiAccumulati) {
 		this.idOrdine = idOrdine;
@@ -92,5 +92,5 @@ public class Ordine {
 	public void setPuntiAccumulati(int puntiAccumulati) {
 		this.puntiAccumulati = puntiAccumulati;
 	}
-	
+
 }

@@ -8,9 +8,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import view.PagamentoIndirizzo;
 import view.View;
 
+/**
+ * Legge il testo del bottone premuto e mostra la card corrispondente.
+ */
 public class ChangeCardListener implements ActionListener {
 
 	private View frame;
@@ -23,7 +25,11 @@ public class ChangeCardListener implements ActionListener {
 		JButton button = (JButton)e.getSource();
 		
 		//pulisco tutti i campi di testo
-		JTextField[] tfArray = frame.getTfArrayA();
+		JTextField[] tfArray = frame.getTfArrayAR();
+		for(JTextField tf: tfArray) {
+			tf.setText(null);
+		}
+		tfArray = frame.getTfArrayA();
 		for(JTextField tf: tfArray) {
 			tf.setText(null);
 		}
@@ -38,46 +44,26 @@ public class ChangeCardListener implements ActionListener {
 		JPanel bottoni = frame.getBottoni();
 		CardLayout clN = (CardLayout)(bottoni.getLayout());
 		
-		/*if(button.getText().equals("Non registrati")) {
-			//OSCURO solo campo PASSWORD della card REGISTRAZIONE
-			//frame.getPassword().setVisible(false);
-			//frame.getPasswordField().setVisible(false);
-			card.add(frame.getRegistrazione(), "Non registrati");
-			clC = (CardLayout)card.getLayout();
-			frame.getButtonRegistrazione().setText("Lista Libri");
-			frame.setPassword("Visualizza ordine: ");
-			frame.setPasswordField((char)0);
-			
-		}
-		else if(button.getText().equals("Registrazione")) {
-			//OSCURO solo campo PASSWORD della card REGISTRAZIONE
-			//frame.getPassword().setVisible(true);
-			//frame.getPasswordField().setVisible(true);
-			card.add(frame.getRegistrazione(), "Registrazione");
-			clC = (CardLayout)card.getLayout();
-			frame.getButtonRegistrazione().setText("Registrami");
-			frame.setPassword("Password: ");
-			frame.setPasswordField('•');
-		}*/
-		
 		if(button.getText().equals("Esci")) {
 			//caso speciale bottone Esci (torna alle card di default)
-			PagamentoIndirizzo.clean();
 			clN.show(bottoni, frame.getDefaultNorthPanel());
 			clC.show(card, frame.getRegistrationPanel());
-			
+
 			frame.setSize(frame.getDefaultDim());
-		} 
-		else if(button.getText().equals("Visualizza un ordine")) {
-			clN.show(bottoni, frame.getNotRegUserPanel());
+		} else if(button.getText().equals("Visualizza un ordine")) {
+			//caso speciale bottone Visualizza un ordine (torna alla card di default per i non registrati)
 			clC.show(card, frame.getNotRegUserPanel());
 			
 			frame.setSize(frame.getDefaultDim());
-		}else {
+		} else if(button.getText().equals("Visualizza ordini")) {
+			//caso speciale bottone Visualizza ordini (mostra la card e fa un pack)
+			clC.show(card, button.getText());
+			
+			frame.pack();
+		} else {
 			//caso base (testo del bottone)
 			clC.show(card, button.getText());
 			clN.show(bottoni, button.getText());
-			//frame.pack();
 		}
 	}
 

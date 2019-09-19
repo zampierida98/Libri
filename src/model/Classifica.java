@@ -1,5 +1,8 @@
 package model;
 
+import java.sql.Date;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Per ogni posizione della classifica di vendita si indica da quante settimane il libro è in quella posizione.
  */
@@ -7,12 +10,12 @@ public class Classifica {
 
 	private String ISBN;
 	private int posizione;
-	private int settimane;
+	private Date data;
 
-	public Classifica(String ISBN, int posizione, int settimane) {
+	public Classifica(String ISBN, int posizione, Date data) {
 		this.ISBN = ISBN;
 		this.posizione = posizione;
-		this.settimane = settimane;
+		this.data = data;
 	}
 
 	public String getISBN() {
@@ -31,12 +34,17 @@ public class Classifica {
 		this.posizione = posizione;
 	}
 
-	public int getSettimane() {
-		return settimane;
+	public Date getData() {
+		return data;
 	}
 
-	public void setSettimane(int settimane) {
-		this.settimane = settimane;
+	public void setData(Date data) {
+		this.data = data;
+	}
+
+	public long settimaneInClassifica(Date d1, Date d2) {
+		long diff = d2.getTime() - d1.getTime();
+		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) / 7;
 	}
 
 }

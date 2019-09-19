@@ -4,36 +4,53 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
-import controller.VisualizzaOrdiniUtentiListener;
+import controller.OrdiniResponsabileListener;
+import model.Ordine;
 import model.OrdineDao;
 import model.OrdineDaoImpl;
 
-public class OrdiniResponsabile extends JPanel{
-		private OrdineDao ordineDao = new OrdineDaoImpl();
-		
-		private Set<String> setEmail = ordineDao.getOrdersStatus().keySet();
+/**
+ * Contiene l'interfaccia per permettere ai responsabili della libreria di verificare lo stato degli ordini di tutti gli utenti.
+ */
+public class OrdiniResponsabile extends JPanel {
+
+	private JPanel nordPnl = new JPanel();
+	private JComboBox<String> addEmail;
+	private JPanel centroPnl = new JPanel(new CardLayout());
+
+	public JPanel getCard() {
+		return centroPnl;
+	}
+
+	public OrdiniResponsabile() {
+		OrdineDao ordineDao = new OrdineDaoImpl();
+		Set<String> setEmail = ordineDao.getOrdersStatus().keySet();
 		String[] arrayEmail = Arrays.copyOf(setEmail.toArray(), setEmail.size(), String[].class);
-		private JComboBox<String> addEmail = new JComboBox<String>(arrayEmail);
-		private JPanel card = new JPanel(new CardLayout());
-		private JPanel nordPnl = new JPanel();
+		addEmail = new JComboBox<String>(arrayEmail);
 		
-		public JPanel getCard() {
-			return card;
-		}
+		nordPnl.setLayout(new FlowLayout());
+		nordPnl.add(addEmail);
+
+		this.setLayout(new BorderLayout());
+		this.add(nordPnl, BorderLayout.NORTH);
+		this.add(centroPnl, BorderLayout.CENTER);
 		
-		public OrdiniResponsabile() {
-			System.out.println(setEmail.toString());
-			this.setLayout(new BorderLayout());
-			nordPnl.setLayout(new FlowLayout());
-			nordPnl.add(addEmail);
-			this.add(nordPnl, BorderLayout.NORTH);
-			this.add(card, BorderLayout.CENTER);
-			addEmail.addActionListener(new VisualizzaOrdiniUtentiListener(this));
-			
-		}
+		//visualizzo la card relativa alla prima email
+		String emailSelezionata = (String)addEmail.getSelectedItem();
+		List<Ordine> listaOrdini = ordineDao.getOrdersStatus().get(emailSelezionata);
+		VisualizzaOrdini visualizzaOrdini = new VisualizzaOrdini(listaOrdini);
+		visualizzaOrdini.getEseguiOrdine().setVisible(false);
+		centroPnl.add(visualizzaOrdini, emailSelezionata);
+		CardLayout clC = (CardLayout)centroPnl.getLayout();
+		clC.show(centroPnl, emailSelezionata);
+
+		addEmail.addActionListener(new OrdiniResponsabileListener(this));
+	}
+	
 }

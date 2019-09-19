@@ -1,6 +1,7 @@
 package view;
 
-import javax.swing.BoxLayout;
+import java.awt.GridLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -8,20 +9,14 @@ import model.LibroCardDao;
 import model.LibroCardDaoImpl;
 import model.Utente;
 
+/**
+ * Contiene i dati del profilo e della LibroCard di un utente registrato.
+ */
 public class VisualizzaProfilo extends JPanel {
-	
-	
-	/*private JLabel nome = new JLabel("Nome: ");
-	private JLabel cognome = new JLabel("Cognome: ");
-	private JLabel indirizzo = new JLabel("Indirizzo: ");
-	private JLabel telefono = new JLabel("Telefono: ");
-	private JLabel email = new JLabel("Email: ");*/
-	
+
 	private static String email;
 	private static String indirizzo;
-	
-	private String[] campiProfilo = {"Nome: ", "Cognome: ", "Indirizzo: ", "Telefono: ", "Email: ", "Libro Card: "};
-	
+		
 	public static String getEmail() {
 		return email;
 	}
@@ -31,18 +26,29 @@ public class VisualizzaProfilo extends JPanel {
 	}
 	
 	public VisualizzaProfilo(Utente utente) {
+		this.setLayout(new GridLayout(6,2));
+		
+		this.add(new JLabel("Nome:"));
+		this.add(new JLabel(utente.getNome()));
+		
+		this.add(new JLabel("Cognome:"));
+		this.add(new JLabel(utente.getCognome()));
+		
+		this.add(new JLabel("Indirizzo:"));
+		indirizzo = utente.getIndirizzo();
+		this.add(new JLabel(indirizzo));
+		
+		this.add(new JLabel("Telefono:"));
+		this.add(new JLabel(utente.getTelefono()));
+		
+		this.add(new JLabel("E-mail:"));
+		email = utente.getEmail();
+		this.add(new JLabel(email));
+		
+		this.add(new JLabel("Saldo punti:"));
 		LibroCardDao libroCard = new LibroCardDaoImpl();
-		this.email = utente.getEmail();
-		this.indirizzo = utente.getIndirizzo();
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		String[] campiUtente = {utente.getNome(), utente.getCognome(), utente.getIndirizzo(), utente.getTelefono(), utente.getEmail(), String.valueOf(libroCard.getLibroCard(email).getSaldoPunti())};
-		for(int i = 0; i < campiProfilo.length; i++) {
-			JLabel visualizzazioneProfilo = new JLabel(campiProfilo[i] + campiUtente[i]);
-			this.add(visualizzazioneProfilo);
-		}
+		String saldoPunti = String.valueOf(libroCard.getLibroCard(email).getSaldoPunti());
+		this.add(new JLabel(saldoPunti));
 	}
-	
-	
-	
-	
+
 }

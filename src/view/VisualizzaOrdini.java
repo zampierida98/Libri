@@ -13,18 +13,19 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 import controller.EseguiOrdineListener;
-import controller.InviaOrdineListener;
 import model.Libro;
 import model.Ordine;
 
+/**
+ * Visualizza gli ordini effettuati nel tempo con il totale dei punti accumulati per ogni ordine.
+ */
 public class VisualizzaOrdini extends JPanel {
 
-	private static final String[] columns = {"Data", "Lista Libri", "Costo Totale", "Pagamento", "Indirizzo spedizione", "Punti Accumulati"};
+	private static final String[] columns = {"Data", "Lista libri", "Costo totale", "Pagamento", "Indirizzo di spedizione", "Punti accumulati"};
 	
 	private List<Ordine> listaOrdini;
 	private JTable tabellaOrdini;
 	private JButton eseguiOrdine = new JButton("Esegui ordine");
-	
 	
 	public JButton getEseguiOrdine() {
 		return eseguiOrdine;
@@ -32,7 +33,7 @@ public class VisualizzaOrdini extends JPanel {
 
 	public VisualizzaOrdini(List<Ordine> listaOrdini) {
 		this.listaOrdini = listaOrdini;
-		Object[][] data = allOrders(listaOrdini);
+		Object[][] data = allOrders();
 		
 		//creo una JTable non modificabile
 		tabellaOrdini = new JTable();
@@ -56,7 +57,7 @@ public class VisualizzaOrdini extends JPanel {
 		eseguiOrdine.addActionListener(new EseguiOrdineListener(View.getInstance()));
 	}
 
-	private Object[][] allOrders(List<Ordine> listaOrdini){
+	private Object[][] allOrders(){
 		Object[][] orders = new Object[listaOrdini.size()+1][6];
 		
 		//intestazione colonne
@@ -69,7 +70,7 @@ public class VisualizzaOrdini extends JPanel {
 			orders[i][0] = ordine.getData();
 			
 			String listaLibri = "<html>";
-			for(Libro libro : ordine.getListaLibri().keySet()) { //	MODIFICA
+			for(Libro libro : ordine.getListaLibri().keySet()) {
 				listaLibri += (libro.getTitolo() + " x" + ordine.getListaLibri().get(libro) + "<br/>");
 			}
 			orders[i][1] = listaLibri + "</html>";
@@ -84,7 +85,7 @@ public class VisualizzaOrdini extends JPanel {
 		return orders;
 	}
 	
-	public void resizeColumnWidth(JTable table) {
+	private void resizeColumnWidth(JTable table) {
 		final TableColumnModel columnModel = table.getColumnModel();
 		for (int column = 0; column < table.getColumnCount(); column++) {
 			int width = 15;

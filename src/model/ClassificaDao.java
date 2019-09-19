@@ -9,6 +9,5 @@ import java.util.List;
 public interface ClassificaDao {
 	public boolean insertClassifica(Classifica c);
 	public boolean updateClassifica(String ISBN, Classifica c);
-	//cancellazione?
 	public HashMap<String, List<Classifica>> getClassifiche();
 }

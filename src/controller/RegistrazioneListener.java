@@ -1,28 +1,26 @@
 package controller;
 
-import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import model.LibroCard;
 import model.LibroCardDao;
 import model.LibroCardDaoImpl;
-import model.OrdineDao;
-import model.OrdineDaoImpl;
 import model.Utente;
 import model.UtenteDao;
 import model.UtenteDaoImpl;
 import view.View;
-import view.VisualizzaOrdini;
 
-
-public class RegistrazioneListener implements ActionListener	{
+/**
+ * Se tutti i dati sono corretti, registra un nuovo utente.
+ */
+public class RegistrazioneListener implements ActionListener {
 	
 	private View frame;
 	
@@ -32,6 +30,8 @@ public class RegistrazioneListener implements ActionListener	{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		UtenteDao utenteDao = new UtenteDaoImpl();
+		
 		JTextField[] tfArray = frame.getTfArrayR();
 		String nome = tfArray[0].getText();
 		String cognome = tfArray[1].getText();
@@ -42,14 +42,24 @@ public class RegistrazioneListener implements ActionListener	{
 		
 		//controlli
 		for(int i = 0; i < tfArray.length; i++) {
-			if(tfArray[i].getText() == null)
+			if(tfArray[i].getText().isEmpty())
 				return;
 		}
-		if(!email.contains("@") || !email.contains("."))
+		
+		if(!email.contains("@") || !email.contains(".") || utenteDao.getUser(email) != null)
+			return;
+		
+		Pattern p = Pattern.compile("[0-9]+");
+        Matcher m = p.matcher(tfArray[3].getText());
+		if(!m.matches())
+			return;
+		
+		p = Pattern.compile("[0-9.+-/]+");
+        m = p.matcher(telefono);
+		if(!m.matches())
 			return;
 		
 		//salvataggio dati utente
-		UtenteDao utenteDao = new UtenteDaoImpl();
 		Utente utente = new Utente(nome, cognome, indirizzo, telefono, email, password);
 		if(utenteDao.insertUtente(utente) == false)
 			return;
@@ -59,23 +69,13 @@ public class RegistrazioneListener implements ActionListener	{
 		LibroCardDao libroCardDao = new LibroCardDaoImpl();
 		if(libroCardDao.insertLibroCard(libroCardUtente) == false)
 			return;
-		/*
-		//visualizzo gli ordini dell'utente
-		OrdineDao ordineDao = new OrdineDaoImpl();
-		VisualizzaOrdini visualizzaOrdini = new VisualizzaOrdini(ordineDao.getAllOrders(email));
 		
-		//riferimenti ai card layout
-		JPanel card = frame.getCard();
-		CardLayout clC = (CardLayout)(card.getLayout());
-		JPanel bottoni = frame.getBottoni();
-		CardLayout clN = (CardLayout)(bottoni.getLayout());
-		
-		clN.show(bottoni, frame.getRegUserPanel());
-		card.add(visualizzaOrdini, button.getText());
-		clC.show(card, button.getText());
-		
-		frame.pack();
-		*/
+		//accesso
+		tfArray = frame.getTfArrayA();
+		tfArray[0].setText(email);
+		tfArray[1].setText(password);
+		AccediListener accedi = new AccediListener(frame);
+		accedi.actionPerformed(e);
 	}
 
 }
